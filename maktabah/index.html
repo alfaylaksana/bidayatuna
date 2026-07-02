@@ -1162,6 +1162,7 @@ let editKitabId = null;
 let konfirmCb   = null;
 let perubahanBelumExport = 0;
 let reminderTimer = null;
+let toastTimer = null;
 const BATAS_PERUBAHAN = 5;      // tampilkan reminder setelah 5x edit
 const BATAS_WAKTU_MS  = 10 * 60 * 1000; // atau 10 menit, mana yang lebih dulu
 
@@ -1972,7 +1973,6 @@ function closeKonfirm() { document.getElementById('konfirmOverlay').classList.re
 // ============================================================
 // TOAST
 // ============================================================
-let toastTimer = null;
 function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
