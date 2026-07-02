@@ -40,7 +40,7 @@ body {
 .header {
   background: var(--hijau);
   color: white;
-  padding: 0 20px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,6 +49,8 @@ body {
   top: 0;
   z-index: 40;
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  flex-wrap: nowrap;
+  gap: 8px;
 }
 .header-brand {
   display: flex;
@@ -62,12 +64,12 @@ body {
   line-height: 1;
 }
 .header-brand .nama {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 .header-brand .sub {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   opacity: 0.7;
   font-weight: 400;
   margin-top: 1px;
@@ -77,12 +79,13 @@ body {
   color: var(--hijau);
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 0.82rem;
+  padding: 7px 12px;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .btn-tambah-header:hover { background: #f5d87a; }
 
