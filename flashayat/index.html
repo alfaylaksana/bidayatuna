@@ -1,1 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Flashayat Bidayatuna</title>
+<style>
+  :root {
+    --hijau:#2d6a4f;--hijau-muda:#40916c;--hijau-pale:#d8f3dc;
+    --emas:#b7950b;--emas-pale:#fef9e7;
+    --abu:#f5f5f0;--abu-tua:#6b7280;--teks:#1a1a1a;--border:#d1d5db;
+    --merah:#dc2626;--merah-pale:#fef2f2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--abu);min-height:100vh;display:flex;flex-direction:column;}
+
+  /* HEADER */
+  .save-bar{background:var(--hijau-pale);border-bottom:1px solid var(--hijau-muda);padding:5px 14px;font-size:0.65rem;color:var(--hijau);display:flex;justify-content:space-between;}
+  .header{background:var(--hijau);color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+  .header-title{font-size:1rem;font-weight:700;}
+  .header-sub{font-size:0.72rem;opacity:0.8;margin-top:2px;}
+  .header-count{font-size:0.78rem;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:20px;white-space:nowrap;}
+  .progress-wrap{background:rgba(0,0,0,0.1);height:5px;}
+  .progress-bar{background:var(--emas);height:5px;transition:width 0.4s;}
+
+  .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px;max-width:700px;margin:0 auto;width:100%;}
+
+  /* PASTE SECTION */
+  .paste-section{background:white;border-radius:12px;border:1px solid var(--border);padding:16px;width:100%;margin-bottom:14px;}
+  .paste-title{font-size:0.8rem;font-weight:600;color:var(--hijau);margin-bottom:8px;}
+  .paste-sub{font-size:0.7rem;color:var(--abu-tua);margin-bottom:8px;line-height:1.5;}
+  textarea{width:100%;min-height:80px;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:0.72rem;font-family:monospace;direction:ltr;outline:none;resize:vertical;}
+  textarea:focus{border-color:var(--hijau);}
+  .btn-load{width:100%;background:var(--hijau);color:white;border:none;border-radius:8px;padding:11px;font-size:0.88rem;font-weight:700;cursor:pointer;margin-top:8px;}
+  .error-box{background:var(--merah-pale);border:1px solid #fca5a5;border-radius:8px;padding:8px 12px;color:var(--merah);font-size:0.75rem;margin-top:8px;display:none;}
+  .error-box.show{display:block;}
+
+  /* STAT BAR */
+  .stat-bar{display:flex;gap:8px;width:100%;margin-bottom:12px;}
+  .stat{flex:1;background:white;border-radius:10px;padding:8px 4px;text-align:center;border:1px solid var(--border);}
+  .stat-num{font-size:1.1rem;font-weight:700;}
+  .stat-label{font-size:0.55rem;color:var(--abu-tua);margin-top:1px;}
+  .stat.hafal .stat-num{color:var(--hijau);}
+  .stat.ulang .stat-num{color:var(--merah);}
+  .stat.sisa .stat-num{color:var(--emas);}
+  .stat.streak .stat-num{color:#7c3aed;}
+
+  /* SRS BADGE */
+  .srs-badge{width:100%;text-align:center;font-size:0.68rem;color:var(--abu-tua);margin-bottom:10px;background:white;border-radius:8px;padding:6px;border:1px solid var(--border);}
+  .srs-badge span{color:var(--hijau);font-weight:600;}
+
+  /* TOGGLE BAR */
+  .toggle-bar{display:flex;gap:5px;flex-wrap:wrap;width:100%;margin-bottom:10px;background:white;border-radius:10px;padding:8px 10px;border:1px solid var(--border);}
+  .tog-label{font-size:0.62rem;color:var(--abu-tua);margin-left:2px;align-self:center;}
+  .tog{font-size:0.65rem;padding:3px 9px;border-radius:20px;border:1px solid var(--border);background:var(--abu);cursor:pointer;color:var(--abu-tua);transition:all 0.15s;white-space:nowrap;}
+  .tog.on{background:var(--hijau-pale);border-color:var(--hijau);color:var(--hijau);font-weight:600;}
+  .tog-sep{width:1px;height:18px;background:var(--border);margin:0 2px;align-self:center;}
+
+  /* CARD */
+  .card-wrap{width:100%;perspective:1200px;margin-bottom:14px;cursor:pointer;user-select:none;}
+  .card-inner{position:relative;width:100%;transition:transform 0.5s;transform-style:preserve-3d;}
+  .card-inner.flipped{transform:rotateY(180deg);}
+  .card-face{background:white;border-radius:16px;border:1px solid var(--border);padding:20px 16px;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+  .card-back{position:absolute;inset:0;transform:rotateY(180deg);background:var(--emas-pale);border-color:var(--emas);border-radius:16px;border:1px solid var(--emas);overflow:hidden;}
+  .card-back-inner{padding:16px;width:100%;height:100%;overflow-y:auto;}
+
+  /* DEPAN — ayat berjajar */
+  .card-hint{font-size:0.62rem;color:var(--abu-tua);margin-bottom:12px;text-align:center;}
+  .card-halaman{font-size:0.62rem;color:var(--abu-tua);margin-bottom:8px;direction:rtl;font-family:'Traditional Arabic',serif;}
+  .ayat-row{display:flex;flex-wrap:wrap;gap:4px 10px;direction:rtl;justify-content:center;width:100%;}
+
+  /* Kata di depan kartu */
+  .kata-depan{display:inline-flex;flex-direction:column;align-items:center;gap:2px;}
+  .kd-kode{font-size:0.52rem;color:white;background:var(--hijau);border-radius:20px;min-width:16px;height:16px;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;transition:opacity 0.2s;white-space:nowrap;line-height:1;}
+  .kd-kode.hidden{opacity:0;pointer-events:none;}
+  .kd-arab{font-family:'Traditional Arabic','Scheherazade New','Amiri',serif;font-size:1.4rem;line-height:1.7;color:var(--teks);text-align:center;direction:rtl;transition:opacity 0.2s;}
+  .card-interval{font-size:0.58rem;color:#7c3aed;margin-top:10px;text-align:center;}
+
+  /* BELAKANG — interlinear */
+  .back-label{font-size:0.65rem;color:var(--emas);font-weight:600;margin-bottom:10px;text-align:center;}
+  .interlinear-row{display:flex;flex-wrap:wrap;gap:6px 10px;direction:rtl;justify-content:center;width:100%;margin-bottom:12px;}
+  .kata-unit{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:36px;max-width:110px;}
+  .ku-kode{font-size:0.52rem;color:white;background:var(--hijau);border-radius:20px;min-width:16px;height:16px;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;white-space:nowrap;line-height:1;}
+  .ku-arab{font-family:'Traditional Arabic','Scheherazade New','Amiri',serif;font-size:1.2rem;line-height:1.6;color:var(--teks);text-align:center;direction:rtl;}
+  .ku-pegon{font-size:0.62rem;color:#1a4a8a;text-align:center;direction:rtl;font-family:'Traditional Arabic',serif;line-height:1.4;}
+
+  /* Terjemah */
+  .terjemah-wrap{width:100%;border-top:1px dashed var(--emas);padding-top:8px;margin-top:4px;}
+  .terjemah-label{font-size:0.6rem;color:var(--emas);margin-bottom:4px;font-weight:600;}
+  .terjemah-text{font-size:0.8rem;color:#374151;line-height:1.5;direction:ltr;}
+  .terjemah-wrap.hidden{display:none;}
+
+  /* Kode row (multi-lingkaran per kata) */
+  .kd-kode.hidden{opacity:0 !important;}
+  .kd-kode-row{display:flex;flex-direction:row;justify-content:center;gap:2px;flex-wrap:wrap;margin-bottom:2px;}
+  .ku-kode-row{display:flex;flex-direction:row;justify-content:center;gap:2px;flex-wrap:wrap;margin-bottom:2px;}
+  /* Rujukan */
+  .kd-rujukan{font-size:0.6rem;color:var(--hijau);background:#e8f5e9;border-radius:4px;padding:0 3px;text-align:center;min-width:14px;margin-top:1px;font-weight:600;}
+  .ku-rujukan{font-size:0.6rem;color:var(--hijau);background:#e8f5e9;border-radius:4px;padding:0 3px;text-align:center;min-width:14px;margin-top:1px;font-weight:600;}
+  /* I'rab section */
+  .irab-wrap{width:100%;border-top:1px dashed var(--emas);padding-top:8px;margin-top:8px;}
+  .irab-wrap.hidden{display:none;}
+  .irab-header{font-size:0.9rem;color:var(--emas);font-weight:700;text-align:center;direction:rtl;font-family:'Traditional Arabic','Scheherazade New',serif;margin-bottom:6px;}
+  .irab-loading{font-size:0.72rem;color:var(--abu-tua);text-align:center;padding:8px;font-style:italic;}
+  .irab-arab{font-size:0.85rem;color:#1a1a1a;direction:rtl;font-family:'Traditional Arabic','Scheherazade New','Amiri',serif;line-height:1.8;text-align:right;padding:4px 0;}
+  .irab-indo{font-size:0.72rem;color:#374151;direction:ltr;margin-top:4px;line-height:1.5;border-top:1px solid #f3f4f6;padding-top:4px;}
+  .irab-error{font-size:0.68rem;color:var(--merah);text-align:center;padding:4px;}
+  .irab-panel-generate{background:#fffde7;border:1px dashed var(--emas);border-radius:8px;padding:10px;margin-top:6px;display:flex;flex-direction:column;gap:6px;}
+  .irab-panel-generate.hidden{display:none;}
+  .irab-btn-prompt{background:var(--hijau);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;width:100%;}
+  .irab-sep{font-size:0.68rem;color:var(--abu-tua);text-align:center;}
+  .irab-paste-box{width:100%;height:60px;border:1px solid #d1d5db;border-radius:6px;padding:6px;font-size:0.72rem;resize:none;box-sizing:border-box;direction:ltr;}
+  .irab-btn-paste{background:var(--emas);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;width:100%;}
+
+  /* BUTTONS */
+  .btn-row{display:flex;gap:10px;width:100%;margin-bottom:10px;}
+  .btn-flip{flex:1;background:var(--hijau);color:white;border:none;border-radius:12px;padding:12px;font-size:0.88rem;font-weight:700;cursor:pointer;}
+  .answer-row{display:none;gap:8px;width:100%;margin-bottom:10px;}
+  .answer-row.show{display:flex;}
+  .btn-answer{flex:1;border:none;border-radius:12px;padding:11px 4px;font-size:0.76rem;font-weight:700;cursor:pointer;}
+  .btn-lupa{background:#fef2f2;color:var(--merah);border:2px solid #fca5a5;}
+  .btn-lupa:active{background:var(--merah);color:white;}
+  .btn-ragu{background:#fffbeb;color:#d97706;border:2px solid #fcd34d;}
+  .btn-ragu:active{background:#d97706;color:white;}
+  .btn-hafal{background:var(--hijau-pale);color:var(--hijau);border:2px solid var(--hijau-muda);}
+  .btn-hafal:active{background:var(--hijau);color:white;}
+
+  /* NAV */
+  .nav-row{display:flex;gap:8px;width:100%;margin-bottom:10px;}
+  .btn-nav{flex:1;background:white;border:1px solid var(--border);border-radius:10px;padding:9px;font-size:0.75rem;cursor:pointer;color:var(--abu-tua);}
+  .btn-acak{background:var(--emas-pale);border-color:var(--emas);color:var(--emas);font-weight:600;}
+
+  /* FILTER */
+  .filter-wrap{width:100%;margin-bottom:10px;}
+  .filter-label{font-size:0.68rem;color:var(--abu-tua);margin-bottom:5px;}
+  .filter-row{display:flex;gap:5px;flex-wrap:wrap;}
+  .filter-btn{font-size:0.63rem;padding:3px 9px;border-radius:20px;border:1px solid var(--border);background:white;cursor:pointer;color:var(--abu-tua);}
+  .filter-btn.on{background:var(--hijau-pale);border-color:var(--hijau);color:var(--hijau);font-weight:600;}
+
+  /* SELESAI */
+  .selesai-wrap{display:none;flex-direction:column;align-items:center;padding:24px 16px;text-align:center;width:100%;}
+  .selesai-wrap.show{display:flex;}
+  .selesai-icon{font-size:2.8rem;margin-bottom:10px;}
+  .selesai-title{font-size:1.05rem;font-weight:700;color:var(--hijau);margin-bottom:4px;}
+  .selesai-sub{font-size:0.76rem;color:var(--abu-tua);margin-bottom:16px;}
+  .selesai-stats{display:flex;gap:20px;margin-bottom:18px;}
+  .ss-num{font-size:1.6rem;font-weight:700;}
+  .ss-label{font-size:0.65rem;color:var(--abu-tua);}
+  .btn-ulang{background:var(--hijau);color:white;border:none;border-radius:12px;padding:12px;font-size:0.88rem;font-weight:700;cursor:pointer;margin-bottom:8px;width:100%;}
+  .btn-ulang-lupa{background:white;color:var(--merah);border:2px solid #fca5a5;border-radius:12px;padding:10px;font-size:0.82rem;cursor:pointer;width:100%;margin-bottom:8px;}
+  .btn-reset-srs{background:white;color:var(--abu-tua);border:1px solid var(--border);border-radius:12px;padding:10px;font-size:0.78rem;cursor:pointer;width:100%;}
+</style>
+</head>
+<body>
+
+<div class="save-bar">
+  <span>💾 Progress tersimpan otomatis</span>
+  <span id="saveTime">—</span>
+</div>
+<div class="header">
+  <div style="flex:1;">
+    <div class="header-title">📜 Flashayat Bidayatuna</div>
+    <div class="header-sub">Latihan baca & analisis gramatikal ayat</div>
+    <div style="font-size:0.58rem;color:#b7950b;margin-top:2px;line-height:1.4;font-weight:600;">
+      🕌 Majlis Ta'lim Bidayatuna · Rowosari Tembalang Semarang
+    </div>
+  </div>
+  <div class="header-count" id="headerCount">— / —</div>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+
+<div class="main">
+
+  <!-- SUMBER DATA -->
+  <div class="paste-section" id="pasteSection">
+    <div class="paste-title">📥 Pilih Sumber Ayat</div>
+    <div class="paste-sub">
+      Pilih sumber data untuk Flashayat:
+    </div>
+    <button class="btn-load" style="margin-bottom:6px;background:#1d4ed8;" onclick="document.getElementById('ganduFileInput').click()">
+      📂 Import gandul-data.json dari perangkat
+    </button>
+    <input type="file" id="ganduFileInput" accept=".json" style="display:none" onchange="muatDariFile(event)">
+    <div style="text-align:center;font-size:0.72rem;color:var(--abu-tua);margin-bottom:8px;">— atau —</div>
+    <div class="paste-title" style="font-size:0.75rem">JSON dari Ar-Risalah Instan:</div>
+    <textarea id="jsonInput" placeholder='{"halaman": [...]}  ← paste JSON dari Ar-Risalah Instan'></textarea>
+    <div class="error-box" id="errorBox"></div>
+    <button class="btn-load" style="background:#40916c;margin-top:8px" onclick="muatJSON()">▶ Muat JSON Instan</button>
+  </div>
+
+  <!-- GAME AREA (tersembunyi sampai JSON dimuat) -->
+  <div id="gameArea" style="display:none;width:100%;">
+
+    <div class="stat-bar">
+      <div class="stat sisa"><div class="stat-num" id="statAntrian">0</div><div class="stat-label">Antrian</div></div>
+      <div class="stat hafal"><div class="stat-num" id="statHafal">0</div><div class="stat-label">Hafal ✓</div></div>
+      <div class="stat ulang"><div class="stat-num" id="statUlang">0</div><div class="stat-label">Perlu Ulang</div></div>
+      <div class="stat streak"><div class="stat-num" id="statStreak">0</div><div class="stat-label">🔥 Streak</div></div>
+    </div>
+
+    <div class="srs-badge" id="srsBadge">Memuat...</div>
+
+    <!-- TOGGLE BAR -->
+    <div class="toggle-bar">
+      <span class="tog-label">Depan:</span>
+      <button class="tog on" id="tog-harakat" onclick="togDepan('harakat')">Harakat</button>
+      <button class="tog on" id="tog-kode-depan" onclick="togDepan('kode')">Kode Gram.</button>
+      <div class="tog-sep"></div>
+      <span class="tog-label">Belakang:</span>
+      <button class="tog on" id="tog-terjemah" onclick="togBelakang('terjemah')">Terjemah</button>
+      <button class="tog" id="tog-pegon-jawa" onclick="togBelakang('pegonJawa')">🌿 Jawa</button>
+      <button class="tog" id="tog-irab" onclick="togBelakang('irab')">الإعراب</button>
+      <div class="tog-sep"></div>
+      <select id="filterDropdown" onchange="filterByDropdown(this.value)" style="font-size:0.65rem;padding:3px 6px;border-radius:20px;border:1px solid var(--border);background:var(--abu);color:var(--abu-tua);cursor:pointer;max-width:90px;">
+        <option value="semua">📄 Semua</option>
+      </select>
+    </div>
+
+    <!-- CARD -->
+    <div class="card-wrap" id="cardWrap" onclick="flipCard()">
+      <div class="card-inner" id="cardInner">
+        <!-- DEPAN -->
+        <div class="card-face">
+          <div class="card-hint">Ketuk kartu → lihat makna & analisis</div>
+          <div class="card-halaman" id="cardHalaman"></div>
+          <div class="ayat-row" id="ayatRow"></div>
+          <div class="card-interval" id="cardInterval"></div>
+        </div>
+        <!-- BELAKANG -->
+        <div class="card-face card-back">
+          <div class="card-back-inner">
+            <div class="back-label">📖 Analisis Interlinear</div>
+            <div class="interlinear-row" id="interlinearRow"></div>
+            <div class="terjemah-wrap" id="terjemahWrap">
+              <div class="terjemah-label">Terjemah:</div>
+              <div class="terjemah-text" id="terjemahText">—</div>
+              <div class="irab-wrap hidden" id="irabWrap">
+                <div class="irab-header">اَلْإِعْرَابُ</div>
+                <div class="irab-arab" id="irabArab"></div>
+                <div class="irab-indo" id="irabIndo"></div>
+                <div class="irab-error hidden" id="irabError"></div>
+                <div class="irab-panel-generate hidden" id="irabPanelGenerate">
+                  <button class="irab-btn-prompt" onclick="bukaPromptIrab()">🔗 Buka Prompt di Claude.ai</button>
+                  <div class="irab-sep">— copy hasil JSON dari Claude, paste di sini —</div>
+                  <textarea class="irab-paste-box" id="irabPasteBox" placeholder='Paste JSON di sini...' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text"></textarea>
+                  <button class="irab-btn-paste" onclick="pasteIrab()">✅ Simpan الإعراب</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row" id="btnFlipRow">
+      <button class="btn-flip" onclick="flipCard()">👁 Lihat Analisis</button>
+    </div>
+    <div class="answer-row" id="answerRow">
+      <button class="btn-answer btn-lupa" onclick="jawab(0)">✗ Lupa</button>
+      <button class="btn-answer btn-ragu" onclick="jawab(1)">~ Ragu</button>
+      <button class="btn-answer btn-hafal" onclick="jawab(2)">✓ Hafal</button>
+    </div>
+    <div class="nav-row">
+      <button class="btn-nav" onclick="prevCard()">← Kembali</button>
+      <button class="btn-nav btn-acak" onclick="acakAntrian()">🔀 Acak</button>
+      <button class="btn-nav" onclick="skipCard()">Lewati →</button>
+    </div>
+
+    <!-- SELESAI -->
+    <div class="selesai-wrap" id="selesaiWrap">
+      <div class="selesai-icon">🎉</div>
+      <div class="selesai-title">Alhamdulillah, sesi selesai!</div>
+      <div class="selesai-sub" id="selesaiSub"></div>
+      <div class="selesai-stats">
+        <div><div class="ss-num" id="finalHafal" style="color:var(--hijau)">0</div><div class="ss-label">Hafal</div></div>
+        <div><div class="ss-num" id="finalUlang" style="color:var(--merah)">0</div><div class="ss-label">Lupa</div></div>
+        <div><div class="ss-num" id="finalStreak" style="color:#7c3aed">0</div><div class="ss-label">🔥 Streak</div></div>
+      </div>
+      <button class="btn-ulang" onclick="ulangSesi()">🔄 Ulang Sesi Ini</button>
+      <button class="btn-ulang-lupa" onclick="ulangLupa()">↩ Ulang Yang Lupa/Ragu</button>
+      <button class="btn-reset-srs" onclick="resetSRS()">🗑 Reset Progress</button>
+    </div>
+
+    <!-- GANTI JSON + IRAB TOOLS -->
+    <div style="margin-top:10px;text-align:center;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+      <button style="background:none;border:none;color:var(--abu-tua);font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="gantiJSON()">📥 Ganti / Tambah JSON</button>
+      <button style="background:none;border:none;color:var(--hijau);font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="bukaPanelBatch()">⚡ Batch الإعراب</button>
+      <button style="background:none;border:none;color:#b7950b;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="exportIrab()">📤 Export الإعراب</button>
+      <button style="background:none;border:none;color:#b7950b;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="importIrabClick()">📥 Import الإعراب</button>
+      <input type="file" id="irabFileInput" accept=".json" style="display:none" onchange="importIrabFile(event)">
+
+      <button style="background:none;border:none;color:#7c3aed;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="bukaKelolaIrab()">📋 Kelola الإعراب</button>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <span style="font-size:0.6rem;color:#9ca3af;">Coding by Claude · Anthropic 🤖</span>
+    </div>
+
+    <!-- MODAL KELOLA IRAB -->
+    <div id="modalKelola" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;overflow-y:auto;padding:12px;box-sizing:border-box;">
+      <div style="background:white;border-radius:12px;max-width:600px;margin:0 auto;padding:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-size:0.9rem;font-weight:700;color:#7c3aed;">📋 Kelola الإعراب</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="text" id="kelolaSearch" placeholder="🔍 cari ayat..." oninput="renderKelola()" style="font-size:0.72rem;padding:4px 8px;border:1px solid #d1d5db;border-radius:6px;width:120px;">
+            <select id="kelolaFilter" onchange="renderKelola()" style="font-size:0.72rem;padding:4px;border:1px solid #d1d5db;border-radius:6px;">
+              <option value="semua">Semua</option>
+              <option value="ada">Ada الإعراب</option>
+              <option value="belum">Belum</option>
+            </select>
+            <button onclick="tutupKelola()" style="background:#e5e7eb;border:none;border-radius:6px;padding:5px 10px;font-size:0.75rem;cursor:pointer;">✕</button>
+          </div>
+        </div>
+        <div id="kelolaStats" style="font-size:0.7rem;color:#6b7280;margin-bottom:8px;"></div>
+        <div id="kelolaList" style="display:flex;flex-direction:column;gap:8px;max-height:70vh;overflow-y:auto;"></div>
+      </div>
+    </div>
+    <!-- PANEL BATCH IRAB -->
+    <div id="panelBatch" style="display:none;margin-top:10px;background:#f0fdf4;border:1px solid var(--hijau);border-radius:10px;padding:12px;">
+      <div style="font-size:0.8rem;font-weight:700;color:var(--hijau);margin-bottom:8px;">⚡ Batch Generate الإعراب</div>
+      <div style="font-size:0.72rem;color:#374151;margin-bottom:6px;">Pilih rentang ayat (nomor urut, bukan nomor ayat):</div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+        <label style="font-size:0.7rem;">Dari:</label>
+        <input type="number" id="batchDari" min="1" max="136" value="1" style="width:55px;padding:4px;border:1px solid #d1d5db;border-radius:6px;font-size:0.75rem;">
+        <label style="font-size:0.7rem;">s/d:</label>
+        <input type="number" id="batchSampai" min="1" max="136" value="10" style="width:55px;padding:4px;border:1px solid #d1d5db;border-radius:6px;font-size:0.75rem;">
+        <span style="font-size:0.68rem;color:#9ca3af;">maks 10 sekaligus</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button onclick="bukaBatchPrompt()" style="background:var(--hijau);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;flex:1;">🔗 Buka Prompt di Claude.ai</button>
+        <button onclick="tutupPanelBatch()" style="background:#e5e7eb;color:#374151;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;cursor:pointer;">✕</button>
+      </div>
+      <div style="margin-top:8px;font-size:0.7rem;color:#6b7280;">Setelah Claude jawab → copy JSON array → paste di sini:</div>
+      <textarea id="batchPasteBox" placeholder='Paste JSON di sini...' style="width:100%;height:100px;border:1px solid #d1d5db;border-radius:6px;padding:10px;font-size:0.78rem;resize:vertical;box-sizing:border-box;margin-top:6px;direction:ltr;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text"></textarea>
+      <button onclick="simpanBatch()" style="width:100%;margin-top:6px;background:var(--emas);color:white;border:none;border-radius:8px;padding:8px;font-size:0.78rem;font-weight:600;cursor:pointer;">✅ Simpan Semua الإعراب</button>
+      <div id="batchStatus" style="font-size:0.7rem;color:var(--hijau);text-align:center;margin-top:4px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+// ============================================================
+// FIREBASE FIRESTORE
+// ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getFirestore, collection, doc, getDocs, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAJVB25E2Oq6bEq5AkkTydGsLZ23dURj_Y",
+  authDomain: "bidayatuna-836e4.firebaseapp.com",
+  projectId: "bidayatuna-836e4",
+  storageBucket: "bidayatuna-836e4.firebasestorage.app",
+  messagingSenderId: "666248558558",
+  appId: "1:666248558558:web:d55a1a4583faf26c190f4f"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const KOLEKSI = collection(db, 'flashayat');
+
+// ============================================================
+// STATE
+// ============================================================
+let AYAT = []; // array kalimat flat dari semua halaman
+let antrian = [];
+let idx = 0, sudahFlip = false, streak = 0, sesiHafal = 0, sesiLupa = 0;
+let history = [];
+let filterHlm = 'semua';
+let togState = { harakat: true, kode: true, terjemah: true, pegonJawa: false, irab: false };
+let srsData = {};
+let irabCache = {}; // id -> {arab, indo}
+
+function defaultSRS(id) {
+  return { id, interval: 0, ease: 2.5, due: 0, reviews: 0, lapses: 0 };
+}
+
+// ============================================================
+// FIRESTORE — INIT & SIMPAN
+// ============================================================
+async function initApp() {
+  try {
+    const snap = await getDocs(KOLEKSI);
+    AYAT = snap.docs.map(d => d.data()).sort((a,b) => a.id - b.id);
+    srsData = {};
+    irabCache = {};
+    AYAT.forEach(a => {
+      srsData[a.id] = a.srs || defaultSRS(a.id);
+      if (a.irab && a.irab.arab) irabCache[a.id] = a.irab;
+    });
+    if (AYAT.length > 0) {
+      buildFilter();
+      buildAntrian();
+      showGame();
+    }
+    updateSaveTime();
+  } catch (e) {
+    console.error('Gagal memuat dari Firestore:', e);
+    alert('Gagal memuat data dari cloud. Cek koneksi internet lalu muat ulang halaman.');
+  }
+}
+
+// Simpan seluruh AYAT ke Firestore (dipakai setelah import / gabung ayat / edit)
+// Sekaligus membersihkan dokumen lama yang sudah tidak terpakai.
+async function saveAyatToDB() {
+  try {
+    const currentIds = new Set(AYAT.map(a => String(a.id)));
+    for (const a of AYAT) {
+      const ref = doc(db, 'flashayat', String(a.id));
+      await setDoc(ref, {
+        id: a.id, halaman: a.halaman, judul_bab: a.judul_bab || '',
+        kata: a.kata, terjemah: a.terjemah || '', nomor: a.nomor || '',
+        srs: srsData[a.id] || defaultSRS(a.id),
+        irab: irabCache[a.id] || null
+      });
+    }
+    const snap = await getDocs(KOLEKSI);
+    for (const d of snap.docs) {
+      if (!currentIds.has(d.id)) await deleteDoc(doc(db, 'flashayat', d.id));
+    }
+    updateSaveTime();
+  } catch (e) {
+    console.error('Gagal simpan ke Firestore:', e);
+  }
+}
+
+// Simpan SRS 1 ayat saja (dipanggil tiap kali jawab kartu — lebih ringan dari saveAyatToDB)
+async function saveSRS(r) {
+  srsData[r.id] = r;
+  try {
+    await updateDoc(doc(db, 'flashayat', String(r.id)), { srs: r });
+    updateSaveTime();
+  } catch (e) {
+    console.error('Gagal simpan SRS:', e);
+  }
+}
+
+// Simpan/hapus i'rab 1 ayat saja
+async function saveIrabAyat(id, irabObj) {
+  try {
+    await updateDoc(doc(db, 'flashayat', String(id)), { irab: irabObj || null });
+    updateSaveTime();
+  } catch (e) {
+    console.error("Gagal simpan i'rab:", e);
+  }
+}
+
+function updateSaveTime() {
+  const n = new Date();
+  document.getElementById('saveTime').textContent =
+    n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ============================================================
+// MUAT JSON
+// ============================================================
+function muatJSON() {
+  const raw = document.getElementById('jsonInput').value.trim();
+  if (!raw) { showError('Kotak JSON masih kosong.'); return; }
+  let data;
+  try {
+    data = JSON.parse(raw.replace(/```json|```/g,'').trim());
+  } catch(e) {
+    showError('JSON tidak valid.'); return;
+  }
+  hideError();
+
+  // Auto-deteksi format JSON
+  AYAT = [];
+  let globalIdx = 0;
+
+  if (data.halamanList) {
+    // FORMAT MASTER (gandul-data.json)
+    // Skip halaman tanpa babList (gambar, judul, profil, daftarisi dll)
+    data.halamanList.forEach((hlm, hi) => {
+      if (!hlm.babList || hlm.babList.length === 0) return;
+      (hlm.babList||[]).forEach((bab, bi) => {
+        // Kelompokkan kata per nomor ayat
+        const kataList = bab.kataList || [];
+        let buffer = [];
+        let ayatNum = '';
+        kataList.forEach((k, wi) => {
+          const kata = {
+            arab: k.arab || '',
+            kode_gram: k.kode || '',
+            pegon: k.maknaIndo || '',
+            indo: '',
+            rujukan: k.nomor || ''
+          };
+          buffer.push(kata);
+          // Jika ada nomor = akhir ayat/kalimat
+          if (k.nomor && k.nomor.trim()) {
+            ayatNum = k.nomor.trim();
+            AYAT.push({
+              id: globalIdx++,
+              halaman: hi + 1,
+              judul_bab: bab.judulBab || '',
+              kata: buffer,
+              terjemah: ''
+            });
+            buffer = [];
+          }
+        });
+        // Sisa kata tanpa nomor
+        if (buffer.length > 0) {
+          AYAT.push({
+            id: globalIdx++,
+            halaman: hi + 1,
+            judul_bab: bab.judulBab || '',
+            kata: buffer,
+            terjemah: ''
+          });
+        }
+      });
+    });
+  } else {
+    // FORMAT INSTAN (Ar-Risalah Instan)
+    (data.halaman||[]).forEach((hlm, hi) => {
+      (hlm.kalimat||[]).forEach((kal, ki) => {
+        if (!kal.kata || kal.kata.length === 0) return;
+        AYAT.push({
+          id: globalIdx++,
+          hi, ki,
+          halaman: hlm.nomor || (hi+1),
+          judul_bab: hlm.judul_bab || '',
+          kata: kal.kata,
+          terjemah: kal.terjemah || kal.terjemahan || ''
+        });
+      });
+    });
+  }
+
+  if (!AYAT.length) { showError('Tidak ada ayat/kalimat ditemukan dalam JSON.'); return; }
+
+  srsData = {}; irabCache = {};
+  AYAT.forEach(a => { srsData[a.id] = defaultSRS(a.id); });
+  saveAyatToDB();
+  buildFilter();
+  buildAntrian();
+  showGame();
+}
+
+function showGame() {
+  document.getElementById('pasteSection').style.display = 'none';
+  document.getElementById('gameArea').style.display = '';
+}
+
+
+function muatDariFile(ev) {
+  var file = ev.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onerror = function() { alert('Gagal membaca file.'); };
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (data.halamanList) {
+        prosesGandulData(data);
+      } else {
+        alert('Format JSON tidak dikenali. Pastikan file adalah gandul-data.json');
+      }
+    } catch(err) {
+      alert('File tidak valid: ' + err.message);
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+  ev.target.value = '';
+}
+
+function prosesGandulData(data) {
+  try {
+    // Build terjemah map
+    var terjemahMap = {};
+    for (var i = 0; i < data.halamanList.length; i++) {
+      var hlm = data.halamanList[i];
+      var tj = hlm.terjemahan;
+      if (!tj || typeof tj !== 'object') continue;
+      var keys = Object.keys(tj);
+      for (var j = 0; j < keys.length; j++) {
+        var nomor = keys[j];
+        var val = tj[nomor];
+        terjemahMap[nomor] = (typeof val === 'object') ? (val.indo || '') : String(val);
+      }
+    }
+
+    // Kumpulkan SEMUA kata dari semua halaman dulu (lintas halaman)
+    // sambil catat halaman awal tiap kata
+    var allKata = [];
+    for (var hi = 0; hi < data.halamanList.length; hi++) {
+      var hlm2 = data.halamanList[hi];
+      if (!hlm2.babList) continue;
+      for (var bi = 0; bi < hlm2.babList.length; bi++) {
+        var bab = hlm2.babList[bi];
+        var kataList = bab.kataList || [];
+        for (var ki = 0; ki < kataList.length; ki++) {
+          var k = kataList[ki];
+          allKata.push({
+            arab: k.arab || '',
+            kode_gram: k.kode || '',
+            pegon: k.maknaIndo || '',
+            pegon_jawa: k.maknaJawa || '',
+            rujukan: k.nomor || '',
+            _halaman: hi + 1,
+            _judul_bab: bab.namaBab || ''
+          });
+        }
+      }
+    }
+
+    // Potong ayat berdasarkan nomor rujukan — bukan per halaman
+    var ayatList = [];
+    var gid = 0;
+    var buffer = [];
+    var bufHlm = 1;
+    var bufBab = '';
+
+    for (var ai = 0; ai < allKata.length; ai++) {
+      var kata = allKata[ai];
+      if (buffer.length === 0) {
+        bufHlm = kata._halaman;
+        bufBab = kata._judul_bab;
+      }
+      buffer.push({
+        arab: kata.arab,
+        kode_gram: kata.kode_gram,
+        pegon: kata.pegon,
+        pegon_jawa: kata.pegon_jawa,
+        rujukan: kata.rujukan
+      });
+      if (kata.rujukan && kata.rujukan.trim()) {
+        var nom = kata.rujukan.trim();
+        ayatList.push({
+          id: gid++,
+          halaman: bufHlm,
+          judul_bab: bufBab,
+          kata: buffer.slice(),
+          terjemah: terjemahMap[nom] || '',
+          nomor: nom
+        });
+        buffer = [];
+      }
+    }
+    // Sisa kata tanpa nomor (setelah ayat terakhir)
+    if (buffer.length > 0) {
+      ayatList.push({
+        id: gid++,
+        halaman: bufHlm,
+        judul_bab: bufBab,
+        kata: buffer.slice(),
+        terjemah: '',
+        nomor: ''
+      });
+    }
+
+    AYAT = ayatList;
+    srsData = {}; irabCache = {};
+    AYAT.forEach(function(a){ srsData[a.id] = defaultSRS(a.id); });
+    saveAyatToDB();
+    buildFilter();
+    buildAntrian();
+    showGame();
+  } catch(err) {
+    alert('Gagal memproses data: ' + err.message);
+  }
+}
+
+function gantiJSON() {
+  document.getElementById('pasteSection').style.display = '';
+  document.getElementById('gameArea').style.display = 'none';
+  document.getElementById('jsonInput').value = '';
+}
+
+// ============================================================
+// SRS
+// ============================================================
+function getSRS(id) {
+  return srsData[id] || {id, interval:0, ease:2.5, due:0, reviews:0, lapses:0};
+}
+function updateSRS(id, q) {
+  const s = getSRS(id); s.reviews++;
+  if (q===0) { s.lapses++; s.interval=1; s.ease=Math.max(1.3,s.ease-0.2); }
+  else if (q===1) { s.interval=Math.max(2,Math.floor(s.interval*1.2)); s.ease=Math.max(1.3,s.ease-0.1); }
+  else { if(s.interval===0)s.interval=3; else if(s.interval===1)s.interval=5; else s.interval=Math.round(s.interval*s.ease); s.ease=Math.min(3.0,s.ease+0.1); }
+  s.due = antrian.length + s.interval;
+  srsData[id] = s; saveSRS(s); return s;
+}
+
+// ============================================================
+// ANTRIAN
+// ============================================================
+function buildAntrian() {
+  let pool = filterHlm === 'semua' ? AYAT : AYAT.filter(a => String(a.halaman)===filterHlm);
+  pool = pool.slice().sort((a,b) => {
+    const sa=getSRS(a.id), sb=getSRS(b.id);
+    if(sa.reviews===0&&sb.reviews>0) return -1;
+    if(sb.reviews===0&&sa.reviews>0) return 1;
+    return (sa.due||0)-(sb.due||0);
+  });
+  antrian = pool;
+  idx=0; streak=0; sesiHafal=0; sesiLupa=0; history=[];
+  tampilKartu();
+}
+
+function acakAntrian() {
+  for(let i=antrian.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[antrian[i],antrian[j]]=[antrian[j],antrian[i]];}
+  idx=0; history=[]; tampilKartu();
+}
+
+// ============================================================
+// FILTER
+// ============================================================
+function buildFilter() {
+  const hlmNums = ['semua', ...new Set(AYAT.map(a=>String(a.halaman)))];
+  const dd = document.getElementById('filterDropdown');
+  if (!dd) return;
+  dd.innerHTML = '<option value="semua">\ud83d\udcc4 Semua (' + AYAT.length + ')</option>';
+  hlmNums.filter(h=>h!=='semua').forEach(h => {
+    const count = AYAT.filter(a=>String(a.halaman)===h).length;
+    const opt = document.createElement('option');
+    opt.value = h;
+    opt.textContent = 'Hlm.' + h + ' (' + count + ')';
+    dd.appendChild(opt);
+  });
+  dd.value = filterHlm || 'semua';
+}
+
+function filterByDropdown(val) {
+  filterHlm = val;
+  buildAntrian();
+  showGame();
+}
+
+// ============================================================
+// TAMPIL KARTU
+// ============================================================
+function tampilKartu() {
+  document.getElementById('selesaiWrap').classList.remove('show');
+  document.getElementById('cardWrap').style.display = '';
+  document.getElementById('btnFlipRow').style.display = 'flex';
+  document.getElementById('answerRow').classList.remove('show');
+  if (idx >= antrian.length) { selesai(); return; }
+
+  const a = antrian[idx];
+  const s = getSRS(a.id);
+
+  // Header halaman
+  document.getElementById('cardHalaman').textContent =
+    'الصفحة ' + a.halaman + (a.judul_bab ? ' — ' + a.judul_bab : '');
+
+  // DEPAN: kata berjajar
+  const ayatRow = document.getElementById('ayatRow');
+  ayatRow.innerHTML = '';
+  a.kata.forEach(k => {
+    const unit = document.createElement('div');
+    unit.className = 'kata-depan';
+
+    // Parse kode
+    const arabDigits2 = /^[٠١٢٣٤٥٦٧٨٩]+$/;
+    const tokens2 = (k.kode_gram || '').split(/\s+/).filter(t => t.trim());
+    const gramTokens2 = tokens2.filter(t => !arabDigits2.test(t));
+    const rujToken2 = tokens2.find(t => arabDigits2.test(t)) || '';
+
+    // Kode gram row — satu lingkaran per token
+    const kodeRow2 = document.createElement('div');
+    kodeRow2.className = 'kd-kode-row';
+    if (gramTokens2.length === 0) {
+      const dot = document.createElement('span');
+      dot.className = 'kd-kode' + (togState.kode ? '' : ' hidden');
+      dot.textContent = '·';
+      kodeRow2.appendChild(dot);
+    } else {
+      gramTokens2.forEach(t => {
+        const badge = document.createElement('span');
+        badge.className = 'kd-kode' + (togState.kode ? '' : ' hidden');
+        badge.textContent = t;
+        kodeRow2.appendChild(badge);
+      });
+    }
+    unit.appendChild(kodeRow2);
+
+    // Arab
+    const ar = document.createElement('div');
+    ar.className = 'kd-arab';
+    ar.dataset.orig = k.arab || '';
+    ar.textContent = togState.harakat ? (k.arab||'') : stripHarakat(k.arab||'');
+    unit.appendChild(ar);
+
+    // Rujukan di bawah arab
+    if (rujToken2) {
+      const ruj2 = document.createElement('div');
+      ruj2.className = 'kd-rujukan';
+      ruj2.textContent = rujToken2;
+      unit.appendChild(ruj2);
+    }
+
+    ayatRow.appendChild(unit);
+  });
+
+  // Info SRS
+  let info = s.reviews===0 ? '🆕 Ayat baru' :
+    s.lapses>0&&s.interval<=2 ? '🔁 Diulang ('+s.lapses+'× lupa)' :
+    '✓ Review ke-'+s.reviews;
+  document.getElementById('cardInterval').textContent = info;
+
+  // BELAKANG: interlinear
+  const intRow = document.getElementById('interlinearRow');
+  intRow.innerHTML = '';
+  a.kata.forEach(k => {
+    const unit = document.createElement('div');
+    unit.className = 'kata-unit';
+
+    // Parse kode: split into gram tokens + rujukan tokens
+    const arabDigits = /^[٠١٢٣٤٥٦٧٨٩]+$/;
+    const tokens = (k.kode_gram || '').split(/\s+/).filter(t => t.trim());
+    const gramTokens = tokens.filter(t => !arabDigits.test(t));
+    const rujToken = tokens.find(t => arabDigits.test(t)) || '';
+
+    // Kode gram — satu lingkaran per token
+    const kodeRow = document.createElement('div');
+    kodeRow.className = 'ku-kode-row';
+    if (gramTokens.length === 0) {
+      const dot = document.createElement('span');
+      dot.className = 'ku-kode';
+      dot.textContent = '·';
+      kodeRow.appendChild(dot);
+    } else {
+      gramTokens.forEach(t => {
+        const badge = document.createElement('span');
+        badge.className = 'ku-kode';
+        badge.textContent = t;
+        kodeRow.appendChild(badge);
+      });
+    }
+    unit.appendChild(kodeRow);
+
+    // Arab text
+    const ar = document.createElement('div');
+    ar.className = 'ku-arab';
+    ar.textContent = k.arab || '';
+    unit.appendChild(ar);
+
+    // Rujukan — di bawah arab
+    if (rujToken) {
+      const ruj = document.createElement('div');
+      ruj.className = 'ku-rujukan';
+      ruj.textContent = rujToken;
+      unit.appendChild(ruj);
+    }
+
+    // Pegon
+    const pegonIndo = k.pegon || k.maknaIndo || '';
+    const pegonJawa = k.pegon_jawa || k.maknaJawa || '';
+    if (pegonIndo || pegonJawa) {
+      const pg = document.createElement('div');
+      pg.className = 'ku-pegon';
+      pg.dataset.indo = pegonIndo;
+      pg.dataset.jawa = pegonJawa;
+      pg.textContent = togState.pegonJawa ? (pegonJawa||pegonIndo) : (pegonIndo||pegonJawa);
+      unit.appendChild(pg);
+    }
+
+    intRow.appendChild(unit);
+  });
+
+  // Terjemah
+  const tj = document.getElementById('terjemahText');
+  tj.textContent = a.terjemah || '—';
+  document.getElementById('terjemahWrap').classList.toggle('hidden', !togState.terjemah);
+
+  // I\u02BCrab
+  const irabWrap = document.getElementById('irabWrap');
+  document.getElementById('irabArab').textContent = '';
+  document.getElementById('irabIndo').textContent = '';
+  document.getElementById('irabError').classList.add('hidden');
+  irabWrap.classList.toggle('hidden', !togState.irab);
+  if (togState.irab) loadIrab(a);
+
+  // Reset flip
+  sudahFlip = false;
+  document.getElementById('cardInner').classList.remove('flipped');
+
+  // Progress
+  const pct = Math.min(100, idx/antrian.length*100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('headerCount').textContent = (idx+1)+' / '+antrian.length;
+  updateStats(); updateSRSBadge();
+}
+
+// ============================================================
+// TOGGLE TAMPILAN
+// ============================================================
+function togDepan(key) {
+  togState[key] = !togState[key];
+  document.getElementById('tog-'+( key==='kode'?'kode-depan':key)).classList.toggle('on', togState[key]);
+  // update kartu yang sedang tampil
+  if (key==='harakat') {
+    document.querySelectorAll('.kd-arab').forEach(el => {
+      el.textContent = togState.harakat ? (el.dataset.orig||el.textContent) : stripHarakat(el.dataset.orig||el.textContent);
+    });
+  } else if (key==='kode') {
+    document.querySelectorAll('.kd-kode').forEach(el => el.classList.toggle('hidden', !togState.kode));
+  }
+}
+
+function togBelakang(key) {
+  togState[key] = !togState[key];
+  const togId = key==='pegonJawa' ? 'tog-pegon-jawa' : 'tog-'+key;
+  document.getElementById(togId).classList.toggle('on', togState[key]);
+  if (key==='terjemah') {
+    document.getElementById('terjemahWrap').classList.toggle('hidden', !togState.terjemah);
+  } else if (key==='pegonJawa') {
+    document.querySelectorAll('.ku-pegon').forEach(el => {
+      el.textContent = togState.pegonJawa ? (el.dataset.jawa||el.dataset.indo||'') : (el.dataset.indo||'');
+    });
+  } else if (key==='irab') {
+    const wrap = document.getElementById('irabWrap');
+    wrap.classList.toggle('hidden', !togState.irab);
+    if (togState.irab) loadIrab(antrian[idx]);
+  }
+}
+
+function stripHarakat(str) {
+  return str.replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06DC]/g,'');
+}
+
+// ============================================================
+// FLIP & JAWAB
+// ============================================================
+function flipCard() {
+  if (sudahFlip) return;
+  sudahFlip = true;
+  document.getElementById('cardInner').classList.add('flipped');
+  document.getElementById('btnFlipRow').style.display = 'none';
+  document.getElementById('answerRow').classList.add('show');
+}
+
+function jawab(q) {
+  const a = antrian[idx];
+  const s = updateSRS(a.id, q);
+  if (q===0) { streak=0; sesiLupa++; }
+  else if (q===2) { streak++; sesiHafal++; }
+  else { streak=0; }
+  history.push(idx);
+  if (q<2) { const ins=Math.min(idx+s.interval+1,antrian.length); antrian.splice(ins,0,a); }
+  idx++; updateStats(); tampilKartu();
+}
+
+function skipCard() { history.push(idx); idx++; tampilKartu(); }
+function prevCard() { if(history.length>0){idx=history.pop();tampilKartu();} }
+
+// ============================================================
+// STATS & BADGE
+// ============================================================
+function updateStats() {
+  document.getElementById('statAntrian').textContent = Math.max(0,antrian.length-idx);
+  document.getElementById('statHafal').textContent = sesiHafal;
+  document.getElementById('statUlang').textContent = sesiLupa;
+  document.getElementById('statStreak').textContent = streak;
+}
+function updateSRSBadge() {
+  const total=antrian.length;
+  const baru=antrian.filter(a=>getSRS(a.id).reviews===0).length;
+  const lancar=antrian.filter(a=>{const s=getSRS(a.id);return s.reviews>0&&s.interval>=5;}).length;
+  document.getElementById('srsBadge').innerHTML=
+    'Sesi ini: <span>'+total+'</span> ayat · Baru: <span>'+baru+'</span> · Lancar: <span>'+lancar+'</span>';
+}
+
+// ============================================================
+// SELESAI
+// ============================================================
+function selesai() {
+  document.getElementById('cardWrap').style.display='none';
+  document.getElementById('btnFlipRow').style.display='none';
+  document.getElementById('answerRow').classList.remove('show');
+  document.getElementById('selesaiWrap').classList.add('show');
+  document.getElementById('progressBar').style.width='100%';
+  document.getElementById('finalHafal').textContent=sesiHafal;
+  document.getElementById('finalUlang').textContent=sesiLupa;
+  document.getElementById('finalStreak').textContent=streak;
+  document.getElementById('selesaiSub').textContent='Hafal '+sesiHafal+' ayat, perlu ulang '+sesiLupa+' ayat';
+}
+function ulangSesi(){idx=0;streak=0;sesiHafal=0;sesiLupa=0;history=[];document.getElementById('selesaiWrap').classList.remove('show');tampilKartu();}
+function ulangLupa(){
+  const lupa=antrian.filter(a=>{const s=getSRS(a.id);return s.lapses>0||s.interval<=2;});
+  if(!lupa.length){ulangSesi();return;}
+  antrian=lupa;idx=0;streak=0;sesiHafal=0;sesiLupa=0;history=[];
+  document.getElementById('selesaiWrap').classList.remove('show');tampilKartu();
+}
+async function resetSRS(){
+  if(!confirm('Reset semua progress Flashayat?'))return;
+  AYAT.forEach(a => { srsData[a.id] = defaultSRS(a.id); });
+  await saveAyatToDB();
+  buildAntrian();
+  document.getElementById('selesaiWrap').classList.remove('show');
+}
+
+// ============================================================
+// ERROR
+// ============================================================
+function showError(m){const b=document.getElementById('errorBox');b.textContent=m;b.classList.add('show');}
+function hideError(){document.getElementById('errorBox').classList.remove('show');}
+
+
+// ============================================================
+// I'RAB — Manual workflow (copy prompt → claude.ai → paste JSON)
+// ============================================================
+function loadIrab(a) {
+  if (!a || !a.kata || !a.kata.length) return;
+  const irabWrap = document.getElementById('irabWrap');
+  if (irabWrap.classList.contains('hidden')) return;
+
+  // Tampilkan dari cache jika ada
+  if (irabCache[a.id]) {
+    document.getElementById('irabArab').textContent = irabCache[a.id].arab;
+    document.getElementById('irabIndo').textContent = irabCache[a.id].indo;
+    document.getElementById('irabPanelGenerate').classList.add('hidden');
+    return;
+  }
+
+  // Belum ada cache — tampilkan panel generate
+  document.getElementById('irabArab').textContent = '';
+  document.getElementById('irabIndo').textContent = '';
+  document.getElementById('irabError').classList.add('hidden');
+  document.getElementById('irabPanelGenerate').classList.remove('hidden');
+}
+
+function bukaPromptIrab() {
+  const a = antrian[idx];
+  if (!a) return;
+  const kataStr = a.kata.map(k => k.arab + ' [' + (k.kode_gram||'') + ']').join(' | ');
+  const prompt = 'Kamu adalah pakar nahwu. Analisis i\'rab kalimat berikut dari kitab Ar-Risalah Al-Bajuri:\n\n'
+    + kataStr
+    + '\n\nTugas:\n1. Tulis i\'rab singkat dalam bahasa Arab (max 3 kalimat), pakai istilah nahwu klasik.\n2. Terjemahkan penjelasan i\'rab ke bahasa Indonesia (max 2 kalimat).\n\nJawab HANYA JSON:\n{"arab":"...","indo":"..."}';
+  const url = 'https://claude.ai/new?q=' + encodeURIComponent(prompt);
+  window.open(url, '_blank');
+}
+
+function pasteIrab() {
+  const a = antrian[idx];
+  if (!a) return;
+  const raw = document.getElementById('irabPasteBox').value.trim();
+  if (!raw) return;
+  try {
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed.arab) { alert('Format salah. Harus: {"arab":"...","indo":"..."}'); return; }
+
+    irabCache[a.id] = { arab: parsed.arab, indo: parsed.indo||'' };
+    saveIrabAyat(a.id, irabCache[a.id]);
+    document.getElementById('irabArab').textContent = parsed.arab;
+    document.getElementById('irabIndo').textContent = parsed.indo||'';
+    document.getElementById('irabPanelGenerate').classList.add('hidden');
+    document.getElementById('irabPasteBox').value = '';
+  } catch(e) {
+    alert('JSON tidak valid. Pastikan copy seluruh teks dari Claude.');
+  }
+}
+
+
+
+
+// ============================================================
+// EDIT AYAT DI KELOLA
+// ============================================================
+function editAyat(id) {
+  var a = AYAT.find(function(x){return x.id===id;});
+  if (!a) return;
+
+  var card = document.getElementById('kelola-card-' + id);
+  if (!card) return;
+
+  // Sembunyikan tampilan normal
+  var viewDiv = document.getElementById('kelola-ayat-view-' + id);
+  if (viewDiv) viewDiv.style.display = 'none';
+
+  // Tampilkan form edit jika sudah ada
+  var formDiv = document.getElementById('kelola-ayat-form-' + id);
+  if (formDiv) { formDiv.style.display = ''; return; }
+
+  // Buat form edit
+  formDiv = document.createElement('div');
+  formDiv.id = 'kelola-ayat-form-' + id;
+  formDiv.style.cssText = 'margin-top:8px;border-top:1px dashed #d1d5db;padding-top:8px;';
+
+  // Edit terjemah
+  var tjLabel = document.createElement('div');
+  tjLabel.style.cssText = 'font-size:0.68rem;color:#6b7280;margin-bottom:3px;';
+  tjLabel.textContent = 'Terjemahan:';
+  formDiv.appendChild(tjLabel);
+
+  var tjArea = document.createElement('textarea');
+  tjArea.id = 'edit-tj-' + id;
+  tjArea.style.cssText = 'width:100%;height:55px;font-size:0.75rem;border:1px solid #d1d5db;border-radius:6px;padding:5px;box-sizing:border-box;resize:none;margin-bottom:6px;';
+  tjArea.value = a.terjemah || '';
+  formDiv.appendChild(tjArea);
+
+  // Gabung dengan ayat berikutnya
+  var nextA = AYAT.find(function(x){return x.id===id+1;});
+  if (nextA) {
+    var gabungBtn = document.createElement('button');
+    gabungBtn.style.cssText = 'width:100%;background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd;border-radius:6px;padding:5px;font-size:0.72rem;cursor:pointer;margin-bottom:6px;';
+    gabungBtn.textContent = '🔗 Gabung dengan Ayat ' + (id+2) + ' (Hlm.' + nextA.halaman + ')';
+    gabungBtn.onclick = function() { gabungAyat(id); };
+    formDiv.appendChild(gabungBtn);
+  }
+
+  // Tombol simpan & batal
+  var btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:4px;';
+
+  var simpanBtn = document.createElement('button');
+  simpanBtn.style.cssText = 'flex:1;background:var(--hijau);color:white;border:none;border-radius:6px;padding:6px;font-size:0.72rem;cursor:pointer;';
+  simpanBtn.textContent = '💾 Simpan';
+  simpanBtn.onclick = function() { simpanEditAyat(id); };
+
+  var batalBtn = document.createElement('button');
+  batalBtn.style.cssText = 'background:#e5e7eb;color:#374151;border:none;border-radius:6px;padding:6px 12px;font-size:0.72rem;cursor:pointer;';
+  batalBtn.textContent = 'Batal';
+  batalBtn.onclick = function() {
+    formDiv.style.display = 'none';
+    if (viewDiv) viewDiv.style.display = '';
+  };
+
+  btnRow.appendChild(simpanBtn);
+  btnRow.appendChild(batalBtn);
+  formDiv.appendChild(btnRow);
+  card.appendChild(formDiv);
+}
+
+function simpanEditAyat(id) {
+  var a = AYAT.find(function(x){return x.id===id;});
+  if (!a) return;
+  var tjVal = document.getElementById('edit-tj-' + id);
+  if (tjVal) a.terjemah = tjVal.value.trim();
+  saveAyatToDB();
+  renderKelola();
+}
+
+function gabungAyat(id) {
+  var idxA = AYAT.findIndex(function(x){return x.id===id;});
+  var idxB = AYAT.findIndex(function(x){return x.id===id+1;});
+  if (idxA < 0 || idxB < 0) { alert('Ayat tidak ditemukan.'); return; }
+
+  if (!confirm('Gabung Ayat ' + (id+1) + ' dengan Ayat ' + (id+2) + '? Kata-kata Ayat ' + (id+2) + ' akan dipindah ke Ayat ' + (id+1) + '.')) return;
+
+  var ayatA = AYAT[idxA];
+  var ayatB = AYAT[idxB];
+
+  // Gabung kata
+  ayatA.kata = ayatA.kata.concat(ayatB.kata);
+  // Ambil nomor dari ayatB jika ayatA belum punya
+  if (!ayatA.nomor && ayatB.nomor) ayatA.nomor = ayatB.nomor;
+  // Ambil terjemah dari ayatB jika ayatA belum punya
+  if (!ayatA.terjemah && ayatB.terjemah) ayatA.terjemah = ayatB.terjemah;
+
+  // Hapus ayatB
+  AYAT.splice(idxB, 1);
+
+  // Re-assign id berurutan
+  AYAT.forEach(function(a, i){ a.id = i; });
+
+  saveAyatToDB();
+  buildFilter();
+  buildAntrian();
+  renderKelola();
+  alert('✅ Berhasil digabung!');
+}
+
+// ============================================================
+// KELOLA IRAB
+// ============================================================
+function bukaKelolaIrab() {
+  document.getElementById('modalKelola').style.display = '';
+  renderKelola();
+}
+
+function tutupKelola() {
+  document.getElementById('modalKelola').style.display = 'none';
+}
+
+function renderKelola() {
+  const filter = document.getElementById('kelolaFilter').value;
+  const search = document.getElementById('kelolaSearch').value.trim().toLowerCase();
+
+  let list = AYAT.filter(a => {
+    if (filter === 'ada' && !irabCache[a.id]) return false;
+    if (filter === 'belum' && irabCache[a.id]) return false;
+    if (search) {
+      const arab = a.kata.map(k=>k.arab).join(' ');
+      const terjemah = (a.terjemah||'').toLowerCase();
+      if (!arab.includes(search) && !terjemah.includes(search) && !String(a.id+1).includes(search)) return false;
+    }
+    return true;
+  });
+
+  const ada = Object.keys(irabCache).length;
+  document.getElementById('kelolaStats').textContent =
+    ada + ' sudah ada الإعراب · ' + (AYAT.length - ada) + ' belum · menampilkan ' + list.length;
+
+  const container = document.getElementById('kelolaList');
+  container.innerHTML = '';
+
+  list.forEach(a => {
+    const cached = irabCache[a.id];
+    const arabKalimat = a.kata.map(k=>k.arab).join(' ');
+
+    const card = document.createElement('div');
+    card.id = 'kelola-card-' + a.id;
+    card.style.cssText = 'border:1px solid #e5e7eb;border-radius:8px;padding:10px;background:' + (cached ? '#f0fdf4' : '#fafafa') + ';';
+
+    // Header
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;';
+    header.innerHTML = '<div style="font-size:0.68rem;color:#6b7280;">Ayat ' + (a.id+1) + ' · Hlm.' + a.halaman + '</div>'
+      + '<div style="display:flex;gap:4px;">'
+      + '<button onclick="editAyat(' + a.id + ')" style="font-size:0.65rem;background:#f3e8ff;color:#7c3aed;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;">✏️ Ayat</button>'
+      + (cached
+        ? '<button onclick="editIrab(' + a.id + ')" style="font-size:0.65rem;background:#dbeafe;color:#1d4ed8;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;">✏️ الإعراب</button>'
+          + '<button onclick="hapusIrab(' + a.id + ')" style="font-size:0.65rem;background:#fee2e2;color:#dc2626;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;">🗑</button>'
+        : '<button onclick="generateSatu(' + a.id + ')" style="font-size:0.65rem;background:#d1fae5;color:#065f46;border:none;border-radius:4px;padding:2px 7px;cursor:pointer;">⚡ الإعراب</button>'
+      )
+      + '</div>';
+    card.appendChild(header);
+
+    // Arab kalimat
+    const arabDiv = document.createElement('div');
+    arabDiv.id = 'kelola-ayat-view-' + a.id;
+    arabDiv.style.cssText = 'font-size:0.82rem;direction:rtl;font-family:"Traditional Arabic","Scheherazade New",serif;line-height:1.6;color:#1a1a1a;margin-bottom:4px;';
+    arabDiv.textContent = arabKalimat;
+    if (a.terjemah) {
+      var tjDiv = document.createElement('div');
+      tjDiv.style.cssText = 'font-size:0.7rem;color:#6b7280;margin-top:2px;border-top:1px solid #f3f4f6;padding-top:3px;';
+      tjDiv.textContent = a.terjemah;
+      arabDiv.appendChild(tjDiv);
+    }
+    card.appendChild(arabDiv);
+
+    if (cached) {
+      // Tampilkan irab (bisa edit)
+      const irabDiv = document.createElement('div');
+      irabDiv.id = 'kelola-irab-' + a.id;
+
+      const arabIrab = document.createElement('div');
+      arabIrab.style.cssText = 'font-size:0.78rem;direction:rtl;font-family:"Traditional Arabic","Scheherazade New",serif;color:#065f46;line-height:1.6;border-top:1px dashed #bbf7d0;padding-top:4px;';
+      arabIrab.textContent = cached.arab;
+      irabDiv.appendChild(arabIrab);
+
+      if (cached.indo) {
+        const indoIrab = document.createElement('div');
+        indoIrab.style.cssText = 'font-size:0.7rem;color:#374151;margin-top:2px;';
+        indoIrab.textContent = cached.indo;
+        irabDiv.appendChild(indoIrab);
+      }
+      card.appendChild(irabDiv);
+
+      // Form edit (hidden)
+      const form = document.createElement('div');
+      form.id = 'kelola-form-' + a.id;
+      form.style.display = 'none';
+      form.innerHTML = '<textarea id="edit-arab-' + a.id + '" style="width:100%;height:60px;font-size:0.78rem;direction:rtl;font-family:serif;border:1px solid #d1d5db;border-radius:6px;padding:4px;box-sizing:border-box;resize:none;" placeholder="I&#x27;rab Arab...">' + (cached.arab||'') + '</textarea>'
+        + '<textarea id="edit-indo-' + a.id + '" style="width:100%;height:40px;font-size:0.72rem;border:1px solid #d1d5db;border-radius:6px;padding:4px;box-sizing:border-box;resize:none;margin-top:4px;" placeholder="Terjemahan Indonesia...">' + (cached.indo||'') + '</textarea>'
+        + '<div style="display:flex;gap:4px;margin-top:4px;">'
+        + '<button onclick="simpanEditIrab(' + a.id + ')" style="flex:1;background:var(--hijau);color:white;border:none;border-radius:6px;padding:5px;font-size:0.72rem;cursor:pointer;">💾 Simpan</button>'
+        + '<button onclick="batalEditIrab(' + a.id + ')" style="background:#e5e7eb;color:#374151;border:none;border-radius:6px;padding:5px 10px;font-size:0.72rem;cursor:pointer;">Batal</button>'
+        + '</div>';
+      card.appendChild(form);
+    }
+
+    container.appendChild(card);
+  });
+
+  if (list.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:0.78rem;padding:20px;">Tidak ada ayat yang cocok.</div>';
+  }
+}
+
+function editIrab(id) {
+  document.getElementById('kelola-irab-' + id).style.display = 'none';
+  document.getElementById('kelola-form-' + id).style.display = '';
+}
+
+function batalEditIrab(id) {
+  document.getElementById('kelola-form-' + id).style.display = 'none';
+  document.getElementById('kelola-irab-' + id).style.display = '';
+}
+
+function simpanEditIrab(id) {
+  const arab = document.getElementById('edit-arab-' + id).value.trim();
+  const indo = document.getElementById('edit-indo-' + id).value.trim();
+  if (!arab) { alert('I\u02BCrab Arab tidak boleh kosong.'); return; }
+  irabCache[id] = { arab, indo };
+  saveIrabAyat(id, irabCache[id]);
+  if (togState.irab) loadIrab(antrian[idx]);
+  renderKelola();
+}
+
+function hapusIrab(id) {
+  if (!confirm('Hapus الإعراب ayat ' + (id+1) + '?')) return;
+  delete irabCache[id];
+  saveIrabAyat(id, null);
+  renderKelola();
+}
+
+function generateSatu(id) {
+  const a = AYAT.find(x => x.id === id);
+  if (!a) return;
+  const kataStr = a.kata.map(k => k.arab + ' [' + (k.kode_gram||'') + ']').join(' | ');
+  const prompt = 'Kamu adalah pakar nahwu. Analisis i\u02BCrab kalimat berikut dari kitab Ar-Risalah Al-Bajuri:\n\n'
+    + kataStr
+    + '\n\nTugas:\n1. Tulis i\u02BCrab singkat dalam bahasa Arab (max 3 kalimat), pakai istilah nahwu klasik.\n2. Terjemahkan ke bahasa Indonesia (max 2 kalimat).\n\nJawab HANYA JSON:\n{"arab":"...","indo":"..."}';
+  window.open('https://claude.ai/new?q=' + encodeURIComponent(prompt), '_blank');
+  // Tampilkan kotak paste di card
+  const card = document.getElementById('kelola-card-' + id);
+  if (card && !card.querySelector('.paste-satu')) {
+    const pasteDiv = document.createElement('div');
+    pasteDiv.className = 'paste-satu';
+    pasteDiv.style.cssText = 'margin-top:6px;';
+    pasteDiv.innerHTML = '<textarea placeholder=\"{&quot;arab&quot;:&quot;...&quot;,&quot;indo&quot;:&quot;...&quot;}\" id="paste-satu-' + id + '" style="width:100%;height:70px;font-size:0.78rem;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;resize:vertical;direction:ltr;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>'
+      + '<button onclick="simpanSatu(' + id + ')" style="width:100%;margin-top:4px;background:var(--emas);color:white;border:none;border-radius:6px;padding:5px;font-size:0.72rem;cursor:pointer;">✅ Simpan</button>';
+    card.appendChild(pasteDiv);
+  }
+}
+
+function simpanSatu(id) {
+  const raw = document.getElementById('paste-satu-' + id).value.trim();
+  if (!raw) return;
+  try {
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed.arab) { alert('Format salah.'); return; }
+    irabCache[id] = { arab: parsed.arab, indo: parsed.indo||'' };
+    saveIrabAyat(id, irabCache[id]);
+    if (togState.irab) loadIrab(antrian[idx]);
+    renderKelola();
+  } catch(e) {
+    alert('JSON tidak valid.');
+  }
+}
+
+// ============================================================
+// BATCH IRAB
+// ============================================================
+function bukaPanelBatch() {
+  document.getElementById('panelBatch').style.display = '';
+  // Skip ayat yang sudah ada cache
+  const belum = AYAT.filter(a => !irabCache[a.id]);
+  document.getElementById('batchStatus').textContent = 
+    belum.length + ' ayat belum punya الإعراب dari total ' + AYAT.length;
+}
+
+function tutupPanelBatch() {
+  document.getElementById('panelBatch').style.display = 'none';
+}
+
+function bukaBatchPrompt() {
+  var dari = parseInt(document.getElementById('batchDari').value) - 1;
+  var sampai = parseInt(document.getElementById('batchSampai').value) - 1;
+  if (isNaN(dari)||isNaN(sampai)||dari<0||sampai>=AYAT.length) {
+    alert('Rentang tidak valid. Masukkan angka 1-136.'); return;
+  }
+  if (sampai - dari > 9) { sampai = dari + 9; }
+
+  var subset = [];
+  for (var i = dari; i <= sampai; i++) {
+    if (AYAT[i] && !irabCache[AYAT[i].id]) subset.push(AYAT[i]);
+  }
+  if (subset.length === 0) {
+    alert('Semua ayat di rentang ini sudah punya i\u02BCrab!'); return;
+  }
+
+  var kalimatList = subset.map(function(a, n) {
+    var kataStr = a.kata.map(function(k) { return k.arab + ' [' + (k.kode_gram||'') + ']'; }).join(' ');
+    return (n+1) + '. (id:' + a.id + ') ' + kataStr;
+  }).join('\n');
+
+  var formatArr = subset.map(function(a) {
+    return '{"id":' + a.id + ',"arab":"...","indo":"..."}';
+  }).join(',');
+
+  var prompt = 'Kamu adalah pakar nahwu. Analisis i\u02BCrab kalimat-kalimat berikut dari kitab Ar-Risalah Al-Bajuri:\n\n'
+    + kalimatList
+    + '\n\nUntuk setiap kalimat:\n1. Tulis i\u02BCrab singkat dalam bahasa Arab (max 2 kalimat), pakai istilah nahwu klasik.\n2. Terjemahkan ke bahasa Indonesia (max 1 kalimat).\n\nJawab HANYA JSON array:\n[' + formatArr + ']';
+
+  window.open('https://claude.ai/new?q=' + encodeURIComponent(prompt), '_blank');
+  document.getElementById('batchStatus').textContent = 'Prompt dikirim untuk ' + subset.length + ' ayat.';
+}
+
+async function simpanBatch() {
+  const raw = document.getElementById('batchPasteBox').value.trim();
+  if (!raw) return;
+  try {
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const arr = JSON.parse(clean);
+    if (!Array.isArray(arr)) { alert('Format harus JSON array [...]'); return; }
+    let saved = 0;
+    const jobs = [];
+    arr.forEach(item => {
+      if (item.id !== undefined && item.arab) {
+        const val = { arab: item.arab, indo: item.indo||'' };
+        irabCache[item.id] = val;
+        jobs.push(saveIrabAyat(item.id, val));
+        saved++;
+      }
+    });
+    document.getElementById('batchStatus').textContent = '⏳ Menyimpan ' + saved + ' الإعراب ke cloud...';
+    await Promise.all(jobs);
+    document.getElementById('batchPasteBox').value = '';
+    document.getElementById('batchStatus').textContent = '✅ ' + saved + ' الإعراب berhasil disimpan!';
+    // Refresh kartu jika sedang tampil irab
+    if (togState.irab) loadIrab(antrian[idx]);
+  } catch(e) {
+    alert('JSON tidak valid: ' + e.message);
+  }
+}
+
+// ============================================================
+// EXPORT / IMPORT IRAB CACHE
+// ============================================================
+function exportIrab() {
+  const count = Object.keys(irabCache).length;
+  if (count === 0) { alert('Belum ada الإعراب yang tersimpan.'); return; }
+  const blob = new Blob([JSON.stringify(irabCache, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'irab-cache-flashayat.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importIrabClick() {
+  document.getElementById('irabFileInput').click();
+}
+
+function importIrabFile(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      let count = 0;
+      const jobs = [];
+      Object.entries(data).forEach(([k,v]) => {
+        if (v && v.arab) { irabCache[k] = v; jobs.push(saveIrabAyat(k, v)); count++; }
+      });
+      await Promise.all(jobs);
+      alert('✅ ' + count + ' الإعراب berhasil diimport!');
+      if (togState.irab) loadIrab(antrian[idx]);
+    } catch(e) {
+      alert('File tidak valid: ' + e.message);
+    }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+}
+
+// ============================================================
+// EXPOSE KE WINDOW (wajib karena script type="module")
+// ============================================================
+window.acakAntrian = acakAntrian;
+window.batalEditIrab = batalEditIrab;
+window.bukaBatchPrompt = bukaBatchPrompt;
+window.bukaKelolaIrab = bukaKelolaIrab;
+window.bukaPanelBatch = bukaPanelBatch;
+window.bukaPromptIrab = bukaPromptIrab;
+window.editAyat = editAyat;
+window.editIrab = editIrab;
+window.exportIrab = exportIrab;
+window.flipCard = flipCard;
+window.gantiJSON = gantiJSON;
+window.generateSatu = generateSatu;
+window.hapusIrab = hapusIrab;
+window.importIrabClick = importIrabClick;
+window.jawab = jawab;
+window.muatJSON = muatJSON;
+window.pasteIrab = pasteIrab;
+window.prevCard = prevCard;
+window.resetSRS = resetSRS;
+window.simpanBatch = simpanBatch;
+window.simpanEditIrab = simpanEditIrab;
+window.simpanSatu = simpanSatu;
+window.skipCard = skipCard;
+window.togBelakang = togBelakang;
+window.togDepan = togDepan;
+window.tutupKelola = tutupKelola;
+window.tutupPanelBatch = tutupPanelBatch;
+window.ulangLupa = ulangLupa;
+window.ulangSesi = ulangSesi;
+window.filterByDropdown = filterByDropdown;
+window.importIrabFile = importIrabFile;
+window.muatDariFile = muatDariFile;
+window.renderKelola = renderKelola;
+
+// ============================================================
+// INIT
+// ============================================================
+initApp();
+</script>
+</body>
+</html>
 
