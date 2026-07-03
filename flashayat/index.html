@@ -464,7 +464,15 @@ function paksaModeAman() {
   renderTombolHemat(true);
   alert('✅ Mode Hemat Animasi diaktifkan. Kalau kartu masih glitch, coba muat ulang halaman.');
 }
-
+function sembunyikanTombolHemat() {
+  if (!confirm('Sembunyikan tombol Hemat Animasi & Fade? Bisa dimunculkan lagi lewat tulisan kecil di footer.')) return;
+  document.body.classList.remove('low-end', 'fade-mode');
+  try {
+    localStorage.removeItem('flashayat_hemat');
+    localStorage.removeItem('flashayat_fade');
+  } catch(e) {}
+  renderTombolHemat(false);
+}
 function renderTombolHemat(tampilkan) {
   const btn = document.getElementById('tog-hemat');
   const btnFade = document.getElementById('tog-fade');
