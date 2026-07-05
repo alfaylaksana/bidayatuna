@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<titleۖ>Bidayatuna Instan</title>
+<title>Bidayatuna Instan</title>
 <style>
   :root {
     --hijau: #2d6a4f; --hijau-muda: #40916c; --hijau-pale: #d8f3dc;
@@ -119,9 +119,9 @@
   .pegon-text.ltr { direction: ltr; font-family: 'Segoe UI',sans-serif; font-style: italic; color: #555; font-size: 0.6rem; }
   .pegon-text.hidden { opacity: 0; pointer-events: none; }
 
-  .catatan-wrap { margin-top: 8px; background: var(--emas-pale); border-right: 3px solid var(--emas); border-radius: 0 6px 6px 0; padding: 8px 10px; direction: rtl; font-size: 0.74rem; color: #5a4500; }
-  .catatan-wrap.hidden { display: none; }
-  .catatan-label { font-weight: 700; font-size: 0.63rem; margin-bottom: 3px; color: var(--emas); display: flex; justify-content: space-between; align-items: center; }
+  .irab-wrap { margin-top: 8px; background: var(--emas-pale); border-right: 3px solid var(--emas); border-radius: 0 6px 6px 0; padding: 8px 10px; direction: rtl; font-size: 0.74rem; color: #5a4500; }
+  .irab-wrap.hidden { display: none; }
+  .irab-label { font-weight: 700; font-size: 0.63rem; margin-bottom: 3px; color: var(--emas); display: flex; justify-content: space-between; align-items: center; }
   .cat-edit-btn { display: none; cursor: pointer; font-size: 0.68rem; color: var(--emas); border: 1px solid var(--emas); border-radius: 4px; padding: 1px 5px; }
   .kal-gabung-btn { display: none; cursor: pointer; font-size: 0.68rem; color: #7c3aed; border: 1px solid #7c3aed; border-radius: 4px; padding: 1px 6px; background: #f5f3ff; }
 
@@ -152,8 +152,8 @@
   .btn-del-kata { background: var(--merah-pale); color: var(--merah); border: 1px solid #fca5a5; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; cursor: pointer; }
   .btn-split { background: #f5f3ff; color: #7c3aed; border: 1px solid #7c3aed; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; cursor: pointer; }
   .split-hint { font-size: 0.68rem; color: var(--abu-tua); margin: -6px 0 12px; direction: rtl; }
-  .catatan-edit-area { width: 100%; min-height: 80px; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; outline: none; resize: vertical; direction: rtl; }
-  .catatan-edit-area:focus { border-color: var(--emas); }
+  .irab-edit-area { width: 100%; min-height: 80px; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; outline: none; resize: vertical; direction: rtl; }
+  .irab-edit-area:focus { border-color: var(--emas); }
 
   /* EXPORT */
   .export-section { display: none; margin-top: 14px; }
@@ -172,6 +172,11 @@
   .konfirm-btns { display: flex; gap: 8px; }
   .btn-konfirm-ya { flex: 1; background: var(--merah); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
   .btn-konfirm-tidak { flex: 1; background: white; color: var(--abu-tua); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.85rem; cursor: pointer; }
+
+  /* NAV SILANG ANTAR TOOL */
+  .cross-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: white; border-bottom: 1px solid var(--border); }
+  .cross-nav a { font-size: 0.68rem; padding: 4px 10px; border-radius: 999px; background: var(--emas-pale); color: #5a4500; text-decoration: none; border: 1px solid var(--emas); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+  .cross-nav a .soon { font-size: 0.56rem; opacity: 0.65; }
 </style>
 </head>
 <body>
@@ -179,9 +184,16 @@
 <div class="header">
   <div style="font-size:1.5rem">📖</div>
   <div>
-    <h1>Ar-Risalah Instan</h1>
+    <h1>Bidayatuna Instan</h1>
     <p>OCR kitab → interlinear → edit → export</p>
   </div>
+</div>
+
+<div class="cross-nav">
+  <a href="https://alfaylaksana.github.io/Ar-Risalah/" target="_blank">📖 Ar-Risalah</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/maktabah/index.html" target="_blank">🏛 Maktabah</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashayat/index.html" target="_blank">🔁 Flashayat</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard <span class="soon">segera</span></a>
 </div>
 
 <div class="container">
@@ -221,7 +233,7 @@
             <div class="dropdown-item" onclick="hapusMassal('rujukan')"><span class="di-icon">□</span> Hapus Semua KR</div>
             <div class="dropdown-item" onclick="hapusMassal('pegon')"><span class="di-icon">ﺏ</span> Hapus Semua Pegon</div>
             <div class="dropdown-item" onclick="hapusMassal('indo')"><span class="di-icon">🇮🇩</span> Hapus Semua Terjemah</div>
-            <div class="dropdown-item" onclick="hapusMassal('catatan_nahwu')"><span class="di-icon">📝</span> Hapus Semua Catatan</div>
+            <div class="dropdown-item" onclick="hapusMassal('irab')"><span class="di-icon">📝</span> Hapus Semua I'rab</div>
           </div>
         </div>
 
@@ -235,7 +247,7 @@
         <button class="tog on" id="tog-kode" onclick="togView('kode')">Kode Gram.</button>
         <button class="tog on" id="tog-pegon" onclick="togView('pegon')">Pegon</button>
         <button class="tog on" id="tog-indo" onclick="togView('indo')">Terjemah</button>
-        <button class="tog on" id="tog-catatan" onclick="togView('catatan')">Catatan</button>
+        <button class="tog on" id="tog-irab" onclick="togView('irab')">I'rab</button>
         <button class="tog on" id="tog-rujukan" onclick="togView('rujukan')">Rujukan</button>
         <div class="tog-sep"></div>
         <span class="mode-label">Mode:</span>
@@ -294,20 +306,20 @@
   </div>
 </div>
 
-<!-- MODAL CATATAN -->
-<div class="modal-overlay" id="modalCatatan">
+<!-- MODAL I'RAB -->
+<div class="modal-overlay" id="modalIrab">
   <div class="modal">
     <div class="modal-title">
-      <span>📝 Edit Catatan Nahwu</span>
-      <button class="modal-close" onclick="closeModal('modalCatatan')">✕</button>
+      <span>📝 Edit I'rab (الإعراب)</span>
+      <button class="modal-close" onclick="closeModal('modalIrab')">✕</button>
     </div>
     <div class="field-group">
-      <label class="field-label">Catatan I'rab / Nahwu</label>
-      <textarea class="catatan-edit-area" id="editCatatan"></textarea>
+      <label class="field-label">I'rab (الإعراب) — bahasa Arab</label>
+      <textarea class="irab-edit-area" id="editIrab"></textarea>
     </div>
     <div class="modal-btns">
-      <button class="btn-save" onclick="saveCatatan()" style="background:var(--emas)">✓ Simpan</button>
-      <button class="btn-cancel" onclick="closeModal('modalCatatan')">Batal</button>
+      <button class="btn-save" onclick="saveIrab()" style="background:var(--emas)">✓ Simpan</button>
+      <button class="btn-cancel" onclick="closeModal('modalIrab')">Batal</button>
     </div>
   </div>
 </div>
@@ -347,7 +359,7 @@ let editMode = false;
 let editTarget = null;
 let harakatOn = true;
 let irobOnly = false;
-const togState = { kode:true, pegon:true, indo:true, catatan:true, rujukan:true };
+const togState = { kode:true, pegon:true, indo:true, irab:true, rujukan:true };
 
 // ============================================================
 // FIREBASE — DRAFT AUTO-SAVE (sementara, bukan penyimpanan final)
@@ -449,7 +461,7 @@ function togView(key) {
   if (key==='kode') document.querySelectorAll('.kode-gram').forEach(e=>e.classList.toggle('hidden',!show));
   else if (key==='pegon') document.querySelectorAll('.pegon-text:not(.ltr)').forEach(e=>e.classList.toggle('hidden',!show));
   else if (key==='indo') { document.querySelectorAll('.pegon-text.ltr').forEach(e=>e.classList.toggle('hidden',!show)); document.querySelectorAll('.frasa-indo').forEach(e=>e.classList.toggle('hidden',!show)); }
-  else if (key==='catatan') document.querySelectorAll('.catatan-wrap').forEach(e=>e.classList.toggle('hidden',!show));
+  else if (key==='irab') document.querySelectorAll('.irab-wrap').forEach(e=>e.classList.toggle('hidden',!show));
   else if (key==='rujukan') document.querySelectorAll('.kode-rujukan').forEach(e=>e.classList.toggle('hidden',!show));
 }
 
@@ -586,20 +598,20 @@ function buildDisplay() {
       block.appendChild(kWrap);
 
       const cat = document.createElement('div');
-      cat.className = 'catatan-wrap' + (togState.catatan ? '' : ' hidden');
+      cat.className = 'irab-wrap' + (togState.irab ? '' : ' hidden');
       cat.dataset.hi = hi; cat.dataset.ki = ki;
       const isLastKal = ki === (hlm.kalimat.length - 1);
       cat.innerHTML = `
-        <div class="catatan-label">
-          📝 Catatan Nahwu
+        <div class="irab-label">
+          📝 I'rab
           <span style="display:flex;gap:5px;align-items:center">
             <span class="kal-gabung-btn" id="gabungBtn_${hi}_${ki}"
               onclick="gabungKalimat(${hi},${ki})"
               style="display:${editMode && !isLastKal?'inline':'none'}">⤵ Gabung ↓</span>
-            <span class="cat-edit-btn" id="catBtn_${hi}_${ki}" onclick="openCatatan(${hi},${ki})" style="display:${editMode?'inline':'none'}">✏️ Edit</span>
+            <span class="cat-edit-btn" id="irabBtn_${hi}_${ki}" onclick="openIrab(${hi},${ki})" style="display:${editMode?'inline':'none'}">✏️ Edit</span>
           </span>
         </div>
-        <span class="catatan-isi">${kal.catatan_nahwu||'—'}</span>`;
+        <span class="irab-isi">${kal.irab||'—'}</span>`;
       block.appendChild(cat);
     });
 
@@ -772,19 +784,19 @@ function deleteKata() {
 }
 
 // ============================================================
-// MODAL CATATAN
+// MODAL I'RAB
 // ============================================================
-function openCatatan(hi,ki) {
+function openIrab(hi,ki) {
   editTarget={hi,ki};
-  document.getElementById('editCatatan').value = DATA.halaman[hi].kalimat[ki].catatan_nahwu||'';
-  openModal('modalCatatan');
+  document.getElementById('editIrab').value = DATA.halaman[hi].kalimat[ki].irab||'';
+  openModal('modalIrab');
 }
-function saveCatatan() {
+function saveIrab() {
   const {hi,ki}=editTarget;
-  DATA.halaman[hi].kalimat[ki].catatan_nahwu = document.getElementById('editCatatan').value.trim();
-  const isi = document.querySelector(`.catatan-wrap[data-hi="${hi}"][data-ki="${ki}"] .catatan-isi`);
-  if (isi) isi.textContent = DATA.halaman[hi].kalimat[ki].catatan_nahwu||'—';
-  closeModal('modalCatatan');
+  DATA.halaman[hi].kalimat[ki].irab = document.getElementById('editIrab').value.trim();
+  const isi = document.querySelector(`.irab-wrap[data-hi="${hi}"][data-ki="${ki}"] .irab-isi`);
+  if (isi) isi.textContent = DATA.halaman[hi].kalimat[ki].irab||'—';
+  closeModal('modalIrab');
   scheduleAutoSave();
 }
 
@@ -796,7 +808,7 @@ const hapusLabel = {
   rujukan: 'Kode Rujukan (KR)',
   pegon: 'Pegon',
   indo: 'Terjemah Indonesia',
-  catatan_nahwu: 'Catatan Nahwu'
+  irab: "I'rab"
 };
 
 function hapusMassal(field) {
@@ -808,8 +820,8 @@ function hapusMassal(field) {
     () => {
       DATA.halaman.forEach(hlm => {
         (hlm.kalimat||[]).forEach(kal => {
-          if (field === 'catatan_nahwu') {
-            kal.catatan_nahwu = '';
+          if (field === 'irab') {
+            kal.irab = '';
           } else {
             (kal.kata||[]).forEach(k => k[field] = '');
             (kal.frasa||[]).forEach(k => k[field] = '');
@@ -880,9 +892,9 @@ function gabungKalimat(hi, ki) {
   // Gabung kata-kata dan/atau frasa
   kal1.kata = (kal1.kata||[]).concat(kal2.kata||[]);
   kal1.frasa = (kal1.frasa||[]).concat(kal2.frasa||[]);
-  // Gabung catatan (jika ada keduanya)
-  if (kal2.catatan_nahwu) {
-    kal1.catatan_nahwu = [kal1.catatan_nahwu, kal2.catatan_nahwu].filter(Boolean).join(' — ');
+  // Gabung i'rab (jika ada keduanya)
+  if (kal2.irab) {
+    kal1.irab = [kal1.irab, kal2.irab].filter(Boolean).join(' — ');
   }
   // Hapus kalimat berikutnya
   hlm.kalimat.splice(ki + 1, 1);
@@ -987,4 +999,3 @@ cekDraftTersimpan();
 </script>
 </body>
 </html>
-
