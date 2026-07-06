@@ -480,8 +480,8 @@ body {
 
 /* FRASA UNIT (mirip Bidayatuna Instan) */
 .kata-unit { position: relative; }
-.kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; }
-.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; text-align: right; }
+.kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
 .kata-unit.is-frasa.edit-active { background: #fff7ed; }
 
 /* TOMBOL GABUNG UNIT */
