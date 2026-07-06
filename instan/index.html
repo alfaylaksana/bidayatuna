@@ -97,7 +97,7 @@
   .kata-unit.edit-active:hover { background: #ffedd5; }
 
   /* UNIT FRASA (lebih lebar dari kata, teks bebas panjang) */
-  .kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 340px; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale); border-radius: 8px; }
+  .kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale); border-radius: 8px; }
   .kata-unit.is-frasa.edit-active { background: #fff7ed; }
   .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; text-align: right; }
   .frasa-indo { font-size: 0.72rem; color: #374151; text-align: right; direction: rtl; line-height: 1.45; margin-top: 5px; width: 100%; transition: opacity 0.2s; }
@@ -152,6 +152,7 @@
   .btn-del-kata { background: var(--merah-pale); color: var(--merah); border: 1px solid #fca5a5; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; cursor: pointer; }
   .btn-split { background: #f5f3ff; color: #7c3aed; border: 1px solid #7c3aed; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; cursor: pointer; }
   .split-hint { font-size: 0.68rem; color: var(--abu-tua); margin: -6px 0 12px; direction: rtl; }
+  .btn-sisip-pisah { font-size: 0.64rem; background: white; border: 1px solid #7c3aed; color: #7c3aed; border-radius: 6px; padding: 2px 8px; cursor: pointer; margin-inline-start: 6px; }
   .irab-edit-area { width: 100%; min-height: 80px; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.82rem; outline: none; resize: vertical; direction: rtl; }
   .irab-edit-area:focus { border-color: var(--emas); }
 
@@ -230,7 +231,7 @@
           <button class="btn-sm" id="btnHapus" onclick="toggleDropdown()">🗑 Hapus ▾</button>
           <div class="dropdown-menu" id="dropdownHapus" style="right:0;left:auto;">
             <div class="dropdown-item" onclick="hapusMassal('kode_gram')"><span class="di-icon">⊙</span> Hapus Semua KG</div>
-            <div class="dropdown-item" onclick="hapusMassal('rujukan')"><span class="di-icon">□</span> Hapus Semua KR</div>
+            <div class="dropdown-item" onclick="hapusMassal('kr')"><span class="di-icon">□</span> Hapus Semua KR</div>
             <div class="dropdown-item" onclick="hapusMassal('pegon')"><span class="di-icon">ﺏ</span> Hapus Semua Pegon</div>
             <div class="dropdown-item" onclick="hapusMassal('indo')"><span class="di-icon">🇮🇩</span> Hapus Semua Terjemah</div>
             <div class="dropdown-item" onclick="hapusMassal('irab')"><span class="di-icon">📝</span> Hapus Semua I'rab</div>
@@ -280,7 +281,7 @@
       <label class="field-label">Teks Arab (dengan harakat)</label>
       <input class="field-input arab" id="editArab" type="text" oninput="updatePreview()">
     </div>
-    <div class="split-hint">✂ Mau pisah jadi dua unit? Taruh tanda <code>|</code> di titik pisah pada teks Arab di atas, lalu tap "Pisah".</div>
+    <div class="split-hint">✂ Mau pisah jadi dua unit? Taruh tanda <code>|</code> di titik pisah pada teks Arab di atas, lalu tap "Pisah". <button type="button" class="btn-sisip-pisah" onclick="sisipSimbolPisah()">Sisip｜di kursor</button></div>
     <div class="field-group">
       <label class="field-label">Kode Gramatikal (KG)</label>
       <input class="field-input" id="editKode" type="text" placeholder="م.م / ف.ر / ح ...">
@@ -650,8 +651,8 @@ function buildKataUnit(k, hi, ki, wi, total) {
 
   const rj = document.createElement('div');
   rj.className = 'kode-rujukan' + (togState.rujukan ? '' : ' hidden');
-  rj.textContent = k.rujukan || '';
-  if (!k.rujukan) rj.style.visibility = 'hidden';
+  rj.textContent = k.kr || '';
+  if (!k.kr) rj.style.visibility = 'hidden';
   unit.appendChild(rj);
 
   const pg = document.createElement('div');
@@ -690,8 +691,8 @@ function buildFrasaUnit(k, hi, ki, wi, total) {
 
   const rj = document.createElement('div');
   rj.className = 'kode-rujukan' + (togState.rujukan ? '' : ' hidden');
-  rj.textContent = k.rujukan || '';
-  if (!k.rujukan) rj.style.visibility = 'hidden';
+  rj.textContent = k.kr || '';
+  if (!k.kr) rj.style.visibility = 'hidden';
   unit.appendChild(rj);
 
   const pg = document.createElement('div');
@@ -746,7 +747,7 @@ function openKata(hi, ki, wi, type) {
   document.getElementById('editKode').value = k.kode_gram||'';
   document.getElementById('editPegon').value = k.pegon||'';
   document.getElementById('editIndo').value = k.indo||'';
-  document.getElementById('editRujukan').value = k.rujukan||'';
+  document.getElementById('editRujukan').value = k.kr||'';
   document.getElementById('modalPreview').textContent = k.arab||'';
   const kodeGroup = document.getElementById('editKode').closest('.field-group');
   if (kodeGroup) kodeGroup.style.display = (type==='frasa') ? 'none' : '';
@@ -764,7 +765,7 @@ function saveKata() {
   if (type !== 'frasa') k.kode_gram = document.getElementById('editKode').value.trim();
   k.pegon = document.getElementById('editPegon').value.trim();
   k.indo = document.getElementById('editIndo').value.trim();
-  k.rujukan = document.getElementById('editRujukan').value.trim();
+  k.kr = document.getElementById('editRujukan').value.trim();
   const unit = document.querySelector(`.kata-unit[data-hi="${hi}"][data-ki="${ki}"][data-wi="${wi}"][data-type="${type}"]`);
   if (unit) unit.replaceWith(type==='frasa' ? buildFrasaUnit(k,hi,ki,wi,DATA.halaman[hi].kalimat[ki][type].length) : buildKataUnit(k,hi,ki,wi,DATA.halaman[hi].kalimat[ki][type].length));
   applyHarakatMode();
@@ -805,7 +806,7 @@ function saveIrab() {
 // ============================================================
 const hapusLabel = {
   kode_gram: 'Kode Gramatikal (KG)',
-  rujukan: 'Kode Rujukan (KR)',
+  kr: 'Kode Rujukan (KR)',
   pegon: 'Pegon',
   indo: 'Terjemah Indonesia',
   irab: "I'rab"
@@ -913,7 +914,7 @@ function mergeUnit(hi, ki, wi, type) {
   const a = arr[wi], b = arr[wi + 1];
   const merged = {
     arab: [a.arab, b.arab].filter(Boolean).join(' '),
-    rujukan: '',
+    kr: '',
     pegon: '',
     indo: ''
   };
@@ -923,6 +924,16 @@ function mergeUnit(hi, ki, wi, type) {
   reapplyEditMode();
   showInfo('✅ Dua unit digabung. Lengkapi ulang KG/KR/Pegon/Terjemah unit hasil gabungan.');
   scheduleAutoSave();
+}
+
+function sisipSimbolPisah() {
+  const el = document.getElementById('editArab');
+  const start = el.selectionStart ?? el.value.length;
+  const end = el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0, start) + '|' + el.value.slice(end);
+  el.focus();
+  el.selectionStart = el.selectionEnd = start + 1;
+  updatePreview();
 }
 
 function splitKata() {
@@ -936,7 +947,7 @@ function splitKata() {
   if (parts.length < 2) { alert('Tidak ada dua bagian valid untuk dipisah.'); return; }
   const arr = DATA.halaman[hi].kalimat[ki][type];
   const newUnits = parts.map(p => {
-    const u = { arab: p, rujukan: '', pegon: '', indo: '' };
+    const u = { arab: p, kr: '', pegon: '', indo: '' };
     if (type === 'kata') u.kode_gram = '';
     return u;
   });
