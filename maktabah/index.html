@@ -478,6 +478,26 @@ body {
 }
 .rujukan-row.hidden { opacity: 0; pointer-events: none; }
 
+/* FRASA UNIT (mirip Bidayatuna Instan) */
+.kata-unit { position: relative; }
+.kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; }
+.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; text-align: right; }
+.kata-unit.is-frasa.edit-active { background: #fff7ed; }
+
+/* TOMBOL GABUNG UNIT */
+.unit-merge-btn { display: none; position: absolute; top: -8px; left: -8px; background: #7c3aed; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.6rem; align-items: center; justify-content: center; cursor: pointer; z-index: 5; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+.kata-unit.edit-active .unit-merge-btn { display: flex; }
+
+/* TOMBOL & HINT PISAH */
+.split-hint { font-size: 0.68rem; color: var(--abu-tua); margin: -6px 0 12px; direction: rtl; }
+.btn-sisip-pisah { font-size: 0.64rem; background: white; border: 1px solid #7c3aed; color: #7c3aed; border-radius: 6px; padding: 2px 8px; cursor: pointer; margin-inline-start: 6px; }
+.btn-split { background: #f5f3ff; color: #7c3aed; border: 1px solid #7c3aed; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; cursor: pointer; }
+
+/* NAV SILANG ANTAR TOOL */
+.cross-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: white; border-bottom: 1px solid var(--border, #e5e0d5); }
+.cross-nav a { font-size: 0.68rem; padding: 4px 10px; border-radius: 999px; background: var(--emas-pale); color: #5a4500; text-decoration: none; border: 1px solid var(--emas); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+.cross-nav a .soon { font-size: 0.56rem; opacity: 0.65; }
+
 .pegon-text {
   font-size: 0.67rem;
   color: #1a4a8a;
@@ -895,6 +915,13 @@ body {
   <button class="btn-tambah-header" onclick="bukaModalTambah()">＋ Tambah Kitab</button>
 </div>
 
+<div class="cross-nav">
+  <a href="https://alfaylaksana.github.io/Ar-Risalah/" target="_blank">📖 Ar-Risalah</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/instan/index.html" target="_blank">✍️ Instan</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashayat/index.html" target="_blank">🔁 Flashayat</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard <span class="soon">segera</span></a>
+</div>
+
 <!-- ===== HALAMAN DAFTAR ===== -->
 <div id="halamanDaftar">
   <div class="container">
@@ -1016,6 +1043,10 @@ body {
       </label>
       <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="bacaFileImport(event)">
     </div>
+    <div class="field-group">
+      <label class="field-label">Atau paste JSON langsung di sini (lebih praktis dari Instan):</label>
+      <textarea class="field-input" id="importPasteArea" rows="4" style="font-family:monospace;font-size:0.7rem;direction:ltr;text-align:left" placeholder='{"halaman": [...]}' oninput="bacaPasteImport()"></textarea>
+    </div>
     <div id="importError" style="display:none;color:var(--merah);font-size:0.75rem;margin-top:6px;"></div>
     <div class="modal-btns">
       <button class="btn-save" onclick="prosesImport(false)">＋ Tambahkan</button>
@@ -1029,7 +1060,7 @@ body {
 <div class="modal-overlay" id="modalKata">
   <div class="modal">
     <div class="modal-title">
-      <span>✏️ Edit Kata</span>
+      <span id="modalKataTitle">✏️ Edit Kata</span>
       <button class="modal-close" onclick="closeModal('modalKata')">✕</button>
     </div>
     <div class="modal-preview" id="modalPreview">—</div>
@@ -1037,7 +1068,8 @@ body {
       <label class="field-label">Teks Arab (dengan harakat)</label>
       <input class="field-input arab" id="editArab" type="text" oninput="updatePreview()">
     </div>
-    <div class="field-group">
+    <div class="split-hint">✂ Mau pisah jadi dua unit? Taruh tanda <code>|</code> di titik pisah pada teks Arab di atas, lalu tap "Pisah". <button type="button" class="btn-sisip-pisah" onclick="sisipSimbolPisah()">Sisip｜di kursor</button></div>
+    <div class="field-group" id="groupKode">
       <label class="field-label">Kode Gramatikal (KG)</label>
       <input class="field-input" id="editKode" type="text" placeholder="م.م / ف.ر / ح ...">
     </div>
@@ -1058,12 +1090,8 @@ body {
       <input class="field-input irab-input" id="editIrab" type="text" placeholder="مُبْتَدَأٌ مَرْفُوعٌ...">
     </div>
     <div class="field-group">
-      <label class="field-label">KR Target (angka, mis. ٢)</label>
-      <input class="field-input" id="editKrTarget" type="text" style="max-width:80px">
-    </div>
-    <div class="field-group">
-      <label class="field-label">KR Dhamir (angka dalam [ ], mis. ٢)</label>
-      <input class="field-input" id="editKrDhamir" type="text" style="max-width:80px">
+      <label class="field-label">Kode Rujukan (KR)</label>
+      <input class="field-input" id="editKr" type="text" style="max-width:80px">
     </div>
     <div class="field-group">
       <label class="field-label">Nomor Ayat (lingkaran besar)</label>
@@ -1071,6 +1099,7 @@ body {
     </div>
     <div class="modal-btns">
       <button class="btn-save" onclick="saveKata()">✓ Simpan</button>
+      <button class="btn-split" onclick="splitKata()">✂ Pisah</button>
       <button class="btn-cancel" onclick="closeModal('modalKata')">Batal</button>
       <button class="btn-del" onclick="deleteKata()">🗑 Hapus Kata</button>
     </div>
@@ -1193,7 +1222,12 @@ window.togView          = togView;
 window.toggleEditMode   = toggleEditMode;
 window.updatePreview    = updatePreview;
 window.bacaFileImport   = bacaFileImport;
+window.bacaPasteImport  = bacaPasteImport;
 window.openKata         = openKata;
+window.mergeUnit        = mergeUnit;
+window.splitKata        = splitKata;
+window.sisipSimbolPisah = sisipSimbolPisah;
+window.shareKitab       = shareKitab;
 
 // ============================================================
 // INIT
@@ -1203,6 +1237,10 @@ async function init() {
     toast('⏳ Memuat data dari server...');
     koleksi = await dbGetAll();
     renderDaftar();
+    const idDariUrl = new URLSearchParams(window.location.search).get('kitab');
+    if (idDariUrl && koleksi.find(k => k.id === idDariUrl)) {
+      bukaKitab(idDariUrl);
+    }
   } catch(err) {
     toast('❌ Gagal memuat data: ' + (err && err.message ? err.message : err));
     console.error('init error:', err);
@@ -1251,6 +1289,7 @@ function renderDaftar() {
       <div class="kartu-actions">
         <button class="btn-kartu buka" onclick="bukaKitab('${k.id}')">📖 Buka</button>
         <button class="btn-kartu"      onclick="editKitabMeta('${k.id}')">✏️ Edit Info</button>
+        <button class="btn-kartu"      onclick="shareKitab('${k.id}')">🔗 Share</button>
         <button class="btn-kartu hapus" onclick="hapusKitab('${k.id}')">🗑</button>
       </div>`;
     grid.appendChild(card);
@@ -1263,6 +1302,9 @@ function renderDaftar() {
 function bukaKitab(id) {
   kitabAktif = koleksi.find(k => k.id === id);
   if (!kitabAktif) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set('kitab', id);
+  window.history.replaceState({}, '', url);
   document.getElementById('halamanDaftar').style.display = 'none';
   document.getElementById('halamanBaca').style.display   = 'block';
   document.getElementById('bacaJudulArab').textContent   = kitabAktif.judulArab  || '—';
@@ -1277,11 +1319,28 @@ function bukaKitab(id) {
 
 function kembaliDaftar() {
   kitabAktif = null;
+  const url = new URL(window.location.href);
+  url.searchParams.delete('kitab');
+  window.history.replaceState({}, '', url);
   document.getElementById('halamanDaftar').style.display = 'block';
   document.getElementById('halamanBaca').style.display   = 'none';
   document.getElementById('exportWrap').classList.remove('show');
   matikanReminder();
   renderDaftar();
+}
+
+function shareKitab(id) {
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.searchParams.set('kitab', id);
+  const link = url.toString();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link)
+      .then(() => toast('🔗 Link kitab disalin ke clipboard!'))
+      .catch(() => toast('Link: ' + link));
+  } else {
+    toast('Link: ' + link);
+  }
 }
 
 function resetTogUI() {
@@ -1333,8 +1392,11 @@ function buildDisplay() {
       const kWrap = document.createElement('div');
       kWrap.className = 'kalimat-wrap';
 
-      (kal.kata || []).forEach((k, wi) => {
-        kWrap.appendChild(buildKataUnit(k, hi, ki, wi));
+      const useFrasa = !!(kal.frasa && kal.frasa.length);
+      const units = useFrasa ? kal.frasa : (kal.kata || []);
+      const type = useFrasa ? 'frasa' : 'kata';
+      units.forEach((k, wi) => {
+        kWrap.appendChild(buildKataUnit(k, hi, ki, wi, units.length, type));
         if (k.rujukan) {
           const nomorEl = document.createElement('span');
           nomorEl.className = 'nomor-ayat' + (togState.rujukan ? '' : ' hidden');
@@ -1370,54 +1432,56 @@ function buildDisplay() {
   applyHarakatMode();
 }
 
-function buildKataUnit(k, hi, ki, wi) {
+function buildKataUnit(k, hi, ki, wi, total, type) {
+  type = type || 'kata';
   const unit = document.createElement('div');
-  unit.className = 'kata-unit' + (editMode ? ' edit-active' : '');
-  unit.dataset.hi = hi; unit.dataset.ki = ki; unit.dataset.wi = wi;
-  if (editMode) unit.onclick = () => openKata(hi, ki, wi);
+  unit.className = 'kata-unit' + (type === 'frasa' ? ' is-frasa' : '') + (editMode ? ' edit-active' : '');
+  unit.dataset.hi = hi; unit.dataset.ki = ki; unit.dataset.wi = wi; unit.dataset.type = type;
+  if (editMode) unit.onclick = () => openKata(hi, ki, wi, type);
 
-  // Kode Gramatikal — pills
-  const kgWrap = document.createElement('div');
-  kgWrap.className = 'kode-gram-wrap';
-  const kodes = (k.kode_gram || '').split(/[\s\/]+/).filter(Boolean);
-  if (kodes.length) {
-    kodes.forEach(kg => {
-      const pill = document.createElement('span');
-      pill.className = 'kg-pill' + (togState.kode ? '' : ' hidden') + (/^\.{2,}$/.test(kg) ? ' murojaah' : '');
-      pill.textContent = kg;
-      kgWrap.appendChild(pill);
-    });
-  } else {
-    // Tidak ada kode gramatikal — biarkan kosong, jangan tampilkan placeholder
+  if (editMode && total && wi < total - 1) {
+    const mg = document.createElement('div');
+    mg.className = 'unit-merge-btn';
+    mg.textContent = '🔗';
+    mg.title = 'Gabung dengan unit berikutnya';
+    mg.onclick = (e) => { e.stopPropagation(); mergeUnit(hi, ki, wi, type); };
+    unit.appendChild(mg);
   }
-  unit.appendChild(kgWrap);
+
+  // Kode Gramatikal — pills (hanya mode kata)
+  if (type !== 'frasa') {
+    const kgWrap = document.createElement('div');
+    kgWrap.className = 'kode-gram-wrap';
+    const kodes = (k.kode_gram || '').split(/[\s\/]+/).filter(Boolean);
+    if (kodes.length) {
+      kodes.forEach(kg => {
+        const pill = document.createElement('span');
+        pill.className = 'kg-pill' + (togState.kode ? '' : ' hidden') + (/^\.{2,}$/.test(kg) ? ' murojaah' : '');
+        pill.textContent = kg;
+        kgWrap.appendChild(pill);
+      });
+    }
+    unit.appendChild(kgWrap);
+  }
 
   // Arab
   const ar = document.createElement('div');
-  ar.className = 'arab-text';
+  ar.className = 'arab-text' + (type === 'frasa' ? ' frasa-arab' : '');
   ar.dataset.orig = k.arab || '';
   ar.textContent = k.arab || '';
   unit.appendChild(ar);
 
-  // Kode Rujukan (KR) — kotak target & dhamir, di bawah Arab
+  // Kode Rujukan (KR) — satu kotak saja
   const rrow = document.createElement('div');
   rrow.className = 'rujukan-row' + (togState.rujukan ? '' : ' hidden');
-  let adaRujukan = false;
-  if (k.kr_target) {
+  if (k.kr) {
     const rt = document.createElement('div');
     rt.className = 'rujukan-target';
-    rt.textContent = k.kr_target;
+    rt.textContent = k.kr;
     rrow.appendChild(rt);
-    adaRujukan = true;
+  } else {
+    rrow.style.visibility = 'hidden';
   }
-  if (k.kr_dhamir) {
-    const rd = document.createElement('div');
-    rd.className = 'rujukan-dhamir';
-    rd.textContent = '→' + k.kr_dhamir;
-    rrow.appendChild(rd);
-    adaRujukan = true;
-  }
-  if (!adaRujukan) rrow.style.visibility = 'hidden';
   unit.appendChild(rrow);
 
   // Pegon
@@ -1527,20 +1591,24 @@ function toggleEditMode() {
 // ============================================================
 // MODAL KATA
 // ============================================================
-function openKata(hi, ki, wi) {
+function openKata(hi, ki, wi, type) {
   if (!editMode || !kitabAktif) return;
-  editTarget = {hi, ki, wi};
-  const k = kitabAktif.halaman[hi].kalimat[ki].kata[wi];
+  type = type || 'kata';
+  editTarget = {hi, ki, wi, type};
+  const k = kitabAktif.halaman[hi].kalimat[ki][type][wi];
   document.getElementById('editArab').value    = k.arab    || '';
   document.getElementById('editKode').value    = k.kode_gram || '';
   document.getElementById('editPegon').value   = k.pegon   || '';
   document.getElementById('editPegonJawa').value = k.pegonJawa || '';
   document.getElementById('editIndo').value    = k.indo    || '';
   document.getElementById('editIrab').value    = k.irab    || '';
-  document.getElementById('editKrTarget').value = k.kr_target || '';
-  document.getElementById('editKrDhamir').value = k.kr_dhamir || '';
+  document.getElementById('editKr').value      = k.kr      || '';
   document.getElementById('editRujukan').value = k.rujukan || '';
   document.getElementById('modalPreview').textContent = k.arab || '—';
+  const kodeGroup = document.getElementById('groupKode');
+  if (kodeGroup) kodeGroup.style.display = (type === 'frasa') ? 'none' : '';
+  const titleEl = document.getElementById('modalKataTitle');
+  if (titleEl) titleEl.textContent = type === 'frasa' ? '✏️ Edit Frasa' : '✏️ Edit Kata';
   openModal('modalKata');
 }
 function updatePreview() {
@@ -1548,16 +1616,15 @@ function updatePreview() {
 }
 function saveKata() {
   if (!editTarget || !kitabAktif) return;
-  const {hi, ki, wi} = editTarget;
-  const k = kitabAktif.halaman[hi].kalimat[ki].kata[wi];
+  const {hi, ki, wi, type} = editTarget;
+  const k = kitabAktif.halaman[hi].kalimat[ki][type][wi];
   k.arab     = document.getElementById('editArab').value.trim();
-  k.kode_gram = document.getElementById('editKode').value.trim();
+  if (type !== 'frasa') k.kode_gram = document.getElementById('editKode').value.trim();
   k.pegon    = document.getElementById('editPegon').value.trim();
   k.pegonJawa = document.getElementById('editPegonJawa').value.trim();
   k.indo     = document.getElementById('editIndo').value.trim();
   k.irab     = document.getElementById('editIrab').value.trim();
-  k.kr_target = document.getElementById('editKrTarget').value.trim();
-  k.kr_dhamir = document.getElementById('editKrDhamir').value.trim();
+  k.kr       = document.getElementById('editKr').value.trim();
   k.rujukan  = document.getElementById('editRujukan').value.trim();
   closeModal('modalKata');
   simpanKitabAktif();
@@ -1567,13 +1634,65 @@ function saveKata() {
 }
 function deleteKata() {
   if (!editTarget || !kitabAktif) return;
-  const {hi, ki, wi} = editTarget;
-  kitabAktif.halaman[hi].kalimat[ki].kata.splice(wi, 1);
+  const {hi, ki, wi, type} = editTarget;
+  kitabAktif.halaman[hi].kalimat[ki][type].splice(wi, 1);
   closeModal('modalKata');
   simpanKitabAktif();
   tandaiPerubahan();
   buildDisplay();
   reapplyEditMode();
+}
+
+function sisipSimbolPisah() {
+  const el = document.getElementById('editArab');
+  const start = el.selectionStart ?? el.value.length;
+  const end = el.selectionEnd ?? el.value.length;
+  el.value = el.value.slice(0, start) + '|' + el.value.slice(end);
+  el.focus();
+  el.selectionStart = el.selectionEnd = start + 1;
+  updatePreview();
+}
+
+function mergeUnit(hi, ki, wi, type) {
+  const arr = kitabAktif.halaman[hi].kalimat[ki][type];
+  if (wi >= arr.length - 1) return;
+  const a = arr[wi], b = arr[wi + 1];
+  const merged = {
+    arab: [a.arab, b.arab].filter(Boolean).join(' '),
+    kr: '', pegon: '', pegonJawa: '', indo: '', irab: '', rujukan: ''
+  };
+  if (type === 'kata') merged.kode_gram = '';
+  arr.splice(wi, 2, merged);
+  simpanKitabAktif();
+  tandaiPerubahan();
+  buildDisplay();
+  reapplyEditMode();
+  toast('✅ Dua unit digabung. Lengkapi ulang datanya.');
+}
+
+function splitKata() {
+  if (!editTarget || !kitabAktif) return;
+  const {hi, ki, wi, type} = editTarget;
+  const arabVal = document.getElementById('editArab').value;
+  if (!arabVal.includes('|')) {
+    alert('Taruh tanda | di teks Arab pada titik yang mau dipisah, lalu tap ✂ Pisah lagi.\n\nContoh: علی|رسول الله');
+    return;
+  }
+  const parts = arabVal.split('|').map(s => s.trim()).filter(Boolean);
+  if (parts.length < 2) { alert('Tidak ada dua bagian valid untuk dipisah.'); return; }
+  const arr = kitabAktif.halaman[hi].kalimat[ki][type];
+  const newUnits = parts.map(p => {
+    const u = { arab: p, kr: '', pegon: '', pegonJawa: '', indo: '', irab: '', rujukan: '' };
+    if (type === 'kata') u.kode_gram = '';
+    return u;
+  });
+  arr.splice(wi, 1, ...newUnits);
+  closeModal('modalKata');
+  simpanKitabAktif();
+  tandaiPerubahan();
+  buildDisplay();
+  reapplyEditMode();
+  toast(`✅ Dipisah jadi ${newUnits.length} unit. Lengkapi ulang datanya.`);
 }
 
 // ============================================================
@@ -1604,7 +1723,8 @@ function gabungKalimat(hi, ki) {
   if (ki >= hlm.kalimat.length - 1) return;
   const kal1 = hlm.kalimat[ki];
   const kal2 = hlm.kalimat[ki + 1];
-  kal1.kata = kal1.kata.concat(kal2.kata);
+  const key = (kal1.frasa && kal1.frasa.length) || (kal2.frasa && kal2.frasa.length) ? 'frasa' : 'kata';
+  kal1[key] = (kal1[key] || []).concat(kal2[key] || []);
   if (kal2.catatan_nahwu) {
     kal1.catatan_nahwu = [kal1.catatan_nahwu, kal2.catatan_nahwu].filter(Boolean).join(' — ');
   }
@@ -1620,8 +1740,8 @@ function reapplyEditMode() {
   if (!editMode) return;
   document.querySelectorAll('.kata-unit').forEach(u => {
     u.classList.add('edit-active');
-    const h = +u.dataset.hi, k = +u.dataset.ki, w = +u.dataset.wi;
-    u.onclick = () => openKata(h, k, w);
+    const h = +u.dataset.hi, k = +u.dataset.ki, w = +u.dataset.wi, t = u.dataset.type || 'kata';
+    u.onclick = () => openKata(h, k, w, t);
   });
   document.querySelectorAll('.cat-edit-btn').forEach(b => b.style.display = 'inline');
   document.querySelectorAll('.kal-gabung-btn').forEach(b => {
@@ -1732,10 +1852,26 @@ let isiFileImport = null;
 function bukaModalImport() {
   document.getElementById('importFile').value = '';
   document.getElementById('fileNamaTerpilih').textContent = 'Tidak ada file dipilih';
+  document.getElementById('importPasteArea').value = '';
   document.getElementById('importError').style.display = 'none';
   isiFileImport = null;
   pilihSumberImport('instan');
   openModal('modalImport');
+}
+
+function bacaPasteImport() {
+  const teks = document.getElementById('importPasteArea').value.trim();
+  const errEl = document.getElementById('importError');
+  errEl.style.display = 'none';
+  if (!teks) { return; }
+  try {
+    isiFileImport = JSON.parse(teks);
+    document.getElementById('fileNamaTerpilih').textContent = '📋 Teks tempel ✓ valid JSON';
+  } catch (err) {
+    isiFileImport = null;
+    errEl.textContent = 'Teks yang ditempel bukan JSON yang valid: ' + err.message;
+    errEl.style.display = 'block';
+  }
 }
 
 function pilihSumberImport(src) {
@@ -1820,11 +1956,11 @@ function konversiArRisalah(data) {
 
       const kataKonversi = kataList.map(k => {
         const { kg, krTarget, krDhamir } = pisahKodeGramRujukan(k.kode || '');
+        const kr = krTarget + (krDhamir ? `[${krDhamir}]` : '');
         return {
           arab:       k.arab || '',
           kode_gram:  kg,
-          kr_target:  krTarget,
-          kr_dhamir:  krDhamir,
+          kr:         kr,
           pegon:      k.maknaIndo || '',
           pegonJawa:  k.maknaJawa || '',
           indo:       '',
