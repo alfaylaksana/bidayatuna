@@ -99,7 +99,7 @@
   /* UNIT FRASA (lebih lebar dari kata, teks bebas panjang) */
   .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-frasa.edit-active { background: #fff7ed; }
-  .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 6px 10px; background: white; border: 1px solid var(--emas-pale); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
   .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
   .frasa-indo { font-size: 0.72rem; color: #374151; text-align: right; direction: rtl; line-height: 1.45; margin-top: 5px; width: 100%; transition: opacity 0.2s; }
@@ -227,7 +227,6 @@
       <div class="output-title">📄 Tampilan Ar-Risalah <span class="draft-status" id="draftStatus"></span></div>
       <div class="output-btns">
         <button class="btn-sm" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
-        <button class="btn-sm" onclick="debugLebarFrasa()" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;">🔍 Debug Wrap</button>
 
         <!-- DROPDOWN HAPUS -->
         <div class="dropdown-wrap">
@@ -645,27 +644,6 @@ function paksaAntiWrapFrasa() {
     }
   });
 }
-
-function debugLebarFrasa() {
-  const boxes = document.querySelectorAll('.kata-unit.is-frasa, .kata-unit.is-wide');
-  if (!boxes.length) { alert('Belum ada frasa/kata-gabungan yang tampil di layar.'); return; }
-  let laporan = [];
-  boxes.forEach((box, i) => {
-    const ar = box.querySelector('.arab-text');
-    if (!ar) return;
-    const csBox = getComputedStyle(box);
-    const csAr = getComputedStyle(ar);
-    laporan.push(
-      `#${i+1} [${box.classList.contains('is-frasa')?'FRASA':'KATA-GABUNG'}] "${ar.textContent.slice(0,20)}"\n` +
-      `  box: offsetWidth=${box.offsetWidth}px scrollWidth=${box.scrollWidth}px\n` +
-      `  box computed: width=${csBox.width} max-width=${csBox.maxWidth} flex-shrink=${csBox.flexShrink} display=${csBox.display} overflow-x=${csBox.overflowX}\n` +
-      `  arab: offsetWidth=${ar.offsetWidth}px scrollWidth=${ar.scrollWidth}px\n` +
-      `  arab computed: white-space=${csAr.whiteSpace} width=${csAr.width} display=${csAr.display}`
-    );
-  });
-  alert(laporan.join('\n\n'));
-}
-window.debugLebarFrasa = debugLebarFrasa;
 
 function buildKataUnit(k, hi, ki, wi, total) {
   const unit = document.createElement('div');
