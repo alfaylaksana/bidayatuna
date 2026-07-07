@@ -225,6 +225,7 @@
       <div class="output-title">📄 Tampilan Ar-Risalah <span class="draft-status" id="draftStatus"></span></div>
       <div class="output-btns">
         <button class="btn-sm" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
+        <button class="btn-sm" onclick="debugLebarFrasa()" style="background:#fee2e2;color:#b91c1c;border-color:#fca5a5;">🔍 Debug Wrap</button>
 
         <!-- DROPDOWN HAPUS -->
         <div class="dropdown-wrap">
@@ -642,6 +643,27 @@ function paksaAntiWrapFrasa() {
     }
   });
 }
+
+function debugLebarFrasa() {
+  const boxes = document.querySelectorAll('.kata-unit.is-frasa');
+  if (!boxes.length) { alert('Belum ada frasa yang tampil di layar.'); return; }
+  let laporan = [];
+  boxes.forEach((box, i) => {
+    const ar = box.querySelector('.frasa-arab');
+    if (!ar) return;
+    const csBox = getComputedStyle(box);
+    const csAr = getComputedStyle(ar);
+    laporan.push(
+      `#${i+1} "${ar.textContent.slice(0,20)}"\n` +
+      `  box: offsetWidth=${box.offsetWidth}px scrollWidth=${box.scrollWidth}px\n` +
+      `  box computed: width=${csBox.width} max-width=${csBox.maxWidth} flex-shrink=${csBox.flexShrink} display=${csBox.display} overflow-x=${csBox.overflowX}\n` +
+      `  arab: offsetWidth=${ar.offsetWidth}px scrollWidth=${ar.scrollWidth}px\n` +
+      `  arab computed: white-space=${csAr.whiteSpace} width=${csAr.width} display=${csAr.display}`
+    );
+  });
+  alert(laporan.join('\n\n'));
+}
+window.debugLebarFrasa = debugLebarFrasa;
 
 function buildKataUnit(k, hi, ki, wi, total) {
   const unit = document.createElement('div');
