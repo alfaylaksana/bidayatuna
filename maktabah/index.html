@@ -480,9 +480,11 @@ body {
 
 /* FRASA UNIT (mirip Bidayatuna Instan) */
 .kata-unit { position: relative; }
-.kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
 .kata-unit.is-frasa.edit-active { background: #fff7ed; }
+.kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
 
 /* TOMBOL GABUNG UNIT */
 .unit-merge-btn { display: none; position: absolute; top: -8px; left: -8px; background: #7c3aed; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.6rem; align-items: center; justify-content: center; cursor: pointer; z-index: 5; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
@@ -1430,12 +1432,30 @@ function buildDisplay() {
   });
 
   applyHarakatMode();
+  paksaAntiWrapFrasa();
+}
+
+function paksaAntiWrapFrasa() {
+  document.querySelectorAll('.kata-unit.is-frasa, .kata-unit.is-wide').forEach(unit => {
+    unit.style.flexShrink = '0';
+    unit.style.flexGrow = '0';
+    unit.style.width = 'max-content';
+    unit.style.maxWidth = '480px';
+    unit.style.overflowX = 'auto';
+    const ar = unit.querySelector('.arab-text');
+    if (ar) {
+      ar.style.whiteSpace = 'nowrap';
+      ar.style.width = 'auto';
+      ar.style.display = 'inline-block';
+    }
+  });
 }
 
 function buildKataUnit(k, hi, ki, wi, total, type) {
   type = type || 'kata';
   const unit = document.createElement('div');
-  unit.className = 'kata-unit' + (type === 'frasa' ? ' is-frasa' : '') + (editMode ? ' edit-active' : '');
+  const isWide = type !== 'frasa' && /\s/.test((k.arab || '').trim());
+  unit.className = 'kata-unit' + (type === 'frasa' ? ' is-frasa' : '') + (isWide ? ' is-wide' : '') + (editMode ? ' edit-active' : '');
   unit.dataset.hi = hi; unit.dataset.ki = ki; unit.dataset.wi = wi; unit.dataset.type = type;
   if (editMode) unit.onclick = () => openKata(hi, ki, wi, type);
 
