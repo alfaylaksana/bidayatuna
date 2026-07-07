@@ -953,7 +953,7 @@ function splitKata() {
   });
   arr.splice(wi, 1, ...newUnits);
   buildDisplay();
-  reapplyEditMode();
+  reapplyEditMode()
   closeModal('modalKata');
   showInfo(`✅ Dipisah jadi ${newUnits.length} unit. Lengkapi ulang KG/KR/Pegon/Terjemah masing-masing.`);
   scheduleAutoSave();
@@ -976,7 +976,7 @@ function copyExport() {
   const btn = event.target;
   const orig = btn.textContent;
   btn.textContent = '✓ Tersalin!';
-  setTimeout(()=>btn.textContent=orig,1500);
+  setTimeout(()=>btn.textContent=orig,1500);y
 }
 
 // ============================================================
