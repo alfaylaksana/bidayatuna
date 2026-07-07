@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uji Coba Wrap</title>
+<style>
+  body { font-family: sans-serif; padding: 16px; background: #f5f5f0; }
+  .kalimat-wrap { display: flex; flex-wrap: wrap; gap: 6px 12px; direction: rtl; justify-content: flex-start; margin-bottom: 10px; padding: 12px; background: #ece9e2; border-radius: 8px; }
+  .kata-unit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 38px; max-width: 120px; border-radius: 6px; padding: 2px; }
+  .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: max-content; padding: 8px 10px; background: white; border: 1px solid #d8f3dc; border-radius: 8px; overflow-x: auto; }
+  .arab-text { font-family: 'Traditional Arabic','Scheherazade New','Amiri',serif; font-size: 1.3rem; line-height: 1.7; text-align: center; direction: rtl; }
+  .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
+  .keterangan { font-size: 0.8rem; color: #666; margin-bottom: 4px; }
+  .hasil { font-size: 0.75rem; color: #b7950b; margin-top: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+
+  <div class="keterangan">TES 1 — murni CSS statis (tanpa JS sama sekali):</div>
+  <div class="kalimat-wrap">
+    <div class="kata-unit is-frasa">
+      <div class="arab-text frasa-arab">وَجُمْلَةٍ مِنْ فُرُوْعِهِ</div>
+    </div>
+  </div>
+
+  <div class="keterangan">TES 2 — dengan inline style langsung di HTML (paling maksimal prioritasnya):</div>
+  <div class="kalimat-wrap">
+    <div class="kata-unit is-frasa" style="flex-shrink:0;flex-grow:0;width:max-content;max-width:480px;overflow-x:auto;">
+      <div class="arab-text frasa-arab" style="white-space:nowrap;width:auto;">وَجُمْلَةٍ مِنْ فُرُوْعِهِ</div>
+    </div>
+  </div>
+
+  <div class="keterangan">TES 3 — kalimat lain yang juga bermasalah:</div>
+  <div class="kalimat-wrap">
+    <div class="kata-unit is-frasa" style="flex-shrink:0;flex-grow:0;width:max-content;max-width:480px;overflow-x:auto;">
+      <div class="arab-text frasa-arab" style="white-space:nowrap;width:auto;">الدِّيْنِ وَبَعْضِ فُرُوْعِ الشَّرِيعَةِ</div>
+    </div>
+  </div>
+
+  <div class="hasil" id="hasilUkur"></div>
+
+  <script>
+    // Ukur lebar asli teks vs lebar box yang kepakai
+    window.onload = function() {
+      const boxes = document.querySelectorAll('.kata-unit.is-frasa');
+      let laporan = [];
+      boxes.forEach((box, i) => {
+        const ar = box.querySelector('.frasa-arab');
+        laporan.push(
+          `Box ${i+1}: lebar box=${box.offsetWidth}px, lebar teks asli=${ar.scrollWidth}px, ` +
+          `computed white-space=${getComputedStyle(ar).whiteSpace}, ` +
+          `computed width box=${getComputedStyle(box).width}, ` +
+          `computed flex-shrink box=${getComputedStyle(box).flexShrink}`
+        );
+      });
+      document.getElementById('hasilUkur').innerHTML = laporan.join('<br><br>');
+    };
+  </script>
+</body>
+</html>
