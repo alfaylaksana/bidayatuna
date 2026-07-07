@@ -99,6 +99,8 @@
   /* UNIT FRASA (lebih lebar dari kata, teks bebas panjang) */
   .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-frasa.edit-active { background: #fff7ed; }
+  .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 6px 10px; background: white; border: 1px solid var(--emas-pale); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
   .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
   .frasa-indo { font-size: 0.72rem; color: #374151; text-align: right; direction: rtl; line-height: 1.45; margin-top: 5px; width: 100%; transition: opacity 0.2s; }
   .frasa-indo.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; margin: 0; }
@@ -629,13 +631,13 @@ function buildDisplay() {
 // stylesheet manapun) — jaring pengaman kalau CSS murni gagal karena alasan
 // yang belum ketemu.
 function paksaAntiWrapFrasa() {
-  document.querySelectorAll('.kata-unit.is-frasa').forEach(unit => {
+  document.querySelectorAll('.kata-unit.is-frasa, .kata-unit.is-wide').forEach(unit => {
     unit.style.flexShrink = '0';
     unit.style.flexGrow = '0';
     unit.style.width = 'max-content';
     unit.style.maxWidth = '480px';
     unit.style.overflowX = 'auto';
-    const ar = unit.querySelector('.arab-text.frasa-arab');
+    const ar = unit.querySelector('.arab-text');
     if (ar) {
       ar.style.whiteSpace = 'nowrap';
       ar.style.width = 'auto';
@@ -645,16 +647,16 @@ function paksaAntiWrapFrasa() {
 }
 
 function debugLebarFrasa() {
-  const boxes = document.querySelectorAll('.kata-unit.is-frasa');
-  if (!boxes.length) { alert('Belum ada frasa yang tampil di layar.'); return; }
+  const boxes = document.querySelectorAll('.kata-unit.is-frasa, .kata-unit.is-wide');
+  if (!boxes.length) { alert('Belum ada frasa/kata-gabungan yang tampil di layar.'); return; }
   let laporan = [];
   boxes.forEach((box, i) => {
-    const ar = box.querySelector('.frasa-arab');
+    const ar = box.querySelector('.arab-text');
     if (!ar) return;
     const csBox = getComputedStyle(box);
     const csAr = getComputedStyle(ar);
     laporan.push(
-      `#${i+1} "${ar.textContent.slice(0,20)}"\n` +
+      `#${i+1} [${box.classList.contains('is-frasa')?'FRASA':'KATA-GABUNG'}] "${ar.textContent.slice(0,20)}"\n` +
       `  box: offsetWidth=${box.offsetWidth}px scrollWidth=${box.scrollWidth}px\n` +
       `  box computed: width=${csBox.width} max-width=${csBox.maxWidth} flex-shrink=${csBox.flexShrink} display=${csBox.display} overflow-x=${csBox.overflowX}\n` +
       `  arab: offsetWidth=${ar.offsetWidth}px scrollWidth=${ar.scrollWidth}px\n` +
@@ -667,7 +669,8 @@ window.debugLebarFrasa = debugLebarFrasa;
 
 function buildKataUnit(k, hi, ki, wi, total) {
   const unit = document.createElement('div');
-  unit.className = 'kata-unit' + (editMode ? ' edit-active' : '');
+  const isWide = /\s/.test((k.arab || '').trim());
+  unit.className = 'kata-unit' + (isWide ? ' is-wide' : '') + (editMode ? ' edit-active' : '');
   unit.dataset.hi = hi; unit.dataset.ki = ki; unit.dataset.wi = wi; unit.dataset.type = 'kata';
   if (editMode) unit.onclick = () => openKata(hi, ki, wi, 'kata');
 
