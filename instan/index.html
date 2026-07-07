@@ -157,68 +157,27 @@
   .irab-edit-area:focus { border-color: var(--emas); }
 
   /* EXPORT */
-.export-section { display: none; margin-top: 14px; }
-.export-section.show { display: block; }
-.export-box { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 14px; }
-.export-title { font-size: 0.78rem; font-weight: 600; color: var(--hijau); margin-bottom: 8px; direction: rtl; }
-.export-textarea { width: 100%; min-height: 120px; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.7rem; font-family: monospace; direction: ltr; color: #374151; outline: none; resize: vertical; }
-.btn-copy { width: 100%; margin-top: 8px; background: var(--hijau); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .export-section { display: none; margin-top: 14px; }
+  .export-section.show { display: block; }
+  .export-box { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 14px; }
+  .export-title { font-size: 0.78rem; font-weight: 600; color: var(--hijau); margin-bottom: 8px; direction: rtl; }
+  .export-textarea { width: 100%; min-height: 120px; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.7rem; font-family: monospace; direction: ltr; color: #374151; outline: none; resize: vertical; }
+  .btn-copy { width: 100%; margin-top: 8px; background: var(--hijau); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
 
-/* KONFIRMASI HAPUS MASSAL */
-.konfirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
-.konfirm-overlay.show { display: flex; }
-.konfirm-box { background: white; border-radius: 14px; padding: 20px; max-width: 340px; width: 100%; direction: rtl; }
-.konfirm-title { font-size: 0.9rem; font-weight: 700; color: var(--merah); margin-bottom: 8px; }
-.konfirm-msg { font-size: 0.78rem; color: #374151; margin-bottom: 16px; line-height: 1.5; }
-.konfirm-btns { display: flex; gap: 8px; }
-.btn-konfirm-ya { flex: 1; background: var(--merah); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
-.btn-konfirm-tidak { flex: 1; background: white; color: var(--abu-tua); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.85rem; cursor: pointer; }
+  /* KONFIRMASI HAPUS MASSAL */
+  .konfirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .konfirm-overlay.show { display: flex; }
+  .konfirm-box { background: white; border-radius: 14px; padding: 20px; max-width: 340px; width: 100%; direction: rtl; }
+  .konfirm-title { font-size: 0.9rem; font-weight: 700; color: var(--merah); margin-bottom: 8px; }
+  .konfirm-msg { font-size: 0.78rem; color: #374151; margin-bottom: 16px; line-height: 1.5; }
+  .konfirm-btns { display: flex; gap: 8px; }
+  .btn-konfirm-ya { flex: 1; background: var(--merah); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+  .btn-konfirm-tidak { flex: 1; background: white; color: var(--abu-tua); border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 0.85rem; cursor: pointer; }
 
-/* NAV SILANG ANTAR TOOL */
-.cross-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: white; border-bottom: 1px solid var(--border); }
-.cross-nav a { font-size: 0.68rem; padding: 4px 10px; border-radius: 999px; background: var(--emas-pale); color: #5a4500; text-decoration: none; border: 1px solid var(--emas); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
-.cross-nav a .soon { font-size: 0.56rem; opacity: 0.65; }
-
-/* === PERBAIKAN ANTI-WRAP UNIT FRASA === */
-.kata-unit.is-frasa { 
-  flex-shrink: 0; 
-  flex-grow: 0; 
-  align-items: flex-end; 
-  min-width: 140px; 
-  max-width: 95%; 
-  width: fit-content; 
-  padding: 8px 10px; 
-  background: white; 
-  border: 1px solid var(--hijau-pale); 
-  border-radius: 8px; 
-  overflow-x: auto; 
-  -webkit-overflow-scrolling: touch; 
-  white-space: nowrap; /* KUNCI ANTI-WRAP STRUKTUR FRASA */
-}
-.kata-unit.is-frasa.edit-active { background: #fff7ed; }
-
-.kata-unit.is-frasa .arab-text.frasa-arab { 
-  font-size: 1.15rem; 
-  line-height: 2; 
-  width: auto; 
-  white-space: nowrap; 
-  text-align: right; 
-  display: inline-block; 
-}
-
-.frasa-indo { 
-  font-size: 0.72rem; 
-  color: #374151; 
-  text-align: right; 
-  direction: rtl; 
-  line-height: 1.45; 
-  margin-top: 5px; 
-  width: 100%; 
-  transition: opacity 0.2s; 
-  white-space: normal; 
-}
-.frasa-indo.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; margin: 0; }
-/* ========================================= */
+  /* NAV SILANG ANTAR TOOL */
+  .cross-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: white; border-bottom: 1px solid var(--border); }
+  .cross-nav a { font-size: 0.68rem; padding: 4px 10px; border-radius: 999px; background: var(--emas-pale); color: #5a4500; text-decoration: none; border: 1px solid var(--emas); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+  .cross-nav a .soon { font-size: 0.56rem; opacity: 0.65; }
 </style>
 </head>
 <body>
@@ -662,6 +621,26 @@ function buildDisplay() {
 
   // re-apply harakat mode
   applyHarakatMode();
+  paksaAntiWrapFrasa();
+}
+
+// Paksa lewat JS langsung (inline style menang atas semua aturan CSS di
+// stylesheet manapun) — jaring pengaman kalau CSS murni gagal karena alasan
+// yang belum ketemu.
+function paksaAntiWrapFrasa() {
+  document.querySelectorAll('.kata-unit.is-frasa').forEach(unit => {
+    unit.style.flexShrink = '0';
+    unit.style.flexGrow = '0';
+    unit.style.width = 'max-content';
+    unit.style.maxWidth = '480px';
+    unit.style.overflowX = 'auto';
+    const ar = unit.querySelector('.arab-text.frasa-arab');
+    if (ar) {
+      ar.style.whiteSpace = 'nowrap';
+      ar.style.width = 'auto';
+      ar.style.display = 'inline-block';
+    }
+  });
 }
 
 function buildKataUnit(k, hi, ki, wi, total) {
