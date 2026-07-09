@@ -189,6 +189,11 @@
   <h1>Kitab → JSON Bidayatuna Instan</h1>
   <div class="arab-title">من الكتاب إلى الملف</div>
   <p class="sub">Output cocok dengan skema Instan v16: <code>{halaman:[{nama_kitab, judul_bab, kalimat:[{keterangan, irab, frasa:[...]}]}]}</code>. Field <code>kr</code> sengaja dikosongkan — itu tetap ranah Ustaz.</p>
+  <div id="apikey-box" style="margin-top:12px;padding:10px 12px;background:#fffdf8;border:1px solid var(--line);border-radius:4px;">
+    <label style="margin-bottom:2px;">🔑 Anthropic API Key (cuma perlu diisi kalau tool ini dibuka di luar claude.ai, misal di GitHub Pages)</label>
+    <input type="password" id="apikey-input" placeholder="sk-ant-... (tersimpan cuma di sesi ini, tidak dikirim ke mana pun selain api.anthropic.com)">
+    <div class="hint">Kalau dibuka lewat preview artifact di chat claude.ai, kolom ini boleh dikosongkan — AI otomatis jalan. Kalau dibuka sebagai file/hosting sendiri, isi key di sini dulu baru tombol AI bisa dipakai. Key gak disimpan permanen, hilang begitu halaman ditutup/refresh.</div>
+  </div>
 </header>
 
 <div class="wrap">
@@ -321,15 +326,26 @@ function ruleBasedSegment(ayatText){
 
 // ============ CLAUDE API HELPERS ============
 async function callClaude(messages){
+  const userKey = document.getElementById("apikey-input").value.trim();
+  const headers = { "Content-Type": "application/json" };
+  if(userKey){
+    headers["x-api-key"] = userKey;
+    headers["anthropic-version"] = "2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+  }
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({
       model: "claude-sonnet-4-6",
       max_tokens: 1000,
       messages
     })
   });
+  if(!response.ok){
+    const errText = await response.text().catch(()=> "");
+    throw new Error(`HTTP ${response.status}${!userKey ? " — kalau tool ini dibuka di luar claude.ai, isi dulu API key di atas" : ""}. ${errText.slice(0,150)}`);
+  }
   const data = await response.json();
   const textBlocks = (data.content || []).filter(b => b.type === "text").map(b => b.text);
   return textBlocks.join("\n");
