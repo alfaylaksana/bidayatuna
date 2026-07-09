@@ -1399,12 +1399,6 @@ function buildDisplay() {
       const type = useFrasa ? 'frasa' : 'kata';
       units.forEach((k, wi) => {
         kWrap.appendChild(buildKataUnit(k, hi, ki, wi, units.length, type));
-        if (k.rujukan) {
-          const nomorEl = document.createElement('span');
-          nomorEl.className = 'nomor-ayat' + (togState.rujukan ? '' : ' hidden');
-          nomorEl.textContent = k.rujukan;
-          kWrap.appendChild(nomorEl);
-        }
       });
       block.appendChild(kWrap);
 
@@ -1414,7 +1408,7 @@ function buildDisplay() {
       cat.className = 'catatan-wrap' + (togState.catatan ? '' : ' hidden');
       cat.innerHTML = `
         <div class="catatan-label">
-          📝 Catatan Nahwu
+          📝 الإعراب
           <span style="display:flex;gap:5px;align-items:center">
             <span class="kal-gabung-btn" id="gabungBtn_${hi}_${ki}"
               onclick="gabungKalimat(${hi},${ki})"
@@ -1424,7 +1418,7 @@ function buildDisplay() {
               style="display:${editMode ? 'inline' : 'none'}">✏️ Edit</span>
           </span>
         </div>
-        <span class="catatan-isi">${kal.catatan_nahwu || '—'}</span>`;
+        <span class="catatan-isi">${kal.irab || kal.catatan_nahwu || '—'}</span>`;
       block.appendChild(cat);
     });
 
@@ -1721,13 +1715,15 @@ function splitKata() {
 function openCatatan(hi, ki) {
   catatanTarget = {hi, ki};
   const kal = kitabAktif.halaman[hi].kalimat[ki];
-  document.getElementById('editCatatan').value = kal.catatan_nahwu || '';
+  document.getElementById('editCatatan').value = kal.irab || kal.catatan_nahwu || '';
   openModal('modalCatatan');
 }
 function saveCatatan() {
   if (!catatanTarget || !kitabAktif) return;
   const {hi, ki} = catatanTarget;
-  kitabAktif.halaman[hi].kalimat[ki].catatan_nahwu = document.getElementById('editCatatan').value.trim();
+  const kal = kitabAktif.halaman[hi].kalimat[ki];
+  kal.irab = document.getElementById('editCatatan').value.trim();
+  kal.catatan_nahwu = ''; // field lama dikosongkan, sumber data sekarang cuma kal.irab
   closeModal('modalCatatan');
   simpanKitabAktif();
   tandaiPerubahan();
@@ -1745,9 +1741,14 @@ function gabungKalimat(hi, ki) {
   const kal2 = hlm.kalimat[ki + 1];
   const key = (kal1.frasa && kal1.frasa.length) || (kal2.frasa && kal2.frasa.length) ? 'frasa' : 'kata';
   kal1[key] = (kal1[key] || []).concat(kal2[key] || []);
-  if (kal2.catatan_nahwu) {
-    kal1.catatan_nahwu = [kal1.catatan_nahwu, kal2.catatan_nahwu].filter(Boolean).join(' — ');
+  const irab1 = kal1.irab || kal1.catatan_nahwu || '';
+  const irab2 = kal2.irab || kal2.catatan_nahwu || '';
+  if (irab2) {
+    kal1.irab = [irab1, irab2].filter(Boolean).join(' — ');
+  } else if (irab1) {
+    kal1.irab = irab1;
   }
+  kal1.catatan_nahwu = '';
   hlm.kalimat.splice(ki + 1, 1);
   simpanKitabAktif();
   tandaiPerubahan();
