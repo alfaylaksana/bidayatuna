@@ -90,18 +90,18 @@
   .halaman-label { font-size: 0.7rem; color: var(--abu-tua); margin-bottom: 12px; text-align: right; direction: rtl; border-right: 3px solid var(--hijau); padding-right: 8px; }
   .bab-title { text-align: center; font-size: 1.1rem; font-weight: 700; color: var(--hijau); margin-bottom: 14px; font-family: 'Traditional Arabic','Scheherazade New',serif; line-height: 2; }
 
-  .kalimat-wrap { display: flex; flex-wrap: wrap; gap: 3px 6px; direction: rtl; justify-content: flex-start; margin-bottom: 4px; padding: 6px; background: var(--abu); border-radius: 8px; }
+  .kalimat-wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; direction: rtl; justify-content: flex-start; margin-bottom: 4px; padding: 10px 4px; background: transparent; border-bottom: 1px dotted var(--border); }
 
   .kata-unit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 38px; max-width: 120px; border-radius: 6px; padding: 2px; transition: background 0.15s; cursor: default; }
   .kata-unit.edit-active { background: #fff7ed; outline: 2px solid #f97316; cursor: pointer; }
   .kata-unit.edit-active:hover { background: #ffedd5; }
 
   /* UNIT FRASA (lebih lebar dari kata, teks bebas panjang) */
-  .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: stretch; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid white; box-shadow: 0 1px 2px rgba(0,0,0,0.06); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .kata-unit.is-frasa.edit-active { background: #fff7ed; }
+  .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: stretch; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 4px 6px; background: transparent; border: none; border-radius: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kata-unit.is-frasa.edit-active { background: #fff7ed; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
   .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
-  .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; white-space: nowrap; text-align: right; }
+  .kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; white-space: nowrap; text-align: right; border-bottom: 1.5px solid var(--hijau-pale); padding-bottom: 2px; }
   .frasa-indo { font-size: 0.72rem; color: #374151; text-align: right; direction: rtl; line-height: 1.45; margin-top: 5px; width: 100%; transition: opacity 0.2s; }
   .frasa-indo.hidden { opacity: 0; pointer-events: none; height: 0; overflow: hidden; margin: 0; }
   .kalimat-keterangan { font-size: 0.68rem; color: var(--emas); font-weight: 700; margin: 6px 4px -2px; direction: rtl; text-align: right; }
