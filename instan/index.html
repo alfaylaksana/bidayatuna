@@ -92,7 +92,7 @@
 
   .kalimat-wrap { display: flex; flex-wrap: wrap; gap: 3px 6px; direction: rtl; justify-content: flex-start; margin-bottom: 4px; padding: 6px; background: var(--abu); border-radius: 8px; }
 
-  .kata-unit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 38px; max-width: 120px; border-radius: 6px; padding: 2px; transition: background 0.15s; cursor: default; }
+  .kata-unit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 38px; max-width: 120px; border-radius: 3px; padding: 2px; transition: background 0.15s; cursor: default; }
   .kata-unit.edit-active { background: #fff7ed; outline: 2px solid #f97316; cursor: pointer; }
   .kata-unit.edit-active:hover { background: #ffedd5; }
 
@@ -109,7 +109,7 @@
   .kode-gram { font-size: 0.58rem; color: white; background: var(--hijau); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; transition: opacity 0.2s; }
   .kode-gram.hidden { opacity: 0; pointer-events: none; }
 
-  .arab-text { font-family: 'Traditional Arabic','Scheherazade New','Amiri',serif; font-size: 1.3rem; line-height: 1.7; color: var(--teks); text-align: right; direction: rtl; }
+  .arab-text { font-family: 'Traditional Arabic','Scheherazade New','Amiri',serif; font-size: 1.3rem; line-height: 1.7; color: var(--teks); text-align: end; direction: rtl; }
 
   /* Mode tanpa harakat: sembunyikan tanda baca Arab */
   body.no-harakat .arab-text { font-feature-settings: normal; }
@@ -117,8 +117,8 @@
   .kode-rujukan { font-size: 0.55rem; color: var(--emas); border: 1px solid var(--emas); border-radius: 3px; padding: 0 3px; transition: opacity 0.2s; }
   .kode-rujukan.hidden { opacity: 0; pointer-events: none; }
 
-  .pegon-text { font-size: 0.65rem; color: #1a4a8a; text-align: right; direction: rtl; font-family: 'Traditional Arabic',serif; line-height: 1.5; transition: opacity 0.2s; }
-  .pegon-text.ltr { direction: rtl; font-family: 'Segoe UI',sans-serif; font-style: italic; color: #555; font-size: 0.6rem; }
+  .pegon-text { font-size: 0.65rem; color: #1a4a8a; text-align: end; direction: rtl; font-family: 'Traditional Arabic',serif; line-height: 1.5; transition: opacity 0.2s; }
+  .pegon-text.rtl { direction: rtl; font-family: 'Segoe UI',sans-serif; font-style: italic; color: #555; font-size: 0.6rem; }
   .pegon-text.hidden { opacity: 0; pointer-events: none; }
 
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
