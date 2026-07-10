@@ -90,14 +90,14 @@
   .halaman-label { font-size: 0.7rem; color: var(--abu-tua); margin-bottom: 12px; text-align: right; direction: rtl; border-right: 3px solid var(--hijau); padding-right: 8px; }
   .bab-title { text-align: center; font-size: 1.1rem; font-weight: 700; color: var(--hijau); margin-bottom: 14px; font-family: 'Traditional Arabic','Scheherazade New',serif; line-height: 2; }
 
-  .kalimat-wrap { display: flex; flex-wrap: wrap; gap: 6px 12px; direction: rtl; justify-content: flex-start; margin-bottom: 10px; padding: 12px; background: var(--abu); border-radius: 8px; }
+  .kalimat-wrap { display: flex; flex-wrap: wrap; gap: 3px 6px; direction: rtl; justify-content: flex-start; margin-bottom: 4px; padding: 6px; background: var(--abu); border-radius: 8px; }
 
   .kata-unit { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 38px; max-width: 120px; border-radius: 6px; padding: 2px; transition: background 0.15s; cursor: default; }
   .kata-unit.edit-active { background: #fff7ed; outline: 2px solid #f97316; cursor: pointer; }
   .kata-unit.edit-active:hover { background: #ffedd5; }
 
   /* UNIT FRASA (lebih lebar dari kata, teks bebas panjang) */
-  .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid white; box-shadow: 0 1px 2px rgba(0,0,0,0.06); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-frasa.edit-active { background: #fff7ed; }
   .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
@@ -109,7 +109,7 @@
   .kode-gram { font-size: 0.58rem; color: white; background: var(--hijau); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; transition: opacity 0.2s; }
   .kode-gram.hidden { opacity: 0; pointer-events: none; }
 
-  .arab-text { font-family: 'Traditional Arabic','Scheherazade New','Amiri',serif; font-size: 1.3rem; line-height: 1.7; color: var(--teks); text-align: center; direction: rtl; }
+  .arab-text { font-family: 'Traditional Arabic','Scheherazade New','Amiri',serif; font-size: 1.3rem; line-height: 1.7; color: var(--teks); text-align: start; direction: rtl; }
 
   /* Mode tanpa harakat: sembunyikan tanda baca Arab */
   body.no-harakat .arab-text { font-feature-settings: normal; }
@@ -117,11 +117,12 @@
   .kode-rujukan { font-size: 0.55rem; color: var(--emas); border: 1px solid var(--emas); border-radius: 3px; padding: 0 3px; transition: opacity 0.2s; }
   .kode-rujukan.hidden { opacity: 0; pointer-events: none; }
 
-  .pegon-text { font-size: 0.65rem; color: #1a4a8a; text-align: center; direction: rtl; font-family: 'Traditional Arabic',serif; line-height: 1.5; transition: opacity 0.2s; }
+  .pegon-text { font-size: 0.65rem; color: #1a4a8a; text-align: start; direction: rtl; font-family: 'Traditional Arabic',serif; line-height: 1.5; transition: opacity 0.2s; }
   .pegon-text.ltr { direction: ltr; font-family: 'Segoe UI',sans-serif; font-style: italic; color: #555; font-size: 0.6rem; }
   .pegon-text.hidden { opacity: 0; pointer-events: none; }
 
-  .irab-wrap { margin-top: 8px; background: var(--emas-pale); border-right: 3px solid var(--emas); border-radius: 0 6px 6px 0; padding: 8px 10px; direction: rtl; font-size: 0.74rem; color: #5a4500; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  .irab-wrap { margin-top: 8px; background: var(--emas-pale); border-right: 3px solid var(--emas); border-radius: 0 6px 6px 0; padding: 8px 10px; direction: rtl; font-size: 0.74rem; color: #5a4500; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; max-width: 100%; }
   .irab-wrap.hidden { display: none; }
   .irab-label { font-weight: 700; font-size: 0.63rem; margin-bottom: 3px; color: var(--emas); display: flex; justify-content: space-between; align-items: center; }
   .cat-edit-btn { display: none; cursor: pointer; font-size: 0.68rem; color: var(--emas); border: 1px solid var(--emas); border-radius: 4px; padding: 1px 5px; }
