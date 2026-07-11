@@ -217,8 +217,9 @@
     <div class="error-box" id="errorBox"></div>
     <div class="info-box" id="infoBox"></div>
     <div class="btn-row">
-      <button class="btn-render" onclick="renderJSON(false)">▶ Tampilkan</button>
-      <button class="btn-gabung" onclick="renderJSON(true)">＋ Gabung</button>
+      <button class="btn-render" onclick="renderJSON('ganti')">▶ Tampilkan</button>
+      <button class="btn-gabung" onclick="renderJSON('bawah')">＋ Gabung ke Bawah</button>
+      <button class="btn-gabung" onclick="renderJSON('atas')">⤴ Gabung ke Atas</button>
       <button class="btn-clear" onclick="clearAll()">✕ Reset</button>
     </div>
   </div>
@@ -263,9 +264,10 @@
 
     <div class="export-section" id="exportSection">
       <div class="export-box">
-        <div class="export-title">💾 JSON hasil koreksi — copy untuk disimpan:</div>
+        <div class="export-title">💾 JSON hasil koreksi — copy atau download untuk disimpan:</div>
         <textarea class="export-textarea" id="exportTA" readonly></textarea>
         <button class="btn-copy" onclick="copyExport()">📋 Copy Semua</button>
+        <button class="btn-copy" style="background:var(--emas-deep,#8a6423);margin-top:6px;" onclick="downloadExport()">⬇ Download File JSON</button>
       </div>
     </div>
   </div>
@@ -532,7 +534,7 @@ function stripToIrobOnly(str) {
 // ============================================================
 // RENDER JSON
 // ============================================================
-function renderJSON(gabung) {
+function renderJSON(mode) {
   const raw = document.getElementById('jsonInput').value.trim();
   if (!raw) { showError('Kotak JSON masih kosong.'); return; }
   let parsed;
@@ -544,10 +546,14 @@ function renderJSON(gabung) {
   }
   hideError(); hideInfo();
 
-  if (gabung && DATA) {
+  if (mode === 'bawah' && DATA) {
     const tambahan = parsed.halaman || [];
     DATA.halaman = DATA.halaman.concat(tambahan);
-    showInfo(`✅ ${tambahan.length} halaman ditambahkan. Total: ${DATA.halaman.length} halaman.`);
+    showInfo(`✅ ${tambahan.length} halaman ditambahkan di BAWAH. Total: ${DATA.halaman.length} halaman.`);
+  } else if (mode === 'atas' && DATA) {
+    const tambahan = parsed.halaman || [];
+    DATA.halaman = tambahan.concat(DATA.halaman);
+    showInfo(`✅ ${tambahan.length} halaman ditambahkan di ATAS. Total: ${DATA.halaman.length} halaman.`);
   } else {
     DATA = parsed;
   }
@@ -1001,6 +1007,20 @@ function copyExport() {
   const orig = btn.textContent;
   btn.textContent = '✓ Tersalin!';
   setTimeout(()=>btn.textContent=orig,1500);
+}
+function downloadExport() {
+  if (!DATA) return;
+  const tanggal = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+  const namaKitabRaw = (DATA.halaman && DATA.halaman[0] && DATA.halaman[0].nama_kitab) || 'bidayatuna';
+  const namaKitab = namaKitabRaw.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'bidayatuna';
+  const namaFile = `${namaKitab}_${tanggal}.json`;
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = namaFile;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ============================================================
