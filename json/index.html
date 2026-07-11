@@ -19,7 +19,7 @@
     --danger:#8a3324;
     --ok:#2f6b3c;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
   body{
     margin:0;
     background:var(--paper);
@@ -61,8 +61,8 @@
     border:1px solid var(--line);
     border-left:4px solid var(--line);
     border-radius:2px 14px 2px 14px;
-    padding:20px;
-    margin-top:20px;
+    padding:10px;
+    margin-top:4px;
     box-shadow:0 1px 0 rgba(0,0,0,0.03);
   }
   .card--kitab{ border-left-color:var(--gold); border-radius:14px 2px 14px 2px; }
@@ -99,6 +99,24 @@
   }
   textarea{min-height:90px;resize:vertical;}
   .arab-input{font-family:'Amiri',serif;direction:rtl;font-size:1.3rem;line-height:2;}
+  .irab-textarea{
+    font-family:'Inter',sans-serif !important;direction:auto;text-align:start;
+    font-size:0.9rem !important;line-height:1.55;min-height:40px;max-height:280px;
+    resize:vertical;overflow-y:auto;
+  }
+  .unit-arab-input{
+    font-family:'Amiri',serif !important;direction:rtl !important;text-align:right;
+    font-size:1.6rem !important;font-weight:700;
+  }
+  .unit-pegon-input{
+    font-family:'Amiri',serif !important;direction:rtl !important;text-align:right;
+    font-size:0.9rem !important;
+  }
+  .unit-indo-input{
+    font-family:'Inter',sans-serif !important;direction:ltr !important;text-align:center;
+    font-size:0.9rem !important;
+  }
+  textarea.autosize{overflow:hidden;resize:none;}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
   @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr;}}
@@ -128,10 +146,10 @@
   .tab.active{color:var(--teal-deep);border-bottom-color:var(--gold);}
   .panel{display:none;}
   .panel.active{display:block;}
-  .halaman-block{border:1px solid var(--line);border-radius:4px;margin-bottom:16px;background:#fffdf8;}
-  .halaman-block > .hb-head{
+  .halaman-block{border:1px solid var(--line);border-radius:4px;margin-bottom:4px;background:var(--paper-2);}
+  .hb-head{
     display:flex;justify-content:space-between;align-items:center;
-    padding:10px 14px;background:var(--paper);border-bottom:1px solid var(--line);
+    padding:10px 14px;background:var(--paper-2);border-bottom:1px solid var(--line);
     border-radius:4px 4px 0 0;
   }
   .hb-head .hnum{
@@ -139,8 +157,8 @@
     width:30px;height:30px;border-radius:50%;background:var(--gold);color:#fff;
     font-weight:700;font-family:'Spectral',serif;margin-right:8px;
   }
-  .hb-body{padding:14px;}
-  .ayat-block{border:1px dashed var(--line);border-radius:4px;padding:12px;margin-bottom:12px;background:#fbf6ea;}
+  .hb-body{padding:7px;}
+  .ayat-block{border:1px dashed var(--line);border-radius:4px;padding:6px;margin-bottom:4px;background:var(--paper-2);}
   .ayat-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
   .ayat-head .anum{
     display:inline-flex;align-items:center;justify-content:center;
@@ -152,11 +170,11 @@
     text-align:left;background:var(--teal-deep);color:#f2ead6;
     padding:6px 8px;font-weight:600;font-family:'Inter',sans-serif;
   }
-  table.units td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.units td{padding:3px 4px;border-bottom:1px solid var(--line);vertical-align:top;}
   table.units input, table.units textarea{
-    font-size:0.82rem;padding:5px 6px;min-height:unset;
+    font-size:0.9rem;padding:5px 6px;min-height:unset;
   }
-  table.units .arab-cell{font-family:'Amiri',serif;direction:rtl;font-size:1.15rem;}
+  table.units .arab-cell{font-family:'Amiri',serif;direction:rtl;font-size:1.5rem;}
   .frasa-tag{
     font-size:0.68rem;padding:2px 6px;border-radius:10px;background:var(--teal);color:#fff;
     display:inline-block;margin-top:3px;
@@ -189,7 +207,7 @@
   <h1>Kitab → JSON Bidayatuna Instan</h1>
   <div class="arab-title">من الكتاب إلى الملف</div>
   <p class="sub">Output cocok dengan skema Instan v16: <code>{halaman:[{nama_kitab, judul_bab, kalimat:[{keterangan, irab, frasa:[...]}]}]}</code>. Field <code>kr</code> sengaja dikosongkan — itu tetap ranah Ustaz.</p>
-  <div id="apikey-box" style="margin-top:12px;padding:10px 12px;background:#fffdf8;border:1px solid var(--line);border-radius:4px;">
+  <div id="apikey-box" style="margin-top:12px;padding:10px 12px;background:var(--paper-2);border:1px solid var(--line);border-radius:4px;">
     <label style="margin-bottom:2px;">🔑 Anthropic API Key (cuma perlu diisi kalau tool ini dibuka di luar claude.ai, misal di GitHub Pages)</label>
     <input type="password" id="apikey-input" placeholder="sk-ant-... (tersimpan cuma di sesi ini, tidak dikirim ke mana pun selain api.anthropic.com)">
     <div class="hint">Kalau dibuka lewat preview artifact di chat claude.ai, kolom ini boleh dikosongkan — AI otomatis jalan. Kalau dibuka sebagai file/hosting sendiri, isi key di sini dulu baru tombol AI bisa dipakai. Key gak disimpan permanen, hilang begitu halaman ditutup/refresh.</div>
@@ -236,7 +254,7 @@
 
       <div id="src-text-block" class="field">
         <label>Tempel teks Arab kitab (pisahkan tiap ayat/kalimat dengan baris baru)</label>
-        <textarea id="new-hal-text" class="arab-input" placeholder="الحمد لله رب العالمين"></textarea>
+        <textarea id="new-hal-text" class="arab-input autosize" placeholder="الحمد لله رب العالمين"></textarea>
       </div>
 
       <div id="src-image-block" class="field" style="display:none;">
@@ -249,7 +267,7 @@
         <div class="hint">AI akan membaca teks Arab dari foto. Hasilnya bisa Ustaz koreksi sebelum lanjut segmentasi.</div>
         <div class="field" style="margin-top:10px;">
           <label>Hasil OCR (bisa diedit, pisah per ayat dengan baris baru)</label>
-          <textarea id="new-hal-ocr-result" class="arab-input"></textarea>
+          <textarea id="new-hal-ocr-result" class="arab-input autosize"></textarea>
         </div>
       </div>
 
@@ -293,6 +311,18 @@
 </div>
 
 <script>
+// ============ AUTOSIZE TEXTAREA ============
+function autoGrow(el){
+  el.style.height = "auto";
+  el.style.height = Math.max(el.scrollHeight, 40) + "px";
+}
+document.addEventListener("input", (e)=>{
+  if(e.target.matches && e.target.matches("textarea.autosize")) autoGrow(e.target);
+});
+function autoGrowAll(root){
+  (root||document).querySelectorAll("textarea.autosize").forEach(autoGrow);
+}
+
 // ============ STATE ============
 // halamanList item: { nomor, type, nama_kitab, judul_bab, kalimatList: [{ nomor, keterangan, irab, unitList:[...] }] }
 let halamanList = [];
@@ -354,7 +384,26 @@ async function callClaude(messages){
 function extractJson(text){
   let t = text.trim();
   t = t.replace(/^```json/i,"").replace(/^```/,"").replace(/```$/,"").trim();
-  return JSON.parse(t);
+  try{
+    return JSON.parse(t);
+  }catch(err){
+    // fallback: coba potong ke elemen array/object terakhir yang utuh
+    const lastGoodArr = t.lastIndexOf('},');
+    const lastGoodObj = t.lastIndexOf('}');
+    const cut = Math.max(lastGoodArr, lastGoodObj);
+    if(cut > 0){
+      let repaired = t.slice(0, lastGoodArr > 0 ? lastGoodArr+1 : cut+1);
+      // tutup bracket yang masih terbuka
+      const openArr = (repaired.match(/\[/g)||[]).length;
+      const closeArr = (repaired.match(/\]/g)||[]).length;
+      const openObj = (repaired.match(/\{/g)||[]).length;
+      const closeObj = (repaired.match(/\}/g)||[]).length;
+      repaired += "]".repeat(Math.max(0, openArr-closeArr));
+      repaired += "}".repeat(Math.max(0, openObj-closeObj));
+      return JSON.parse(repaired);
+    }
+    throw err;
+  }
 }
 
 // ============ OCR ============
@@ -504,7 +553,7 @@ function renderPreview(){
           </div>
           <div class="field" style="margin-bottom:0;">
             <label>I'rab (narasi per kalimat)</label>
-            <textarea class="arab-input" style="font-size:0.95rem;min-height:40px;" data-irab="${hIdx}:${kIdx}">${escapeHtml(kalimat.irab)}</textarea>
+            <textarea class="irab-textarea autosize" data-irab="${hIdx}:${kIdx}">${escapeHtml(kalimat.irab)}</textarea>
           </div>
         </div>
         <table class="units">
@@ -544,6 +593,7 @@ function renderPreview(){
       halamanList[h].kalimatList[k].irab = e.target.value;
     });
   });
+  autoGrowAll(container);
 }
 
 function renderUnitRows(tbody, hIdx, kIdx){
@@ -552,10 +602,10 @@ function renderUnitRows(tbody, hIdx, kIdx){
   units.forEach((u, uIdx)=>{
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td class="arab-cell"><input type="text" class="arab-input" style="font-size:1.05rem" value="${escapeHtml(u.arab)}" data-f="arab" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
+      <td class="arab-cell"><input type="text" class="unit-arab-input" value="${escapeHtml(u.arab)}" data-f="arab" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
       <td>${u.isFrasa ? '<span class="frasa-tag">frasa</span>' : '<span class="kosong-tag">1 kata</span>'}<br><button class="small-btn btn-outline" data-toggle-frasa="${hIdx}:${kIdx}:${uIdx}">toggle</button></td>
-      <td><input type="text" value="${escapeHtml(u.indo)}" data-f="indo" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
-      <td><input type="text" class="arab-input" style="font-size:0.95rem" value="${escapeHtml(u.pegon)}" data-f="pegon" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
+      <td><input type="text" class="unit-indo-input" value="${escapeHtml(u.indo)}" data-f="indo" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
+      <td><input type="text" class="unit-pegon-input" value="${escapeHtml(u.pegon)}" data-f="pegon" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
       <td><input type="text" value="${escapeHtml(u.kr)}" placeholder="—" data-f="kr" data-idx="${hIdx}:${kIdx}:${uIdx}"></td>
       <td><button class="btn-danger small-btn" data-remove-unit="${hIdx}:${kIdx}:${uIdx}">✕</button></td>
     `;
@@ -590,49 +640,83 @@ function escapeHtml(s){
   return (s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
-// ============ AI REFINE PER AYAT ============
+// ============ AI REFINE PER AYAT (dipecah per-batch biar gak kepotong token) ============
+function chunkArray(arr, size){
+  const out = [];
+  for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size));
+  return out;
+}
+
 async function aiRefineAyat(hIdx, kIdx){
   const statusEl = document.querySelector(`[data-status="${hIdx}:${kIdx}"]`);
   const kalimat = halamanList[hIdx].kalimatList[kIdx];
-  statusEl.innerHTML = ' <span class="status info loading" style="display:inline-block;">AI menyempurnakan</span>';
-
-  const draftUnits = kalimat.unitList.map(u => u.arab);
-  const prompt = `Kamu membantu segmentasi kitab kuning Arab klasik untuk aplikasi Bidayatuna Instan.
-
-Kaidah segmentasi frasa (WAJIB diikuti):
-- Satu frasa = satu posisi i'rab (kedudukan gramatikal) yang independen.
-- Huruf ma'ani (huruf jar, huruf athaf, dll) SELALU menempel ke unit setelahnya, tidak berdiri sendiri.
-- Rangkaian idhafah (mudhaf-mudhaf ilaih) SELALU jadi satu unit, tidak dipisah.
-
-Teks ayat/kalimat: ${kalimat.unitList.map(u=>u.arab).join(" ")}
-
-Draft segmentasi kasar (dari rule sederhana, mungkin masih salah): ${JSON.stringify(draftUnits)}
-
-Tugasmu:
-1. Perbaiki segmentasi jadi array frasa/unit sesuai kaidah di atas. Untuk tiap unit isi:
-   - "indo": terjemahan Indonesia singkat unit tsb
-   - "pegon": transliterasi Arab-Pegon (aksara Arab utk Jawa/Indonesia) dari unit tsb, upaya terbaik
-   JANGAN isi field "kr" — biarkan string kosong "", itu diisi manual oleh Ustaz.
-2. Buat juga SATU narasi i'rab untuk keseluruhan kalimat (bukan per unit), pakai istilah nahwu klasik, ringkas tapi jelas kedudukan gramatikal tiap bagian.
-
-Balas HANYA dengan JSON object valid, tanpa markdown fence, tanpa komentar, format persis:
-{"units":[{"arab":"...","isFrasa":true,"indo":"...","pegon":"...","kr":""}],"irab":"narasi i'rab keseluruhan kalimat di sini"}`;
+  const fullText = kalimat.unitList.map(u=>u.arab).join(" ");
+  const batches = chunkArray(kalimat.unitList.map(u=>u.arab), 6);
+  let allUnits = [];
 
   try{
-    const text = await callClaude([{ role:"user", content: prompt }]);
-    const refined = extractJson(text);
-    halamanList[hIdx].kalimatList[kIdx].unitList = (refined.units||[]).map(u=>({
-      arab: u.arab || "",
-      isFrasa: !!u.isFrasa,
-      indo: u.indo || "",
-      pegon: u.pegon || "",
-      kr: ""
-    }));
-    if(refined.irab) halamanList[hIdx].kalimatList[kIdx].irab = refined.irab;
+    for(let b=0; b<batches.length; b++){
+      statusEl.innerHTML = ` <span class="status info loading" style="display:inline-block;">AI memproses bagian ${b+1}/${batches.length}</span>`;
+      const prompt = `Kamu membantu segmentasi & anotasi kitab kuning Arab klasik untuk Bidayatuna Instan.
+
+Kaidah segmentasi frasa (WAJIB):
+- Satu frasa = satu posisi i'rab (kedudukan gramatikal) yang independen.
+- Huruf ma'ani (huruf jar, huruf athaf, dll) SELALU menempel ke unit setelahnya.
+- Rangkaian idhafah (mudhaf-mudhaf ilaih) SELALU jadi satu unit.
+
+Ini POTONGAN dari kalimat yang lebih panjang (urut sesuai teks asli, mungkin awal/akhir kalimat terpotong di batas ini — itu wajar, jangan dipaksa lengkap):
+${JSON.stringify(batches[b])}
+
+Untuk tiap unit hasil segmentasi ulang, isi:
+- "arab": teks Arab unit itu (boleh gabungan beberapa kata sesuai kaidah)
+- "isFrasa": true/false
+- "indo": terjemahan Indonesia MURNI dari unit itu saja — cuma arti katanya, JANGAN tambahkan penjelasan gramatikal atau keterangan lain
+- "pegon": UBAH ARTI unit itu (bukan teks Arab klasiknya!) ke aksara Arab-Pegon untuk bahasa Jawa/Indonesia. Pegon = aksara Arab dipakai menulis Jawa/Indonesia, pakai huruf tambahan seperti ڤ(p) ڠ(ng) ڽ(ny) چ(c) ڬ(g) ۑ(ny) ݢ(g) ۋ(v/w) sesuai kebutuhan bunyi. Contoh: makna "segala puji" → pegon kira-kira "سَڬَالَا ڤُوجِي". JANGAN taruh ulang teks Arab klasik yang sama di field ini.
+- "kr": biarkan string kosong ""
+
+Balas HANYA JSON array valid, tanpa markdown fence, tanpa komentar:
+[{"arab":"...","isFrasa":true,"indo":"...","pegon":"...","kr":""}]`;
+
+      const text = await callClaude([{ role:"user", content: prompt }]);
+      const refined = extractJson(text);
+      allUnits = allUnits.concat((refined||[]).map(u=>({
+        arab: u.arab || "",
+        isFrasa: !!u.isFrasa,
+        indo: u.indo || "",
+        pegon: u.pegon || "",
+        kr: ""
+      })));
+    }
+
+    halamanList[hIdx].kalimatList[kIdx].unitList = allUnits;
+
+    // panggilan terpisah khusus i'rab, format teks biasa (bukan JSON) biar gak rawan putus
+    statusEl.innerHTML = ' <span class="status info loading" style="display:inline-block;">AI menulis i\'rab</span>';
+    const irabPrompt = `Kamu menulis i'rab (analisis nahwu) untuk kalimat Arab klasik berikut, dalam DUA LANGKAH, ikuti urutan dan format ini PERSIS:
+
+LANGKAH 1 — Tulis penjelasan i'rab dalam BAHASA ARAB klasik nahwu: jelaskan kedudukan gramatikal (mubtada', khobar, fa'il, maf'ul, dst) tiap bagian kalimat, ringkas, pakai istilah nahwu yang tepat.
+
+LANGKAH 2 — Terjemahkan HASIL LANGKAH 1 (penjelasan i'rab yang barusan kamu tulis) ke bahasa Indonesia. PENTING: yang diterjemahkan adalah PENJELASAN I'RAB-nya (LANGKAH 1), BUKAN kalimat Arab aslinya di bawah ini. Terjemahan harus tetap membahas kedudukan gramatikal (mubtada', khobar, dst), bukan arti/makna kalimatnya.
+
+Kalimat Arab yang dianalisis (untuk konteks saja, JANGAN diterjemahkan langsung): ${fullText}
+Segmentasi unit (arab — arti kata): ${allUnits.map(u=>`${u.arab} — ${u.indo}`).join("; ")}
+
+Balas dengan format PERSIS berikut, tanpa markdown fence, tanpa komentar tambahan:
+
+<hasil LANGKAH 1>
+
+الترجمة: <hasil LANGKAH 2, yaitu terjemahan dari LANGKAH 1>`;
+
+    const irabText = await callClaude([{ role:"user", content: irabPrompt }]);
+    halamanList[hIdx].kalimatList[kIdx].irab = irabText.trim();
+
     statusEl.innerHTML = ' <span class="status ok" style="display:inline-block;">selesai</span>';
     renderPreview();
   }catch(err){
+    // simpan unit yang sudah berhasil diproses meski ada batch yg gagal di tengah
+    if(allUnits.length) halamanList[hIdx].kalimatList[kIdx].unitList = allUnits;
     statusEl.innerHTML = ' <span class="status err" style="display:inline-block;">gagal: '+err.message+'</span>';
+    renderPreview();
   }
 }
 
