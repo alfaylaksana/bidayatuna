@@ -26,7 +26,7 @@
   --putih:       #ffffff;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -400,7 +400,7 @@ body {
   font-size: 1.35rem;
   line-height: 1.8;
   color: var(--teks);
-  text-align: start;
+  text-align: center;
   direction: rtl;
 }
 
@@ -480,9 +480,9 @@ body {
 
 /* FRASA UNIT (mirip Bidayatuna Instan) */
 .kata-unit { position: relative; }
-.kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: stretch; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; white-space: nowrap; text-align: right; }
-.kata-unit.is-frasa.edit-active { background: #fff7ed; }
+.kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: stretch; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 4px 6px; background: transparent; border: none; border-radius: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: 100%; white-space: nowrap; text-align: right; border-bottom: 1.5px solid var(--hijau-pale); padding-bottom: 2px; }
+.kata-unit.is-frasa.edit-active { background: #fff7ed; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
 .kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
 
@@ -503,7 +503,7 @@ body {
 .pegon-text {
   font-size: 0.67rem;
   color: #1a4a8a;
-  text-align: start;
+  text-align: center;
   direction: rtl;
   font-family: 'Traditional Arabic', serif;
   line-height: 1.5;
@@ -521,7 +521,7 @@ body {
 .pegon-jawa-text {
   font-size: 0.67rem;
   color: #7c3aed;
-  text-align: start;
+  text-align: center;
   direction: rtl;
   font-family: 'Traditional Arabic', serif;
   line-height: 1.5;
@@ -969,7 +969,6 @@ body {
     <div id="exportWrap" class="export-wrap" style="width:100%">
       <textarea class="export-ta" id="exportTA" readonly></textarea>
       <button class="btn-copy-export" onclick="copyExport()">📋 Copy Semua</button>
-      <button class="btn-copy-export" style="background:var(--emas);margin-top:6px;" onclick="downloadExport()">⬇ Download File JSON</button>
     </div>
   </div>
 
@@ -1052,9 +1051,8 @@ body {
     </div>
     <div id="importError" style="display:none;color:var(--merah);font-size:0.75rem;margin-top:6px;"></div>
     <div class="modal-btns">
-      <button class="btn-save" onclick="prosesImport('bawah')">＋ Tambahkan ke Bawah</button>
-      <button class="btn-save" onclick="prosesImport('atas')">⤴ Tambahkan ke Atas</button>
-      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport('ganti')">↺ Ganti Semua</button>
+      <button class="btn-save" onclick="prosesImport(false)">＋ Tambahkan</button>
+      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport(true)">↺ Ganti Semua</button>
       <button class="btn-cancel" onclick="closeModal('modalImport')">Batal</button>
     </div>
   </div>
@@ -2005,7 +2003,7 @@ function konversiArRisalah(data) {
   return hasilHalaman;
 }
 
-async function prosesImport(mode) {
+async function prosesImport(ganti) {
   const errEl = document.getElementById('importError');
   if (!isiFileImport) {
     errEl.textContent = 'Pilih file JSON terlebih dahulu.';
@@ -2036,10 +2034,8 @@ async function prosesImport(mode) {
     }
     tambahan = parsed.halaman;
   }
-  if (mode === 'ganti') {
+  if (ganti) {
     kitabAktif.halaman = tambahan;
-  } else if (mode === 'atas') {
-    kitabAktif.halaman = tambahan.concat(kitabAktif.halaman || []);
   } else {
     kitabAktif.halaman = (kitabAktif.halaman || []).concat(tambahan);
   }
@@ -2048,7 +2044,7 @@ async function prosesImport(mode) {
   closeModal('modalImport');
   tandaiPerubahan();
   buildDisplay();
-  toast(`✅ ${tambahan.length} halaman berhasil di-import (${mode === 'ganti' ? 'ganti semua' : mode === 'atas' ? 'ke atas' : 'ke bawah'}).`);
+  toast(`✅ ${tambahan.length} halaman berhasil di-import.`);
 }
 
 // ============================================================
@@ -2082,21 +2078,6 @@ function copyExport() {
   ta.select();
   document.execCommand('copy');
   toast('📋 JSON tersalin!');
-}
-function downloadExport() {
-  if (!kitabAktif) return;
-  const tanggal = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-  const namaKitabRaw = kitabAktif.judulIndo || 'bidayatuna';
-  const namaKitab = namaKitabRaw.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'bidayatuna';
-  const namaFile = `${namaKitab}_${tanggal}.json`;
-  const blob = new Blob([JSON.stringify(kitabAktif, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = namaFile;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('⬇ File JSON diunduh: ' + namaFile);
 }
 
 // ============================================================
