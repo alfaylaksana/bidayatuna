@@ -1,0 +1,55 @@
+{
+  "data": {
+    "halaman": [
+      {
+        "nama_kitab": "Fiqhul Wadhih",
+        "judul_bab": "",
+        "kalimat": [
+          {
+            "keterangan": "",
+            "irab": "<hasil LANGKAH 1>\n\nالواو: حرف عطف أو استئناف مبني على الفتح لا محل له من الإعراب. وإن: الواو سبق ذكرها، وإن: حرف شرط جازم مبني على السكون لا محل له من الإعراب. لَمْ: حرف نفي وجزم وقلب مبني على السكون لا محل له من الإعراب. يَأْذَنْ: فعل مضارع مجزوم بلم وعلامة جزمه السكون، والفاعل ضمير مستتر تقديره هو. لَهُ: اللام حرف جر، والهاء ضمير متصل مبني على الضم في محل جر، والجار والمجرور متعلقان بالفعل يأذن. وجملة لم يأذن في محل جزم فعل الشرط. لَمْ: حرف نفي وجزم وقلب مبني على السكون لا محل له من الإعراب. يَجُزْ: فعل مضارع مجزوم بلم وعلامة جزمه السكون، والفاعل ضمير مستتر تقديره هو. لَهُ: اللام حرف جر، والهاء ضمير متصل مبني على الضم في محل جر، والجار والمجرور متعلقان بالفعل يجز. أَخْذُهُ: أخذ: فاعل مرفوع وعلامة رفعه الضمة الظاهرة، وهو مضاف، والهاء ضمير متصل مبني على الضم في محل جر مضاف إليه. وجملة لم يجز جواب الشرط لا محل لها من الإعراب.\n\nالترجمة: <hasil LANGKAH 2, yaitu terjemahan dari LANGKAH 1>\n\nWawu: huruf 'ataf atau isti'naf yang dibangun di atas fathah, tidak memiliki kedudukan dalam i'rab. Adapun \"in\": huruf syarat yang menjazmkan, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Lam\" (pada لَمْ يَأْذَنْ): huruf nafi, jazm, dan pembalik zaman, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Ya'dzan\": fi'il mudhari' yang dijazmkan oleh lam, tanda jazmnya adalah sukun, dan fa'il-nya adalah dhamir mustatir yang diperkirakan \"huwa\". \"Lahu\" (pertama): lam adalah huruf jar, dan ha' adalah dhamir muttasil yang dibangun di atas dhammah, berkedudukan sebagai majrur; jar dan majrur keduanya berkaitan dengan fi'il \"ya'dzan\". Jumlah \"lam ya'dzan\" berkedudukan sebagai fi'il syarat dalam posisi jazm. \"Lam\" (pada لَمْ يَجُزْ): huruf nafi, jazm, dan pembalik zaman, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Yajuz\": fi'il mudhari' yang dijazmkan oleh lam, tanda jazmnya adalah sukun, dan fa'il-nya adalah dhamir mustatir yang diperkirakan \"huwa\". \"Lahu\" (kedua): lam adalah huruf jar, dan ha' adalah dhamir mutt",
+            "frasa": [
+              {
+                "arab": "وإن",
+                "pegon": "دان جِيكا",
+                "indo": "dan jika",
+                "kr": ""
+              },
+              {
+                "arab": "لَمْ يَأْذَنْ",
+                "pegon": "تِيدَق مَڠِيجِينْكَنْ",
+                "indo": "tidak mengizinkan",
+                "kr": ""
+              },
+              {
+                "arab": "لَهُ",
+                "pegon": "كَڤَادَانْيَا",
+                "indo": "kepadanya",
+                "kr": ""
+              },
+              {
+                "arab": "لَمْ يَجُزْ",
+                "pegon": "تِيدَق بُولِيهْ",
+                "indo": "tidak boleh",
+                "kr": ""
+              },
+              {
+                "arab": "لَهُ",
+                "pegon": "بَاڬِينْيَا",
+                "indo": "baginya",
+                "kr": ""
+              },
+              {
+                "arab": "أَخْذُهُ",
+                "pegon": "مَڠَمْبِيلْنْيَا",
+                "indo": "mengambilnya",
+                "kr": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "updatedAt": 1783724379670
+}

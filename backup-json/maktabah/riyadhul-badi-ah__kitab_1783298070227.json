@@ -1,0 +1,305 @@
+{
+  "tahun": "",
+  "judulArab": "الرياض البديعة",
+  "pengarang": "",
+  "id": "kitab_1783298070227",
+  "bidang": "fiqh",
+  "judulIndo": "Riyadhul Badi'ah",
+  "dibuatPada": "2026-07-06T00:34:30.227Z",
+  "halaman": [
+    {
+      "judul_bab": "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ",
+      "nomor": 1,
+      "kalimat": [
+        {
+          "kata": [
+            {
+              "pegon": "سَيْكَلِيْر",
+              "rujukan": "1",
+              "indo": "segala puji",
+              "kode_gram": "م.م",
+              "arab": "اَلْحَمْدُ"
+            },
+            {
+              "indo": "bagi Allah",
+              "rujukan": "1",
+              "pegon": "اِيكُو لَنْ اللهِ",
+              "kode_gram": "م.ج",
+              "arab": "لِلّٰهِ"
+            },
+            {
+              "arab": "رَبِّ الْعَالَمِيْنَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "rujukan": "2",
+              "indo": "dan shalawat",
+              "pegon": "لَنْ سَمُوڮَ",
+              "kode_gram": "م.م",
+              "arab": "وَالصَّلَاةُ"
+            },
+            {
+              "arab": "وَالسَّلَامُ",
+              "kode_gram": "م.م",
+              "pegon": "لَنْ سَلَامْ",
+              "indo": "dan salam",
+              "rujukan": "2"
+            },
+            {
+              "arab": "عَلَى سَيِّدِنَا",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "pegon": "كَنجَيْنگ نَبِي مُحَمَّدْ",
+              "indo": "Nabi Muhammad",
+              "rujukan": "2",
+              "kode_gram": "م.ج",
+              "arab": "مُحَمَّدٍ"
+            },
+            {
+              "arab": "سَيِّدِ الْمُرْسَلِيْنَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "وَعَلَى آلِهِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "indo": "dan sahabatnya",
+              "rujukan": "3",
+              "pegon": "لَنْ سَحَابَتِيْڠ",
+              "kode_gram": "م.ج",
+              "arab": "وَصَحْبِهِ"
+            },
+            {
+              "arab": "أَجْمَعِيْنَ",
+              "kode_gram": "م.ج",
+              "pegon": "سَاكَبِيْهَانِيْڠ",
+              "rujukan": "3",
+              "indo": "semuanya"
+            },
+            {
+              "arab": "وَالتَّابِعِيْنَ",
+              "kode_gram": "م.ج",
+              "rujukan": "4",
+              "indo": "dan para pengikut",
+              "pegon": "لَنْ اُمَتِيْڠ"
+            },
+            {
+              "arab": "لَهُمْ",
+              "kode_gram": "ح",
+              "rujukan": "4",
+              "indo": "kepada mereka",
+              "pegon": "مَرِيْڠ اِيَا"
+            },
+            {
+              "kode_gram": "ح",
+              "arab": "بِإِحْسَانٍ",
+              "pegon": "كَلَوَانْ كَبَيْكَنْ",
+              "indo": "dengan kebaikan",
+              "rujukan": "4"
+            },
+            {
+              "arab": "إِلَى يَوْمِ الدِّيْنِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            }
+          ],
+          "id": "k1",
+          "catatan_nahwu": "اَلْحَمْدُ مبتدأ مرفوع. لِلّٰهِ خبر مرفوع في محل رفع، وهو جار ومجرور. رَبِّ نعت مجرور لـ اللهِ.",
+          "frasa": []
+        },
+        {
+          "kata": [
+            {
+              "pegon": "دِيْنِيْڠ اِيْكُو",
+              "indo": "adapun kemudian",
+              "rujukan": "5",
+              "kode_gram": "ح",
+              "arab": "أَمَّا بَعْدُ"
+            },
+            {
+              "kode_gram": "ض.د",
+              "arab": "فَهٰذَا",
+              "rujukan": "5",
+              "indo": "maka ini",
+              "pegon": "مَكَ اِيْكُو اِيْكِي"
+            },
+            {
+              "pegon": "رِنگكَسَنْ",
+              "indo": "ringkasan",
+              "rujukan": "5",
+              "kode_gram": "م.م",
+              "arab": "مُخْتَصَرٌ"
+            },
+            {
+              "arab": "فِي أُصُوْلِ الدِّيْنِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "وَجُمْلَةٍ",
+              "kode_gram": "م.ج",
+              "rujukan": "5",
+              "indo": "dan sejumlah",
+              "pegon": "لَنْ سَاڮِلِيْرِيْڠ"
+            },
+            {
+              "arab": "مِنْ فُرُوْعِهِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "عَلَى مَذْهَبِ الْإِمَامِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "pegon": "اِمَامْ شَافِعِيْ",
+              "indo": "Imam Syafi'i",
+              "rujukan": "6",
+              "arab": "الشَّافِعِيِّ",
+              "kode_gram": "م.ج"
+            },
+            {
+              "arab": "رَضِيَ اللهُ عَنْهُ",
+              "kode_gram": "ف.م",
+              "indo": "semoga Allah ridha padanya",
+              "rujukan": "6",
+              "pegon": "رِضَا الله سَاكِيْ اِيَا"
+            }
+          ],
+          "id": "k5",
+          "catatan_nahwu": "فَهٰذَا مبتدأ. مُخْتَصَرٌ خبر مرفوع. فِي أُصُوْلِ الدِّيْنِ متعلق بمخْتَصَرٌ. وَجُمْلَةٍ معطوف على أُصُوْلِ.",
+          "frasa": []
+        },
+        {
+          "catatan_nahwu": "سَمَّيْتُهُ فعل ماض والفاعل تاء المتكلم والهاء مفعول أول. اَلرِّيَاضَ الْبَدِيْعَةَ مفعول ثانٍ منصوب لأن سَمَّى ينصب مفعولين.",
+          "kata": [
+            {
+              "indo": "aku menamainya",
+              "rujukan": "7",
+              "pegon": "اِنگسُنْ نَمَاكَاكِي",
+              "kode_gram": "ف.م",
+              "arab": "سَمَّيْتُهُ"
+            },
+            {
+              "arab": "اَلرِّيَاضَ",
+              "kode_gram": "م.ن",
+              "pegon": "تَامَنِيْڠ",
+              "indo": "taman",
+              "rujukan": "7"
+            },
+            {
+              "kode_gram": "م.ن",
+              "arab": "الْبَدِيْعَةَ",
+              "pegon": "كَايُوبَنِيْڠ",
+              "rujukan": "7",
+              "indo": "yang indah"
+            },
+            {
+              "arab": "فِي أُصُوْلِ الدِّيْنِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "وَبَعْضِ فُرُوْعِ الشَّرِيْعَةِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "pegon": "كَلَوَانْ نگَرِيَاكِيْ",
+              "indo": "dengan mengharap",
+              "rujukan": "8",
+              "arab": "رَاجِيًا",
+              "kode_gram": "م.ن"
+            },
+            {
+              "arab": "مِنَ اللهِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "أَنْ يَنْفَعَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "pegon": "كَلَوَانْ اِيَا",
+              "rujukan": "8",
+              "indo": "dengannya",
+              "arab": "بِهِ",
+              "kode_gram": "ح"
+            },
+            {
+              "arab": "طَلَبَةَ الْعِلْمِ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "لَاسِيَّمَا الْمُبْتَدِئِيْنَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "arab": "وَأَنْ يُوَجَّهَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            },
+            {
+              "kode_gram": "ح",
+              "arab": "إِلَيْهِ",
+              "pegon": "مَرِيْڠ اِيَا",
+              "indo": "kepadanya",
+              "rujukan": "9"
+            },
+            {
+              "arab": "رَغْبَةَ الرَّاغِبِيْنَ",
+              "kr": "",
+              "pegon": "",
+              "indo": "",
+              "kode_gram": ""
+            }
+          ],
+          "id": "k7",
+          "frasa": []
+        }
+      ]
+    }
+  ],
+  "keterangan": ""
+}
