@@ -180,13 +180,15 @@
     </div>
     <button class="btn-ulang" onclick="ulangSesi()">🔄 Ulang Sesi Ini</button>
     <button class="btn-ulang-lupa" onclick="ulangLupa()">↩ Ulang Yang Lupa/Ragu</button>
-    <button class="btn-reset-srs" onclick="resetSRS()">🗑 Reset Semua Progress</button>
-    <div style="text-align:center;margin-top:6px;">
-      <span onclick="migrasiKartuKeFirestore()" style="font-size:0.6rem;color:#7c3aed;cursor:pointer;text-decoration:underline;">☁️ Update kartu & judul kitab pusat (bisa diulang kapan saja)</span>
-    </div>
-    <div style="text-align:center;margin-top:8px;">
-      <span onclick="paksaModeAman()" style="font-size:0.6rem;color:#9ca3af;cursor:pointer;">Kartu glitch setelah reset? Ketuk di sini</span>
-    </div>
+  </div>
+</div>
+<div class="app-footer" style="width:100%;max-width:480px;margin:0 auto;padding:8px 16px 20px;">
+  <button class="btn-reset-srs" onclick="resetSRS()">🗑 Reset Semua Progress</button>
+  <div style="text-align:center;margin-top:6px;">
+    <span onclick="migrasiKartuKeFirestore()" style="font-size:0.6rem;color:#7c3aed;cursor:pointer;text-decoration:underline;">☁️ Update kartu & judul kitab pusat (bisa diulang kapan saja)</span>
+  </div>
+  <div style="text-align:center;margin-top:8px;">
+    <span onclick="paksaModeAman()" style="font-size:0.6rem;color:#9ca3af;cursor:pointer;">Kartu glitch setelah reset? Ketuk di sini</span>
   </div>
 </div>
 <div class="modal-overlay" id="modalSantri" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:999;">
