@@ -921,7 +921,7 @@ body {
   <a href="https://alfaylaksana.github.io/Ar-Risalah/" target="_blank">📖 Ar-Risalah</a>
   <a href="https://alfaylaksana.github.io/bidayatuna/instan/index.html" target="_blank">✍️ Instan</a>
   <a href="https://alfaylaksana.github.io/bidayatuna/flashayat/index.html" target="_blank">🔁 Flashayat</a>
-  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard <span class="soon">segera</span></a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard</a>
 </div>
 
 <!-- ===== HALAMAN DAFTAR ===== -->
@@ -960,12 +960,13 @@ body {
     <span class="mode-label">Mode:</span>
     <button class="tog on"  id="tog-harakat" onclick="togHarakat()">Harakat</button>
     <button class="tog"     id="tog-irob"    onclick="togIrob()">I'rab saja</button>
+    <div class="tog-sep"></div>
+    <button class="btn-toolbar" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
+    <button class="btn-toolbar" onclick="bukaModalImport()">📥 Import Halaman</button>
+    <button class="btn-toolbar export-btn" id="btnExport" onclick="exportKitab()">💾 Export JSON</button>
   </div>
 
   <div class="baca-toolbar">
-    <button class="btn-toolbar" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
-    <button class="btn-toolbar" onclick="bukaModalImport()">📥 Import Halaman</button>
-    <button class="btn-toolbar export-btn" onclick="exportKitab()">💾 Export JSON</button>
     <div id="exportWrap" class="export-wrap" style="width:100%">
       <textarea class="export-ta" id="exportTA" readonly></textarea>
       <button class="btn-copy-export" onclick="copyExport()">📋 Copy Semua</button>
@@ -1051,8 +1052,9 @@ body {
     </div>
     <div id="importError" style="display:none;color:var(--merah);font-size:0.75rem;margin-top:6px;"></div>
     <div class="modal-btns">
-      <button class="btn-save" onclick="prosesImport(false)">＋ Tambahkan</button>
-      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport(true)">↺ Ganti Semua</button>
+      <button class="btn-save" onclick="prosesImport('bawah')">＋ Gabung ke Bawah</button>
+      <button class="btn-save" onclick="prosesImport('atas')">⤴ Gabung ke Atas</button>
+      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport('ganti')">↺ Ganti Semua</button>
       <button class="btn-cancel" onclick="closeModal('modalImport')">Batal</button>
     </div>
   </div>
@@ -2003,7 +2005,7 @@ function konversiArRisalah(data) {
   return hasilHalaman;
 }
 
-async function prosesImport(ganti) {
+async function prosesImport(mode) {
   const errEl = document.getElementById('importError');
   if (!isiFileImport) {
     errEl.textContent = 'Pilih file JSON terlebih dahulu.';
@@ -2034,8 +2036,10 @@ async function prosesImport(ganti) {
     }
     tambahan = parsed.halaman;
   }
-  if (ganti) {
+  if (mode === 'ganti') {
     kitabAktif.halaman = tambahan;
+  } else if (mode === 'atas') {
+    kitabAktif.halaman = tambahan.concat(kitabAktif.halaman || []);
   } else {
     kitabAktif.halaman = (kitabAktif.halaman || []).concat(tambahan);
   }
