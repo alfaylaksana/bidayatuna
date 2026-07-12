@@ -263,8 +263,9 @@
                 <div class="irab-indo" id="irabIndo"></div>
                 <div class="irab-error hidden" id="irabError"></div>
                 <div class="irab-panel-generate hidden" id="irabPanelGenerate">
-                  <button class="irab-btn-prompt" onclick="bukaPromptIrab()">🔗 Buka Prompt di Claude.ai</button>
-                  <div class="irab-sep">— copy hasil JSON dari Claude, paste di sini —</div>
+                  <button class="irab-btn-prompt" onclick="salinPromptIrab()">📋 Salin Prompt (pakai AI apa saja)</button>
+                  <button class="irab-btn-prompt" style="background:var(--emas);" onclick="bukaPromptIrab()">🔗 Atau Buka Langsung di Claude.ai</button>
+                  <div class="irab-sep">— tempel prompt ke ChatGPT/Gemini/Claude/dll, lalu copy hasil JSON-nya, paste di sini —</div>
                   <textarea class="irab-paste-box" id="irabPasteBox" placeholder='Paste JSON di sini...' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text"></textarea>
                   <button class="irab-btn-paste" onclick="pasteIrab()">✅ Simpan الإعراب</button>
                 </div>
@@ -1146,15 +1147,47 @@ function loadIrab(a) {
   document.getElementById('irabPanelGenerate').classList.remove('hidden');
 }
 
+function buatPromptIrab(a) {
+  const kataStr = a.kata.map(k => k.arab + ' [' + (k.kode_gram||'') + ']').join(' | ');
+  return 'Kamu adalah pakar nahwu. Analisis i\'rab kalimat berikut dari kitab Ar-Risalah Al-Bajuri:\n\n'
+    + kataStr
+    + '\n\nTugas:\n1. Tulis i\'rab singkat dalam bahasa Arab (max 3 kalimat), pakai istilah nahwu klasik.\n2. Terjemahkan penjelasan i\'rab ke bahasa Indonesia (max 2 kalimat).\n\nJawab HANYA JSON, tanpa teks lain, tanpa markdown/backtick:\n{"arab":"...","indo":"..."}';
+}
+
 function bukaPromptIrab() {
   const a = antrian[idx];
   if (!a) return;
-  const kataStr = a.kata.map(k => k.arab + ' [' + (k.kode_gram||'') + ']').join(' | ');
-  const prompt = 'Kamu adalah pakar nahwu. Analisis i\'rab kalimat berikut dari kitab Ar-Risalah Al-Bajuri:\n\n'
-    + kataStr
-    + '\n\nTugas:\n1. Tulis i\'rab singkat dalam bahasa Arab (max 3 kalimat), pakai istilah nahwu klasik.\n2. Terjemahkan penjelasan i\'rab ke bahasa Indonesia (max 2 kalimat).\n\nJawab HANYA JSON:\n{"arab":"...","indo":"..."}';
+  const prompt = buatPromptIrab(a);
   const url = 'https://claude.ai/new?q=' + encodeURIComponent(prompt);
   window.open(url, '_blank');
+}
+
+function salinPromptIrab() {
+  const a = antrian[idx];
+  if (!a) return;
+  const prompt = buatPromptIrab(a);
+  const selesai = () => alert('✅ Prompt disalin!\n\nTempel (paste) ke ChatGPT, Gemini, Claude, atau AI apa pun yang Ustaz mau, lalu copy hasil JSON-nya kembali ke sini.');
+  const gagal = () => {
+    // Fallback untuk browser lawas yang tidak dukung navigator.clipboard
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = prompt;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      selesai();
+    } catch (e) {
+      alert('Gagal menyalin otomatis. Tempel manual dari sini:\n\n' + prompt);
+    }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(prompt).then(selesai).catch(gagal);
+  } else {
+    gagal();
+  }
 }
 
 function pasteIrab() {
@@ -1586,6 +1619,7 @@ window.bukaBatchPrompt = bukaBatchPrompt;
 window.bukaKelolaIrab = bukaKelolaIrab;
 window.bukaPanelBatch = bukaPanelBatch;
 window.bukaPromptIrab = bukaPromptIrab;
+window.salinPromptIrab = salinPromptIrab;
 window.editAyat = editAyat;
 window.editIrab = editIrab;
 window.exportIrab = exportIrab;
