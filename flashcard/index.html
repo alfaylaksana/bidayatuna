@@ -17,6 +17,8 @@
   .header{background:var(--hijau);color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
   .header-title{font-size:1rem;font-weight:700;}
   .header-sub{font-size:0.72rem;opacity:0.8;margin-top:2px;}
+  .cross-nav{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;background:white;border-bottom:1px solid var(--border);}
+  .cross-nav a{font-size:0.68rem;padding:4px 10px;border-radius:999px;background:var(--emas-pale, #fef9e7);color:#5a4500;text-decoration:none;border:1px solid var(--emas, #b7950b);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;}
   .header-count{font-size:0.78rem;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:20px;white-space:nowrap;}
   .progress-wrap{background:rgba(0,0,0,0.1);height:5px;}
   .progress-bar{background:var(--emas);height:5px;transition:width 0.4s;}
@@ -110,6 +112,12 @@
     <div class="header-sub" id="headerSantri" onclick="bukaGantiSantri()" style="cursor:pointer;text-decoration:underline;margin-top:3px;">👤 —</div>
   </div>
   <div class="header-count" id="headerCount">— / —</div>
+</div>
+<div class="cross-nav">
+  <a href="https://alfaylaksana.github.io/Ar-Risalah/" target="_blank">📖 Ar-Risalah</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/instan/index.html" target="_blank">✍️ Instan</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/maktabah/index.html" target="_blank">🏛 Maktabah</a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashayat/index.html" target="_blank">🔁 Flashayat</a>
 </div>
 <div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
 <div class="main">
