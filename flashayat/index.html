@@ -324,7 +324,7 @@
       <button style="background:none;border:none;color:#7c3aed;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="bukaKelolaIrab()">📋 Kelola الإعراب</button>
     </div>
     <div style="text-align:center;margin-top:8px;">
-      <span onclick="ketukAdmin()" style="font-size:0.6rem;color:#9ca3af;cursor:default;">Coding by Claude · Anthropic 🤖</span><br>
+      <span onclick="ketukAdmin(event)" style="font-size:0.6rem;color:#9ca3af;cursor:default;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;">Coding by Claude · Anthropic 🤖</span><br>
       <span onclick="paksaModeAman()" style="font-size:0.6rem;color:#d1d5db;cursor:pointer;">Kartu glitch setelah reset? Ketuk di sini</span>
     </div>
 
@@ -494,10 +494,16 @@ function sembunyikanTombolHemat() {
 // ============================================================
 let _tapAdminCount = 0;
 let _tapAdminTimer = null;
-function ketukAdmin() {
+function ketukAdmin(e) {
   _tapAdminCount++;
   clearTimeout(_tapAdminTimer);
-  _tapAdminTimer = setTimeout(() => { _tapAdminCount = 0; }, 1500);
+  _tapAdminTimer = setTimeout(() => { _tapAdminCount = 0; }, 2500);
+  // Kedipan halus tiap ketukan terdeteksi, biar kelihatan ketukannya kehitung
+  const el = e && e.target;
+  if (el) {
+    el.style.color = '#7c3aed';
+    setTimeout(() => { el.style.color = '#9ca3af'; }, 150);
+  }
   if (_tapAdminCount >= 5) {
     _tapAdminCount = 0;
     const aktifSekarang = localStorage.getItem('flashayat_admin') === '1';
