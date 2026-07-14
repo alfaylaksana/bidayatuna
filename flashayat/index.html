@@ -313,8 +313,8 @@
       <button class="btn-reset-srs" onclick="resetSRS()">🗑 Reset Progress</button>
     </div>
 
-    <!-- GANTI JSON + IRAB TOOLS -->
-    <div style="margin-top:10px;text-align:center;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+    <!-- GANTI JSON + IRAB TOOLS (khusus admin, disembunyikan default) -->
+    <div id="toolsMaintenance" style="margin-top:10px;text-align:center;display:none;flex-wrap:wrap;gap:6px;justify-content:center;">
       <button style="background:none;border:none;color:var(--abu-tua);font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="gantiJSON()">📥 Ganti / Tambah JSON</button>
       <button style="background:none;border:none;color:var(--hijau);font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="bukaPanelBatch()">⚡ Batch الإعراب</button>
       <button style="background:none;border:none;color:#b7950b;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="exportIrab()">📤 Export الإعراب</button>
@@ -324,7 +324,7 @@
       <button style="background:none;border:none;color:#7c3aed;font-size:0.7rem;cursor:pointer;text-decoration:underline;" onclick="bukaKelolaIrab()">📋 Kelola الإعراب</button>
     </div>
     <div style="text-align:center;margin-top:8px;">
-      <span style="font-size:0.6rem;color:#9ca3af;">Coding by Claude · Anthropic 🤖</span><br>
+      <span onclick="ketukAdmin()" style="font-size:0.6rem;color:#9ca3af;cursor:default;">Coding by Claude · Anthropic 🤖</span><br>
       <span onclick="paksaModeAman()" style="font-size:0.6rem;color:#d1d5db;cursor:pointer;">Kartu glitch setelah reset? Ketuk di sini</span>
     </div>
 
@@ -482,6 +482,40 @@ function sembunyikanTombolHemat() {
     localStorage.removeItem('flashayat_fade');
   } catch(e) {}
   renderTombolHemat(false);
+}
+
+// ============================================================
+// MODE ADMIN — sembunyikan tombol Ganti JSON / Batch / Export /
+// Import / Kelola الإعراب dari device santri, tampilkan lagi
+// khusus di device Ustaz lewat ketukan tersembunyi (5x ketuk
+// cepat pada tulisan "Coding by Claude" di footer).
+// Tersimpan per-device via localStorage, jadi sekali diaktifkan
+// di HP/laptop Ustaz, akan tetap tampil di device itu saja.
+// ============================================================
+let _tapAdminCount = 0;
+let _tapAdminTimer = null;
+function ketukAdmin() {
+  _tapAdminCount++;
+  clearTimeout(_tapAdminTimer);
+  _tapAdminTimer = setTimeout(() => { _tapAdminCount = 0; }, 1500);
+  if (_tapAdminCount >= 5) {
+    _tapAdminCount = 0;
+    const aktifSekarang = localStorage.getItem('flashayat_admin') === '1';
+    setModeAdmin(!aktifSekarang);
+    alert(aktifSekarang
+      ? '🔒 Tombol maintenance disembunyikan lagi di device ini.'
+      : '🔓 Tombol maintenance ditampilkan di device ini (Ganti JSON, Batch/Export/Import/Kelola الإعراب).');
+  }
+}
+function setModeAdmin(aktif) {
+  try { localStorage.setItem('flashayat_admin', aktif ? '1' : '0'); } catch(e) {}
+  const tools = document.getElementById('toolsMaintenance');
+  if (tools) tools.style.display = aktif ? 'flex' : 'none';
+}
+function initModeAdmin() {
+  try {
+    setModeAdmin(localStorage.getItem('flashayat_admin') === '1');
+  } catch(e) {}
 }
 
 function renderTombolHemat(tampilkan) {
@@ -1653,6 +1687,7 @@ window.toggleHematAnimasi = toggleHematAnimasi;
 window.toggleFadeMode = toggleFadeMode;
 window.paksaModeAman = paksaModeAman;
 window.sembunyikanTombolHemat = sembunyikanTombolHemat;
+window.ketukAdmin = ketukAdmin;
 window.ulangLupa = ulangLupa;
 window.ulangSesi = ulangSesi;
 window.filterByDropdown = filterByDropdown;
@@ -1664,6 +1699,7 @@ window.renderKelola = renderKelola;
 // INIT
 // ============================================================
 detectLowEnd();
+initModeAdmin();
 initApp();
 </script>
 </body>
