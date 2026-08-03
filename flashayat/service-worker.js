@@ -1,4 +1,4 @@
-const CACHE = "flashayat-v1";
+const CACHE = "flashayat-v2";
 
 const FILES = [
   "./",
