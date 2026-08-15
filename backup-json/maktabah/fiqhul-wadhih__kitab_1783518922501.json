@@ -1,0 +1,210 @@
+{
+  "judulIndo": "Fiqhul Wadhih",
+  "bidang": "fiqh",
+  "tahun": "",
+  "halaman": [
+    {
+      "judul_bab": "",
+      "nama_kitab": "Fiqhul Wadhih",
+      "kalimat": [
+        {
+          "irab": "<hasil LANGKAH 1>\n\nوَإِنْ: الواو عاطفة أو استئنافية، وَ\"إِنْ\" حرف شرط جازم يجزم فعلين.\n\nلَمْ يَأْذَنْ: \"لَمْ\" حرف نفي وجزم وقلب، و\"يَأْذَنْ\" فعل مضارع مجزوم بـ\"لَمْ\" وعلامة جزمه السكون، وهو فعل الشرط، وفاعله ضمير مستتر تقديره \"هو\" يعود إلى المالك أو صاحب الأمر.\n\nلَهُ: جار ومجرور متعلقان بـ\"يَأْذَنْ\".\n\nلَمْ يَجُزْ: \"لَمْ\" حرف نفي وجزم وقلب، و\"يَجُزْ\" فعل مضارع مجزوم وعلامة جزمه السكون، وهو جواب الشرط.\n\nلَهُ: جار ومجرور متعلقان بـ\"يَجُزْ\".\n\nأَخْذُهُ: فاعل لـ\"يَجُزْ\" مرفوع وعلامة رفعه الضمة الظاهرة، والهاء ضمير متصل مبني في محل جر مضاف إليه.\n\nالترجمة: <hasil LANGKAH 2, yaitu terjemahan dari LANGKAH 1>\n\nوَإِنْ: Huruf waw adalah huruf athaf (penghubung) atau huruf isti'naf (permulaan baru), sedangkan \"إِنْ\" adalah huruf syarat yang menjazemkan dua fi'il (kata kerja).\n\nلَمْ يَأْذَنْ: \"لَمْ\" adalah huruf nafi (peniadaan), jazem, dan pembalik waktu (dari mustaqbal ke madhi), sedangkan \"يَأْذَنْ\" adalah fi'il mudhari' yang dijazemkan oleh \"لَمْ\" dengan tanda jazem berupa sukun, dan ia berkedudukan sebagai fi'il syarat (predikat klausa syarat), dengan fa'il berupa dhamir mustatir (tersembunyi) yang diperkirakan \"هو\" merujuk kepada pemilik atau pemegang urusan.\n\nلَهُ (pertama): Jar dan majrur yang berkaitan (ta'alluq) dengan fi'il \"يَأْذَنْ\".\n\nلَمْ يَجُزْ: \"لَمْ\" adalah huruf nafi, jazem, dan pembalik waktu, sedangkan \"يَجُزْ\" adalah fi'il mudhari' yang dijazemkan dengan tanda jazem berupa sukun, dan ia berkedudukan sebagai jawab syarat (klausa akibat/konsekuensi).\n\nلَهُ (kedua): Jar dan majrur yang berkaitan dengan fi'il \"يَجُزْ\".\n\nأَخْذُهُ: Berkedudukan sebagai fa'il (subjek) dari fi'il \"يَجُزْ\", dalam keadaan marfu' dengan tanda rafa' berupa dhammah yang tampak jelas, sedangkan ha' adalah dhamir muttashil (tersambung) yang berkedudukan sebagai mudhaaf ilaih dalam posisi jar.",
+          "frasa": [
+            {
+              "kr": "",
+              "pegon": "دَن جِيكَا",
+              "arab": "وَإِنْ",
+              "indo": "dan jika"
+            },
+            {
+              "kr": "",
+              "pegon": "تِيدَق مْڠِيجِينْكَن",
+              "arab": "لَمْ يَأْذَنْ",
+              "indo": "tidak mengizinkan"
+            },
+            {
+              "indo": "kepadanya",
+              "arab": "لَهُ",
+              "pegon": "كَڤَادَانْيَا",
+              "kr": ""
+            },
+            {
+              "kr": "",
+              "pegon": "تِيدَق بُولَيْه",
+              "arab": "لَمْ يَجُزْ",
+              "indo": "tidak boleh"
+            },
+            {
+              "pegon": "بَاڬِينْيَا",
+              "kr": "",
+              "indo": "baginya",
+              "arab": "لَهُ"
+            },
+            {
+              "arab": "أَخْذُهُ",
+              "indo": "mengambilnya",
+              "kr": "",
+              "pegon": "مْڠَمْبِيلْنْيَا"
+            }
+          ],
+          "keterangan": ""
+        },
+        {
+          "irab": "<hasil LANGKAH 1>\n\nوَلَكِنْ: حرفُ استدراكٍ مبنيٌّ على السكون لا محلَّ له من الإعراب.\nإِذَا: ظرفُ زمانٍ شرطيٌّ مبنيٌّ على السكون في محلِّ نصبٍ، متعلِّقٌ بجوابه.\nكَانَ: فعلٌ ماضٍ ناقصٌ مبنيٌّ على الفتح.\nبَيْنَ التَّلْمِيْذِ وَرَفِيْقِهِ: \"بين\" ظرفُ مكانٍ منصوبٌ متعلِّقٌ بخبر كان المقدَّم، وهو مضافٌ، و\"التلميذ\" مضافٌ إليه مجرورٌ، و\"رفيقه\" معطوفٌ على \"التلميذ\" مجرورٌ والهاء ضميرٌ مبنيٌّ في محلِّ جرٍّ مضافٌ إليه.\nعُدْوَةٌ: اسمُ كانَ مؤخَّرٌ مرفوعٌ وعلامةُ رفعه الضمة الظاهرة.\nوَمَوَدَّةٌ شَدِيْدَةٌ: \"مودةٌ\" معطوفٌ على \"عدوةٌ\" مرفوعٌ، و\"شديدةٌ\" نعتٌ له مرفوعٌ.\nحَتَّى: حرفُ غايةٍ وابتداءٍ.\nأَنَّهُ: \"أنَّ\" حرفٌ مشبَّهٌ بالفعل ناصبٌ، والهاء ضميرٌ متَّصلٌ مبنيٌّ في محلِّ نصبٍ اسمُ أنَّ.\nعَلِمَ: فعلٌ ماضٍ مبنيٌّ على الفتح، وفاعلُه ضميرٌ مستترٌ تقديرُه \"هو\" يعودُ على التلميذ.\nتَمَامَ الْعِلْمِ: \"تمامَ\" مفعولٌ مطلقٌ منصوبٌ أو نائبٌ عنه، وهو مضافٌ، و\"العلم\" مضافٌ إليه مجرورٌ.\nأَنَّهُ: \"أنَّ\" حرفٌ مشبَّهٌ بالفعل ناصبٌ، والهاء ضميرٌ في محلِّ نصبٍ اسمُها، والمصدرُ المؤوَّلُ من \"أنَّ\" وما بعدها في محلِّ نصبٍ مفعولٌ به لـ\"علِم\".\nيَرْضَى: فعلٌ مضارعٌ مرفوعٌ وعلامةُ رفعه الضمةُ المقدَّرة على الألف، وفاعلُه ضميرٌ مستترٌ",
+          "frasa": [
+            {
+              "kr": "",
+              "pegon": "اَكَنْ تَتَاڤِي",
+              "arab": "وَلَكِنْ",
+              "indo": "akan tetapi"
+            },
+            {
+              "indo": "apabila ada",
+              "arab": "إِذَا كَانَ",
+              "pegon": "اَڤَابِيلَا اَدَا",
+              "kr": ""
+            },
+            {
+              "rujukan": "",
+              "pegonJawa": "",
+              "kr": "",
+              "pegon": "",
+              "arab": "بَيْنَ التَّلْمِيْذِ",
+              "irab": "",
+              "indo": ""
+            },
+            {
+              "rujukan": "",
+              "pegonJawa": "",
+              "pegon": "",
+              "kr": "",
+              "indo": "",
+              "irab": "",
+              "arab": "وَرَفِيْقِهِ"
+            },
+            {
+              "kr": "",
+              "pegon": "راسا سنع",
+              "arab": "مَحَبَّةٌ",
+              "indo": "rasa senang",
+              "pegonJawa": "",
+              "irab": "",
+              "rujukan": ""
+            },
+            {
+              "pegon": "",
+              "kr": "",
+              "indo": "",
+              "irab": "",
+              "arab": "وَمَوَدَّةٌ",
+              "rujukan": "",
+              "pegonJawa": ""
+            },
+            {
+              "pegon": "",
+              "kr": "",
+              "indo": "",
+              "irab": "",
+              "arab": "شَدِيْدَةٌ",
+              "rujukan": "",
+              "pegonJawa": ""
+            },
+            {
+              "arab": "حَتَّى أَنَّهُ",
+              "indo": "hingga sesungguhnya ia",
+              "kr": "",
+              "pegon": "هِيڠڬَا سُسُڠڬُهْنْيَا دِيَا"
+            },
+            {
+              "kr": "",
+              "pegon": "مَعْرِفَتِي / مَڠَتَاهُوِي",
+              "arab": "عَلِمَ",
+              "indo": "mengetahui"
+            },
+            {
+              "arab": "تَمَامَ الْعِلْمِ",
+              "indo": "kesempurnaan ilmu",
+              "kr": "",
+              "pegon": "كَسَمْڤُرْنَاأَنْ اِيلْمُو"
+            },
+            {
+              "indo": "bahwa dia",
+              "arab": "أَنَّهُ",
+              "pegon": "بَهْوَا دِيَا",
+              "kr": ""
+            },
+            {
+              "kr": "",
+              "pegon": "رِيضَا / مَرَاسَا ڤُوَاس",
+              "arab": "يَرْضَى",
+              "indo": "ridha / merasa puas"
+            },
+            {
+              "kr": "",
+              "pegon": "كَتِيكَا مَڠَمْبِيل",
+              "arab": "إِذَا أَخَذَ",
+              "indo": "ketika mengambil"
+            },
+            {
+              "arab": "كِتَابَهُ",
+              "indo": "kitabnya",
+              "kr": "",
+              "pegon": "كِتَابْنَا"
+            },
+            {
+              "arab": "وَقَرَأَهُ",
+              "indo": "dan membacanya",
+              "kr": "",
+              "pegon": "لَنْ مَمَاچَانِ"
+            },
+            {
+              "pegon": "سَلَامَا مَاسَا / وَكْتُو",
+              "kr": "",
+              "indo": "selama masa / waktu",
+              "arab": "مُدَّةَ"
+            },
+            {
+              "indo": "lima menit",
+              "arab": "خَمْسِ دَقَائِقَ",
+              "pegon": "لِيمَا مِنِيت",
+              "kr": ""
+            },
+            {
+              "rujukan": "",
+              "pegonJawa": "",
+              "arab": "مَثَلًا",
+              "irab": "",
+              "indo": "misalnya",
+              "kr": "",
+              "pegon": "مِسَلْنَا"
+            },
+            {
+              "arab": "فَلَا بَأْسَ",
+              "indo": "maka tidak apa-apa",
+              "kr": "",
+              "pegon": "مَاكَا تِيدَاك اَڤَ-اَڤَا"
+            },
+            {
+              "pegon": "دَن تِيدَاك",
+              "kr": "",
+              "indo": "dan tidak",
+              "arab": "وَلَا"
+            },
+            {
+              "kr": "",
+              "pegon": "سَمْڤِيت / كَسُوسَهَن",
+              "arab": "حَرَجَ",
+              "indo": "sempit/kesulitan"
+            }
+          ],
+          "keterangan": ""
+        }
+      ]
+    }
+  ],
+  "judulArab": "الفقه الواضح",
+  "keterangan": "",
+  "id": "kitab_1783518922501",
+  "dibuatPada": "2026-07-08T13:55:22.501Z",
+  "pengarang": ""
+}
