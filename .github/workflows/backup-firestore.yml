@@ -21,7 +21,7 @@ jobs:
           node-version: '24'
 
       - name: Install firebase-admin
-        run: npm install firebase-admin
+        run: npm install firebase-admin@12
 
       - name: Jalankan backup
         env:
