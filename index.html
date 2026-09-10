@@ -73,18 +73,29 @@ body {
   margin-top: 1px;
 }
 .btn-tambah-header {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 45;
   background: var(--emas-border);
   color: var(--hijau);
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 0.82rem;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  font-size: 1.3rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
   white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.btn-tambah-header:hover { background: #f5d87a; }
+.btn-tambah-header:hover { background: #f5d87a; transform: scale(1.05); }
+.btn-tambah-header .label { display: none; }
 
 /* ===== HALAMAN UTAMA — DAFTAR KITAB ===== */
 #halamanDaftar { display: block; }
@@ -242,7 +253,20 @@ body {
   position: sticky;
   top: 56px;
   z-index: 30;
+  max-height: 300px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease, border-color 0.3s ease;
 }
+.toggle-bar.tb-hidden {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  border-bottom-color: transparent;
+  pointer-events: none;
+}
+.baca-judul-wrap { cursor: pointer; }
 .tog {
   font-size: 0.67rem;
   padding: 4px 10px;
@@ -480,9 +504,11 @@ body {
 
 /* FRASA UNIT (mirip Bidayatuna Instan) */
 .kata-unit { position: relative; }
-.kata-unit.is-frasa { align-items: flex-end; min-width: 140px; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 8px 10px; background: white; border: 1px solid var(--hijau-pale, #cfe8cf); border-radius: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; }
-.kata-unit.is-frasa.edit-active { background: #fff7ed; }
+.kata-unit.is-frasa { flex-shrink: 0; flex-grow: 0; align-items: stretch; min-width: 0; max-width: 480px; width: -webkit-max-content; width: max-content; padding: 4px 6px; background: transparent; border: none; border-radius: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-frasa .arab-text.frasa-arab { font-size: 1.15rem; line-height: 2; width: auto; white-space: nowrap; text-align: right; border-bottom: 1.5px solid var(--hijau-pale); padding-bottom: 2px; }
+.kata-unit.is-frasa.edit-active { background: #fff7ed; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+.kata-unit.is-wide { flex-shrink: 0; flex-grow: 0; max-width: 480px; width: -webkit-max-content; width: max-content; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kata-unit.is-wide .arab-text { white-space: nowrap; width: auto; }
 
 /* TOMBOL GABUNG UNIT */
 .unit-merge-btn { display: none; position: absolute; top: -8px; left: -8px; background: #7c3aed; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.6rem; align-items: center; justify-content: center; cursor: pointer; z-index: 5; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
@@ -912,14 +938,15 @@ body {
       <div class="sub">Arsip Kitab Bidayatuna — Firebase</div>
     </div>
   </div>
-  <button class="btn-tambah-header" onclick="bukaModalTambah()">＋ Tambah Kitab</button>
 </div>
+
+<button class="btn-tambah-header" onclick="bukaModalTambah()" title="Tambah Kitab">＋</button>
 
 <div class="cross-nav">
   <a href="https://alfaylaksana.github.io/Ar-Risalah/" target="_blank">📖 Ar-Risalah</a>
   <a href="https://alfaylaksana.github.io/bidayatuna/instan/index.html" target="_blank">✍️ Instan</a>
   <a href="https://alfaylaksana.github.io/bidayatuna/flashayat/index.html" target="_blank">🔁 Flashayat</a>
-  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard <span class="soon">segera</span></a>
+  <a href="https://alfaylaksana.github.io/bidayatuna/flashcard/index.html" target="_blank">🗂 Flashcard</a>
 </div>
 
 <!-- ===== HALAMAN DAFTAR ===== -->
@@ -945,7 +972,7 @@ body {
     </div>
   </div>
 
-  <div class="toggle-bar">
+  <div class="toggle-bar" id="toggleBar">
     <span class="mode-label">Tampil:</span>
     <button class="tog on"  id="tog-kode"    onclick="togView('kode')">Kode Gram.</button>
     <button class="tog on"  id="tog-pegon"   onclick="togView('pegon')">Pegon</button>
@@ -958,12 +985,13 @@ body {
     <span class="mode-label">Mode:</span>
     <button class="tog on"  id="tog-harakat" onclick="togHarakat()">Harakat</button>
     <button class="tog"     id="tog-irob"    onclick="togIrob()">I'rab saja</button>
+    <div class="tog-sep"></div>
+    <button class="btn-toolbar" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
+    <button class="btn-toolbar" onclick="bukaModalImport()">📥 Import Halaman</button>
+    <button class="btn-toolbar export-btn" id="btnExport" onclick="exportKitab()">💾 Export JSON</button>
   </div>
 
   <div class="baca-toolbar">
-    <button class="btn-toolbar" id="btnEditMode" onclick="toggleEditMode()">✏️ Mode Edit</button>
-    <button class="btn-toolbar" onclick="bukaModalImport()">📥 Import Halaman</button>
-    <button class="btn-toolbar export-btn" onclick="exportKitab()">💾 Export JSON</button>
     <div id="exportWrap" class="export-wrap" style="width:100%">
       <textarea class="export-ta" id="exportTA" readonly></textarea>
       <button class="btn-copy-export" onclick="copyExport()">📋 Copy Semua</button>
@@ -1049,8 +1077,9 @@ body {
     </div>
     <div id="importError" style="display:none;color:var(--merah);font-size:0.75rem;margin-top:6px;"></div>
     <div class="modal-btns">
-      <button class="btn-save" onclick="prosesImport(false)">＋ Tambahkan</button>
-      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport(true)">↺ Ganti Semua</button>
+      <button class="btn-save" onclick="prosesImport('bawah')">＋ Gabung ke Bawah</button>
+      <button class="btn-save" onclick="prosesImport('atas')">⤴ Gabung ke Atas</button>
+      <button class="btn-save" style="background:var(--emas);" onclick="prosesImport('ganti')">↺ Ganti Semua</button>
       <button class="btn-cancel" onclick="closeModal('modalImport')">Batal</button>
     </div>
   </div>
@@ -1315,7 +1344,34 @@ function bukaKitab(id) {
   resetTogUI();
   buildDisplay();
   window.scrollTo({top:0, behavior:'smooth'});
+  showToggleBar();
 }
+
+// ============================================================
+// AUTO-HIDE TOGGLE-BAR (panel menu utama)
+// ============================================================
+let toggleBarHideTimer = null;
+function showToggleBar() {
+  const tb = document.getElementById('toggleBar');
+  if (!tb) return;
+  tb.classList.remove('tb-hidden');
+  clearTimeout(toggleBarHideTimer);
+  toggleBarHideTimer = setTimeout(hideToggleBar, 5000);
+}
+function hideToggleBar() {
+  const tb = document.getElementById('toggleBar');
+  if (!tb) return;
+  tb.classList.add('tb-hidden');
+  clearTimeout(toggleBarHideTimer);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const tb = document.getElementById('toggleBar');
+  const konten = document.getElementById('bacaContent');
+  const judul = document.querySelector('.baca-judul-wrap');
+  if (tb) tb.addEventListener('click', showToggleBar);
+  if (konten) konten.addEventListener('click', hideToggleBar);
+  if (judul) judul.addEventListener('click', showToggleBar);
+});
 
 function kembaliDaftar() {
   kitabAktif = null;
@@ -1397,12 +1453,6 @@ function buildDisplay() {
       const type = useFrasa ? 'frasa' : 'kata';
       units.forEach((k, wi) => {
         kWrap.appendChild(buildKataUnit(k, hi, ki, wi, units.length, type));
-        if (k.rujukan) {
-          const nomorEl = document.createElement('span');
-          nomorEl.className = 'nomor-ayat' + (togState.rujukan ? '' : ' hidden');
-          nomorEl.textContent = k.rujukan;
-          kWrap.appendChild(nomorEl);
-        }
       });
       block.appendChild(kWrap);
 
@@ -1412,7 +1462,7 @@ function buildDisplay() {
       cat.className = 'catatan-wrap' + (togState.catatan ? '' : ' hidden');
       cat.innerHTML = `
         <div class="catatan-label">
-          📝 Catatan Nahwu
+          📝 الإعراب
           <span style="display:flex;gap:5px;align-items:center">
             <span class="kal-gabung-btn" id="gabungBtn_${hi}_${ki}"
               onclick="gabungKalimat(${hi},${ki})"
@@ -1422,7 +1472,7 @@ function buildDisplay() {
               style="display:${editMode ? 'inline' : 'none'}">✏️ Edit</span>
           </span>
         </div>
-        <span class="catatan-isi">${kal.catatan_nahwu || '—'}</span>`;
+        <span class="catatan-isi">${kal.irab || kal.catatan_nahwu || '—'}</span>`;
       block.appendChild(cat);
     });
 
@@ -1430,12 +1480,30 @@ function buildDisplay() {
   });
 
   applyHarakatMode();
+  paksaAntiWrapFrasa();
+}
+
+function paksaAntiWrapFrasa() {
+  document.querySelectorAll('.kata-unit.is-frasa, .kata-unit.is-wide').forEach(unit => {
+    unit.style.flexShrink = '0';
+    unit.style.flexGrow = '0';
+    unit.style.width = 'max-content';
+    unit.style.maxWidth = '480px';
+    unit.style.overflowX = 'auto';
+    const ar = unit.querySelector('.arab-text');
+    if (ar) {
+      ar.style.whiteSpace = 'nowrap';
+      ar.style.width = 'auto';
+      ar.style.display = 'inline-block';
+    }
+  });
 }
 
 function buildKataUnit(k, hi, ki, wi, total, type) {
   type = type || 'kata';
   const unit = document.createElement('div');
-  unit.className = 'kata-unit' + (type === 'frasa' ? ' is-frasa' : '') + (editMode ? ' edit-active' : '');
+  const isWide = type !== 'frasa' && /\s/.test((k.arab || '').trim());
+  unit.className = 'kata-unit' + (type === 'frasa' ? ' is-frasa' : '') + (isWide ? ' is-wide' : '') + (editMode ? ' edit-active' : '');
   unit.dataset.hi = hi; unit.dataset.ki = ki; unit.dataset.wi = wi; unit.dataset.type = type;
   if (editMode) unit.onclick = () => openKata(hi, ki, wi, type);
 
@@ -1701,13 +1769,15 @@ function splitKata() {
 function openCatatan(hi, ki) {
   catatanTarget = {hi, ki};
   const kal = kitabAktif.halaman[hi].kalimat[ki];
-  document.getElementById('editCatatan').value = kal.catatan_nahwu || '';
+  document.getElementById('editCatatan').value = kal.irab || kal.catatan_nahwu || '';
   openModal('modalCatatan');
 }
 function saveCatatan() {
   if (!catatanTarget || !kitabAktif) return;
   const {hi, ki} = catatanTarget;
-  kitabAktif.halaman[hi].kalimat[ki].catatan_nahwu = document.getElementById('editCatatan').value.trim();
+  const kal = kitabAktif.halaman[hi].kalimat[ki];
+  kal.irab = document.getElementById('editCatatan').value.trim();
+  kal.catatan_nahwu = ''; // field lama dikosongkan, sumber data sekarang cuma kal.irab
   closeModal('modalCatatan');
   simpanKitabAktif();
   tandaiPerubahan();
@@ -1725,9 +1795,14 @@ function gabungKalimat(hi, ki) {
   const kal2 = hlm.kalimat[ki + 1];
   const key = (kal1.frasa && kal1.frasa.length) || (kal2.frasa && kal2.frasa.length) ? 'frasa' : 'kata';
   kal1[key] = (kal1[key] || []).concat(kal2[key] || []);
-  if (kal2.catatan_nahwu) {
-    kal1.catatan_nahwu = [kal1.catatan_nahwu, kal2.catatan_nahwu].filter(Boolean).join(' — ');
+  const irab1 = kal1.irab || kal1.catatan_nahwu || '';
+  const irab2 = kal2.irab || kal2.catatan_nahwu || '';
+  if (irab2) {
+    kal1.irab = [irab1, irab2].filter(Boolean).join(' — ');
+  } else if (irab1) {
+    kal1.irab = irab1;
   }
+  kal1.catatan_nahwu = '';
   hlm.kalimat.splice(ki + 1, 1);
   simpanKitabAktif();
   tandaiPerubahan();
@@ -1982,7 +2057,7 @@ function konversiArRisalah(data) {
   return hasilHalaman;
 }
 
-async function prosesImport(ganti) {
+async function prosesImport(mode) {
   const errEl = document.getElementById('importError');
   if (!isiFileImport) {
     errEl.textContent = 'Pilih file JSON terlebih dahulu.';
@@ -2013,8 +2088,10 @@ async function prosesImport(ganti) {
     }
     tambahan = parsed.halaman;
   }
-  if (ganti) {
+  if (mode === 'ganti') {
     kitabAktif.halaman = tambahan;
+  } else if (mode === 'atas') {
+    kitabAktif.halaman = tambahan.concat(kitabAktif.halaman || []);
   } else {
     kitabAktif.halaman = (kitabAktif.halaman || []).concat(tambahan);
   }
