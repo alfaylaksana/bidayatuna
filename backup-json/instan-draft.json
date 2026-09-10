@@ -1,55 +1,745 @@
 {
+  "updatedAt": 1789017680639,
   "data": {
     "halaman": [
       {
-        "nama_kitab": "Fiqhul Wadhih",
-        "judul_bab": "",
         "kalimat": [
           {
             "keterangan": "",
-            "irab": "<hasil LANGKAH 1>\n\nالواو: حرف عطف أو استئناف مبني على الفتح لا محل له من الإعراب. وإن: الواو سبق ذكرها، وإن: حرف شرط جازم مبني على السكون لا محل له من الإعراب. لَمْ: حرف نفي وجزم وقلب مبني على السكون لا محل له من الإعراب. يَأْذَنْ: فعل مضارع مجزوم بلم وعلامة جزمه السكون، والفاعل ضمير مستتر تقديره هو. لَهُ: اللام حرف جر، والهاء ضمير متصل مبني على الضم في محل جر، والجار والمجرور متعلقان بالفعل يأذن. وجملة لم يأذن في محل جزم فعل الشرط. لَمْ: حرف نفي وجزم وقلب مبني على السكون لا محل له من الإعراب. يَجُزْ: فعل مضارع مجزوم بلم وعلامة جزمه السكون، والفاعل ضمير مستتر تقديره هو. لَهُ: اللام حرف جر، والهاء ضمير متصل مبني على الضم في محل جر، والجار والمجرور متعلقان بالفعل يجز. أَخْذُهُ: أخذ: فاعل مرفوع وعلامة رفعه الضمة الظاهرة، وهو مضاف، والهاء ضمير متصل مبني على الضم في محل جر مضاف إليه. وجملة لم يجز جواب الشرط لا محل لها من الإعراب.\n\nالترجمة: <hasil LANGKAH 2, yaitu terjemahan dari LANGKAH 1>\n\nWawu: huruf 'ataf atau isti'naf yang dibangun di atas fathah, tidak memiliki kedudukan dalam i'rab. Adapun \"in\": huruf syarat yang menjazmkan, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Lam\" (pada لَمْ يَأْذَنْ): huruf nafi, jazm, dan pembalik zaman, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Ya'dzan\": fi'il mudhari' yang dijazmkan oleh lam, tanda jazmnya adalah sukun, dan fa'il-nya adalah dhamir mustatir yang diperkirakan \"huwa\". \"Lahu\" (pertama): lam adalah huruf jar, dan ha' adalah dhamir muttasil yang dibangun di atas dhammah, berkedudukan sebagai majrur; jar dan majrur keduanya berkaitan dengan fi'il \"ya'dzan\". Jumlah \"lam ya'dzan\" berkedudukan sebagai fi'il syarat dalam posisi jazm. \"Lam\" (pada لَمْ يَجُزْ): huruf nafi, jazm, dan pembalik zaman, dibangun di atas sukun, tidak memiliki kedudukan dalam i'rab. \"Yajuz\": fi'il mudhari' yang dijazmkan oleh lam, tanda jazmnya adalah sukun, dan fa'il-nya adalah dhamir mustatir yang diperkirakan \"huwa\". \"Lahu\" (kedua): lam adalah huruf jar, dan ha' adalah dhamir mutt",
             "frasa": [
               {
-                "arab": "وإن",
-                "pegon": "دان جِيكا",
-                "indo": "dan jika",
-                "kr": ""
-              },
-              {
-                "arab": "لَمْ يَأْذَنْ",
-                "pegon": "تِيدَق مَڠِيجِينْكَنْ",
-                "indo": "tidak mengizinkan",
-                "kr": ""
-              },
-              {
-                "arab": "لَهُ",
-                "pegon": "كَڤَادَانْيَا",
-                "indo": "kepadanya",
-                "kr": ""
-              },
-              {
-                "arab": "لَمْ يَجُزْ",
-                "pegon": "تِيدَق بُولِيهْ",
-                "indo": "tidak boleh",
-                "kr": ""
-              },
-              {
-                "arab": "لَهُ",
-                "pegon": "بَاڬِينْيَا",
-                "indo": "baginya",
-                "kr": ""
-              },
-              {
-                "arab": "أَخْذُهُ",
-                "pegon": "مَڠَمْبِيلْنْيَا",
-                "indo": "mengambilnya",
+                "indo": "",
+                "arab": "*الزَّكَاةُ*",
+                "pegon": "",
                 "kr": ""
               }
+            ],
+            "irab": ""
+          },
+          {
+            "keterangan": "",
+            "frasa": [
+              {
+                "arab": "*الأَشْيَاءُ",
+                "pegon": "",
+                "kr": "",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "الَّتِي",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "تَجِبُ",
+                "indo": ""
+              },
+              {
+                "arab": "فِيهَا",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "arab": "الزَّكَاةُ*",
+                "indo": ""
+              }
+            ],
+            "irab": ""
+          },
+          {
+            "frasa": [
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "*تَجِبُ",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "arab": "الزَّكَاةُ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "arab": "فِي خَمْسَةِ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "indo": "",
+                "kr": "",
+                "pegon": "",
+                "arab": "أَشْيَاءَ:*"
+              }
+            ],
+            "irab": "",
+            "keterangan": ""
+          },
+          {
+            "frasa": [
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "١.",
+                "indo": ""
+              },
+              {
+                "arab": "*الْمَوَاشِي",
+                "kr": "",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "kr": "",
+                "arab": "وَهِيَ:*"
+              }
+            ],
+            "irab": "",
+            "keterangan": ""
+          },
+          {
+            "keterangan": "",
+            "irab": "",
+            "frasa": [
+              {
+                "arab": "(١)",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "arab": "الإِبِلُ",
+                "indo": "",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "(ب)",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "indo": "",
+                "arab": "البَقَرُ"
+              },
+              {
+                "arab": "(ج)",
+                "kr": "",
+                "indo": "",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "arab": "الجَامُوسُ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "kr": "",
+                "arab": "(د)"
+              },
+              {
+                "indo": "",
+                "arab": "الغَنَمُ",
+                "kr": "",
+                "pegon": ""
+              }
             ]
+          },
+          {
+            "irab": "",
+            "frasa": [
+              {
+                "arab": "٢.",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "*الأَثْمَانُ",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "arab": "وَهِيَ:*",
+                "indo": ""
+              }
+            ],
+            "keterangan": ""
+          },
+          {
+            "frasa": [
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "(١)",
+                "pegon": ""
+              },
+              {
+                "indo": "",
+                "kr": "",
+                "pegon": "",
+                "arab": "الذَّهَبُ"
+              },
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "(ب)",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "الفِضَّةُ"
+              }
+            ],
+            "irab": "",
+            "keterangan": ""
+          },
+          {
+            "frasa": [
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "٣.",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "kr": "",
+                "arab": "*الزُّرُوعُ"
+              },
+              {
+                "arab": "(الأَقْوَاتُ)*",
+                "indo": "",
+                "pegon": "",
+                "kr": ""
+              }
+            ],
+            "irab": "",
+            "keterangan": ""
+          },
+          {
+            "irab": "",
+            "keterangan": "",
+            "frasa": [
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "٤.",
+                "pegon": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "kr": "",
+                "arab": "*الثِّمَارُ"
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "وَهِيَ:*",
+                "indo": ""
+              }
+            ]
+          },
+          {
+            "frasa": [
+              {
+                "indo": "",
+                "arab": "(١)",
+                "kr": "",
+                "pegon": ""
+              },
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "ثَمَرُ",
+                "kr": ""
+              },
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "النَّخْلِ",
+                "kr": ""
+              },
+              {
+                "arab": "(ب)",
+                "kr": "",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "indo": "",
+                "arab": "ثَمَرُ",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "arab": "الكَرْمِ",
+                "indo": "",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "(وَهَذَانِ",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "غَيْرُ مَوْجُودَيْنِ"
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "بِبَلَدِنَا"
+              },
+              {
+                "pegon": "",
+                "arab": "وَتَيْسِيرَ)",
+                "kr": "",
+                "indo": ""
+              }
+            ],
+            "irab": "",
+            "keterangan": ""
+          },
+          {
+            "irab": "",
+            "frasa": [
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "٥.",
+                "pegon": ""
+              },
+              {
+                "arab": "*عُرُوضُ",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "arab": "التِّجَارَةِ*",
+                "indo": "",
+                "pegon": ""
+              }
+            ],
+            "keterangan": ""
+          },
+          {
+            "irab": "",
+            "frasa": [
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "*شُرُوطُ",
+                "indo": ""
+              },
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "وُجُوبِ",
+                "kr": ""
+              },
+              {
+                "arab": "الزَّكَاةِ",
+                "kr": "",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "arab": "فِي الْمَاشِيَةِ:*",
+                "indo": "",
+                "pegon": "",
+                "kr": ""
+              }
+            ],
+            "keterangan": ""
+          },
+          {
+            "keterangan": "",
+            "irab": "",
+            "frasa": [
+              {
+                "kr": "",
+                "pegon": "",
+                "indo": "",
+                "arab": "*يُشْتَرَطُ"
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "لِزَكَاةِ"
+              },
+              {
+                "pegon": "",
+                "arab": "الْمَاشِيَةِ",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "indo": "",
+                "arab": "سِتَّةُ",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "شُرُوطٍ:*"
+              }
+            ]
+          },
+          {
+            "frasa": [
+              {
+                "kr": "",
+                "arab": "١.",
+                "indo": "",
+                "pegon": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "الإِسْلَامُ",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "arab": "٢.",
+                "kr": "",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "arab": "الحُرِّيَّةُ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "arab": "٣.",
+                "indo": "",
+                "kr": "",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "المِلْكُ"
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "indo": "",
+                "arab": "التَّامُّ"
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "٤.",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "arab": "النِّصَابُ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "arab": "٥.",
+                "indo": "",
+                "kr": "",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "مُرُورُ",
+                "pegon": ""
+              },
+              {
+                "indo": "",
+                "arab": "الحَوْلِ",
+                "kr": "",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "arab": "(السَّنَةِ)",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "٦."
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "السَّوْمُ"
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "arab": "(وَهُوَ",
+                "pegon": ""
+              },
+              {
+                "kr": "",
+                "arab": "أَنْ",
+                "indo": "",
+                "pegon": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "تَرْعَى",
+                "kr": ""
+              },
+              {
+                "indo": "",
+                "kr": "",
+                "pegon": "",
+                "arab": "بِلَا"
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "مُؤْنَةٍ"
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "arab": "طُولَ",
+                "indo": ""
+              },
+              {
+                "indo": "",
+                "pegon": "",
+                "arab": "العَامِ",
+                "kr": ""
+              },
+              {
+                "arab": "أَوْ أَكْثَرِهِ)",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              }
+            ],
+            "keterangan": "",
+            "irab": ""
+          },
+          {
+            "irab": "",
+            "frasa": [
+              {
+                "kr": "",
+                "arab": "*شُرُوطُ",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "وُجُوبِ"
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "الزَّكَاةِ",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "فِي الثَّمَنِ",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "kr": "",
+                "arab": "وَعُرُوضِ"
+              },
+              {
+                "indo": "",
+                "arab": "التِّجَارَةِ",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "arab": "وَتَجِبُ",
+                "kr": "",
+                "indo": ""
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "indo": "",
+                "arab": "الزَّكَاةُ"
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "فِيهِمَا"
+              },
+              {
+                "pegon": "",
+                "indo": "",
+                "arab": "بِخَمْسَةِ",
+                "kr": ""
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "شُرُوطٍ:*",
+                "indo": ""
+              }
+            ],
+            "keterangan": ""
+          },
+          {
+            "keterangan": "",
+            "frasa": [
+              {
+                "kr": "",
+                "pegon": "",
+                "arab": "١.",
+                "indo": ""
+              },
+              {
+                "arab": "الإِسْلَامُ",
+                "indo": "",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "arab": "٢.",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "pegon": "",
+                "indo": "",
+                "arab": "الحُرِّيَّةُ"
+              },
+              {
+                "pegon": "",
+                "kr": "",
+                "indo": "",
+                "arab": "٣."
+              },
+              {
+                "indo": "",
+                "arab": "المِلْكُ",
+                "kr": "",
+                "pegon": ""
+              },
+              {
+                "pegon": "",
+                "arab": "التَّامُّ",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "indo": "",
+                "arab": "٤.",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "kr": "",
+                "indo": "",
+                "pegon": "",
+                "arab": "النِّصَابُ"
+              },
+              {
+                "arab": "٥.",
+                "kr": "",
+                "pegon": "",
+                "indo": ""
+              },
+              {
+                "indo": "",
+                "arab": "الحَوْلُ",
+                "pegon": "",
+                "kr": ""
+              }
+            ],
+            "irab": ""
+          },
+          {
+            "frasa": [
+              {
+                "pegon": "",
+                "kr": "",
+                "arab": "*شُرُوطُ",
+                "indo": ""
+              },
+              {
+                "arab": "وُجُوبِ",
+                "pegon": "",
+                "indo": "",
+                "kr": ""
+              },
+              {
+                "indo": "",
+                "arab": "الزَّكَاةِ",
+                "pegon": "",
+                "kr": ""
+              },
+              {
+                "arab": "فِي الزُّرُوعِ*",
+                "indo": "",
+                "kr": "",
+                "pegon": ""
+              }
+            ],
+            "keterangan": "",
+            "irab": ""
           }
-        ]
+        ],
+        "judul_bab": "",
+        "nama_kitab": ""
       }
     ]
-  },
-  "updatedAt": 1783724379670
+  }
 }
