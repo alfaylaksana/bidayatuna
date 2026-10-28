@@ -937,8 +937,12 @@ body {
   opacity: 0;
   transition: all 0.25s;
   pointer-events: none;
-  white-space: nowrap;
-  direction: rtl;
+  white-space: pre-line;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+  line-height: 1.55;
+  unicode-bidi: plaintext;
 }
 .toast.show {
   opacity: 1;
@@ -1450,7 +1454,7 @@ async function init() {
   } catch (err) {
     console.error('init error:', err);
     if (adaCache) {
-      toast('📴 Tidak ada koneksi — menampilkan data tersimpan di HP.');
+      toast('📴 Tidak ada koneksi.\nMenampilkan data yang tersimpan di HP.', 5000);
     } else {
       toast('❌ Gagal memuat data: ' + (err && err.message ? err.message : err));
     }
@@ -2276,7 +2280,11 @@ async function simpanKitab() {
     closeModal('modalKitab');
     renderDaftar();
   } catch(err) {
-    toast('❌ Gagal simpan: ' + (err && err.message ? err.message : err));
+    if (!navigator.onLine) {
+      toast('📴 Sedang offline.\nPerubahan belum bisa disimpan. Coba lagi setelah internet menyala.', 6000);
+    } else {
+      toast('❌ Gagal simpan:\n' + (err && err.message ? err.message : err), 6000);
+    }
     console.error('simpanKitab error:', err);
   }
 }
@@ -2291,7 +2299,13 @@ function hapusKitab(id) {
     'Hapus Kitab?',
     `"${k.judulIndo || k.judulArab}" akan dihapus permanen dari arsip. Tindakan ini tidak bisa dibatalkan.`,
     async () => {
-      await dbDelete(id);
+      try {
+        await dbDelete(id);
+      } catch (err) {
+        console.error('hapusKitab error:', err);
+        toast(!navigator.onLine ? '📴 Sedang offline.\nKitab belum bisa dihapus. Coba lagi setelah internet menyala.' : '❌ Gagal hapus:\n' + (err && err.message ? err.message : err), 6000);
+        return;
+      }
       koleksi = koleksi.filter(x => x.id !== id);
       renderDaftar();
       toast('🗑 Kitab berhasil dihapus.');
@@ -2510,7 +2524,11 @@ async function simpanKitabAktif() {
     ]);
   } catch (err) {
     console.error('Gagal simpan ke Firestore', err);
-    toast('❌ Gagal simpan ke server: ' + (err.code || err.message || err));
+    if (!navigator.onLine) {
+      toast('📴 Sedang offline.\nPerubahan BELUM tersimpan ke server dan akan hilang kalau Maktabah ditutup.\nSimpan lagi setelah internet menyala.', 8000);
+    } else {
+      toast('❌ Gagal simpan ke server:\n' + (err.code || err.message || err), 6000);
+    }
   }
 }
 
@@ -2584,12 +2602,12 @@ function closeKonfirm() { document.getElementById('konfirmOverlay').classList.re
 // ============================================================
 // TOAST
 // ============================================================
-function toast(msg) {
+function toast(msg, ms) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => el.classList.remove('show'), ms || 2800);
 }
 </script>
 <script>
