@@ -1295,7 +1295,7 @@ body {
 // FIREBASE FIRESTORE
 // ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, getDocs, getDocsFromCache, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -1308,7 +1308,14 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+let db;
+try {
+  // Cache data di HP (IndexedDB) supaya kitab bisa dibaca tanpa internet
+  db = initializeFirestore(firebaseApp, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+} catch (e) {
+  console.warn('Cache offline Firestore tidak aktif, pakai mode biasa', e);
+  db = getFirestore(firebaseApp);
+}
 const auth = getAuth(firebaseApp);
 const authSiap = signInAnonymously(auth).catch(e => console.error('Login anonim gagal', e));
 const KOLEKSI = collection(db, 'maktabah');
@@ -1318,13 +1325,24 @@ async function dbGetAll() {
   return snap.docs.map(d => d.data());
 }
 
+async function dbGetCache() {
+  const snap = await getDocsFromCache(KOLEKSI);
+  return snap.docs.map(d => d.data());
+}
+
+function pastikanOnline() {
+  if (!navigator.onLine) throw new Error('Sedang offline — perubahan belum bisa disimpan.');
+}
+
 async function dbPut(obj) {
+  pastikanOnline();
   await authSiap;
   const ref = doc(db, 'maktabah', obj.id);
   await setDoc(ref, obj);
 }
 
 async function dbDelete(id) {
+  pastikanOnline();
   await authSiap;
   const ref = doc(db, 'maktabah', id);
   await deleteDoc(ref);
@@ -1396,18 +1414,46 @@ window.shareKitab       = shareKitab;
 // ============================================================
 // INIT
 // ============================================================
+function bukaDariUrl() {
+  const idDariUrl = new URLSearchParams(window.location.search).get('kitab');
+  if (idDariUrl && !kitabAktif && koleksi.find(k => k.id === idDariUrl)) {
+    bukaKitab(idDariUrl);
+  }
+}
 async function init() {
+  // 1) Tampilkan dulu dari cache HP (cepat, dan jalan tanpa internet)
+  let adaCache = false;
   try {
-    toast('⏳ Memuat data dari server...');
-    koleksi = await dbGetAll();
-    renderDaftar();
-    const idDariUrl = new URLSearchParams(window.location.search).get('kitab');
-    if (idDariUrl && koleksi.find(k => k.id === idDariUrl)) {
-      bukaKitab(idDariUrl);
+    const dariCache = await dbGetCache();
+    if (dariCache.length) {
+      koleksi = dariCache;
+      adaCache = true;
+      renderDaftar();
+      bukaDariUrl();
     }
-  } catch(err) {
-    toast('❌ Gagal memuat data: ' + (err && err.message ? err.message : err));
+  } catch (e) { console.warn('Cache kosong/tidak tersedia', e); }
+
+  // 2) Perbarui dari server di belakang layar
+  if (!adaCache) toast('⏳ Memuat data dari server...');
+  try {
+    const dariServer = await dbGetAll();
+    if (kitabAktif) {
+      // Jangan timpa kitab yang sedang dibuka/diedit
+      const idAktif = kitabAktif.id;
+      koleksi = dariServer.filter(k => k.id !== idAktif);
+      koleksi.push(kitabAktif);
+    } else {
+      koleksi = dariServer;
+    }
+    renderDaftar();
+    bukaDariUrl();
+  } catch (err) {
     console.error('init error:', err);
+    if (adaCache) {
+      toast('📴 Tidak ada koneksi — menampilkan data tersimpan di HP.');
+    } else {
+      toast('❌ Gagal memuat data: ' + (err && err.message ? err.message : err));
+    }
   }
 }
 init();
