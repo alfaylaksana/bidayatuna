@@ -1360,6 +1360,8 @@ let kitabAktif  = null; // kitab yang sedang dibaca
 let editMode    = false;
 let editTarget  = null;
 let catatanTarget = null;
+const KUNCI_STATE = 'maktabah_terakhir_v1';
+let sedangPulihkan = false;
 let harakatOn   = false;
 let irobOnly    = false;
 const togState  = { kode:true, pegon:true, pegonjawa:true, indo:true, irab:true, catatan:true, rujukan:true };
@@ -1419,10 +1421,15 @@ window.shareKitab       = shareKitab;
 // INIT
 // ============================================================
 function bukaDariUrl() {
-  const idDariUrl = new URLSearchParams(window.location.search).get('kitab');
-  if (idDariUrl && !kitabAktif && koleksi.find(k => k.id === idDariUrl)) {
-    bukaKitab(idDariUrl);
-  }
+  if (kitabAktif) return;
+  const idUrl = new URLSearchParams(window.location.search).get('kitab');
+  const st = bacaStateTersimpan();
+  const id = idUrl || (st && st.id);
+  if (!id || !koleksi.find(k => k.id === id)) return;
+  const pakaiState = !!(st && st.id === id);
+  if (pakaiState) sedangPulihkan = true; // jangan timpa state tersimpan selagi memulihkan
+  bukaKitab(id);
+  if (pakaiState) terapkanState(st);
 }
 async function init() {
   // 1) Tampilkan dulu dari cache HP (cepat, dan jalan tanpa internet)
@@ -1530,7 +1537,68 @@ function bukaKitab(id) {
   buildDisplay();
   window.scrollTo({top:0, behavior:'smooth'});
   showToggleBar();
+  simpanState();
 }
+
+// ============================================================
+// INGAT KEADAAN TERAKHIR (kitab, posisi halaman, pengaturan tampilan)
+// ============================================================
+const OFFSET_STATE = 64; // tinggi header, tetap supaya posisi konsisten walau bar toggle tersembunyi
+let timerSimpanState = null;
+function simpanState() {
+  if (!kitabAktif || sedangPulihkan) return;
+  try {
+    const blocks = document.querySelectorAll('#bacaContent .halaman-block');
+    let hi = 0, selisih = 0;
+    blocks.forEach((b, i) => {
+      const t = b.getBoundingClientRect().top - OFFSET_STATE;
+      if (t <= 4) { hi = i; selisih = -t; }
+    });
+    localStorage.setItem(KUNCI_STATE, JSON.stringify({
+      id: kitabAktif.id, hi, selisih: Math.round(Math.max(0, selisih)),
+      tog: Object.assign({}, togState), harakat: harakatOn, irob: irobOnly
+    }));
+  } catch (e) {}
+}
+function jadwalSimpanState() {
+  if (timerSimpanState) clearTimeout(timerSimpanState);
+  timerSimpanState = setTimeout(simpanState, 400);
+}
+function bacaStateTersimpan() {
+  try {
+    const st = JSON.parse(localStorage.getItem(KUNCI_STATE) || 'null');
+    return st && st.id ? st : null;
+  } catch (e) { return null; }
+}
+function hapusStateTersimpan() {
+  try { localStorage.removeItem(KUNCI_STATE); } catch (e) {}
+}
+function terapkanState(st) {
+  sedangPulihkan = true;
+  if (st.tog) Object.keys(togState).forEach(k => { if (typeof st.tog[k] === 'boolean') togState[k] = st.tog[k]; });
+  harakatOn = !!st.harakat;
+  irobOnly  = !!st.irob && !harakatOn;
+  Object.keys(togState).forEach(k => {
+    const el = document.getElementById('tog-' + k);
+    if (el) el.classList.toggle('on', togState[k]);
+  });
+  document.getElementById('tog-harakat').classList.toggle('on', harakatOn);
+  document.getElementById('tog-irob').classList.toggle('on', irobOnly);
+  buildDisplay();
+  const gulir = () => {
+    const blocks = document.querySelectorAll('#bacaContent .halaman-block');
+    if (!blocks.length) return;
+    const b = blocks[Math.min(st.hi || 0, blocks.length - 1)];
+    const top = window.scrollY + b.getBoundingClientRect().top - OFFSET_STATE + (st.selisih || 0);
+    window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+  };
+  requestAnimationFrame(gulir);
+  setTimeout(gulir, 350);
+  setTimeout(() => { sedangPulihkan = false; simpanState(); }, 900);
+}
+window.addEventListener('scroll', jadwalSimpanState, { passive: true });
+window.addEventListener('pagehide', simpanState);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') simpanState(); });
 
 // ============================================================
 // AUTO-HIDE TOGGLE-BAR (panel menu utama)
@@ -1570,6 +1638,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function kembaliDaftar() {
   kitabAktif = null;
+  hapusStateTersimpan(); // keluar dengan sengaja: Maktabah berikutnya mulai dari daftar kitab
   const url = new URL(window.location.href);
   url.searchParams.delete('kitab');
   window.history.replaceState({}, '', url);
@@ -1868,6 +1937,7 @@ function togView(key) {
     document.querySelectorAll('.rujukan-row').forEach(e => e.classList.toggle('hidden', !show));
   }
   updateGundulClass();
+  simpanState();
 }
 
 function togHarakat() {
@@ -1875,6 +1945,7 @@ function togHarakat() {
   document.getElementById('tog-harakat').classList.toggle('on', harakatOn);
   document.getElementById('tog-irob').classList.remove('on');
   applyHarakatMode();
+  simpanState();
 }
 function togIrob() {
   irobOnly = !irobOnly;
@@ -1882,6 +1953,7 @@ function togIrob() {
   document.getElementById('tog-irob').classList.toggle('on', irobOnly);
   document.getElementById('tog-harakat').classList.toggle('on', !irobOnly && harakatOn);
   applyHarakatMode();
+  simpanState();
 }
 function applyHarakatMode() {
   document.querySelectorAll('.arab-text').forEach(el => {
