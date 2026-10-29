@@ -1,22 +1,33 @@
 {
+  "id": "./",
   "name": "Flashayat Bidayatuna",
   "short_name": "Flashayat",
-  "start_url": "./index.html",
+  "description": "Flashcard ayat dan i'rab — Majlis Ta'lim Bidayatuna.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "orientation": "any",
+  "background_color": "#2d6a4f",
   "theme_color": "#2d6a4f",
-  "orientation": "portrait",
+  "lang": "id",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
