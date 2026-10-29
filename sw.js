@@ -17,7 +17,8 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      // Hanya buang versi lama milik Maktabah — jangan sentuh cache aplikasi lain (mis. Flashayat)
+      .then(keys => Promise.all(keys.filter(k => k.startsWith('bidayatuna-maktabah-') && k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
